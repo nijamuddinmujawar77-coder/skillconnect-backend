@@ -263,27 +263,28 @@ DEBUG_TOOLBAR_CONFIG = {
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'your-openai-api-key')
 
 # ✅ Email Configuration
-# Switch between development (console) and production (real email)
+# Uses environment variables for production, console for development
 
-# Development Mode: Emails print in console
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'noreply@skillconnect.com'
+if os.environ.get('EMAIL_HOST_USER'):
+    # 🚀 Production Mode: Real Email via Gmail SMTP
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+else:
+    # Development Mode: Emails print in console
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'noreply@skillconnect.dev'
 
-# 🚀 Production Mode: Uncomment below for REAL EMAIL sending via Gmail
-# Step 1: Enable 2-Step Verification in Gmail
-# Step 2: Generate App Password: https://myaccount.google.com/apppasswords
-# Step 3: Replace credentials below and uncomment
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'nijamuddinmujawar77@gmail.com'  # Your Gmail
-# EMAIL_HOST_PASSWORD = 'your-16-char-app-password'  # Gmail App Password (NOT your normal password)
-# DEFAULT_FROM_EMAIL = 'nijamuddinmujawar77@gmail.com'
-
-# 💡 Alternative: SendGrid (100 free emails/day)
-# pip install sendgrid
-# EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
-# SENDGRID_API_KEY = 'your-sendgrid-api-key'
-# DEFAULT_FROM_EMAIL = 'noreply@skillconnect.com'
+# 📧 Email Setup Instructions for Production:
+# 1. Go to Google Account: https://myaccount.google.com
+# 2. Enable 2-Step Verification (Security > 2-Step Verification)
+# 3. Create App Password: https://myaccount.google.com/apppasswords
+#    - Select App: Mail, Device: Other (SkillConnect)
+#    - Copy the 16-character password
+# 4. Add these Environment Variables in Render:
+#    EMAIL_HOST_USER = your-gmail@gmail.com
+#    EMAIL_HOST_PASSWORD = xxxx-xxxx-xxxx-xxxx (App Password)

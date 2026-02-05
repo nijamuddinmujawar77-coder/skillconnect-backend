@@ -139,7 +139,7 @@ class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # ========== FORGOT PASSWORD VIEWS ==========
 import secrets
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
@@ -166,29 +166,174 @@ class ForgotPasswordView(APIView):
             frontend_url = 'https://skillconnect.dev'
             reset_link = f'{frontend_url}/reset-password.html?token={reset_token}'
             
-            # Send email
-            try:
-                send_mail(
-                    subject='Reset Your SkillConnect Password',
-                    message=f'''
-Hi {user.first_name or 'User'},
+            # Get user name
+            user_name = user.first_name or user.email.split('@')[0]
+            
+            # Professional HTML Email Template
+            html_content = f'''
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f5;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                <table role="presentation" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #0d9488 0%, #f97316 100%); padding: 40px 40px; border-radius: 16px 16px 0 0; text-align: center;">
+                            <table role="presentation" style="width: 100%;">
+                                <tr>
+                                    <td align="center">
+                                        <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 12px 20px; border-radius: 12px; margin-bottom: 20px;">
+                                            <span style="font-size: 28px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;">💼 SkillConnect</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding-top: 10px;">
+                                        <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.95); border-radius: 50%; display: inline-block; line-height: 80px; text-align: center;">
+                                            <span style="font-size: 36px;">🔐</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 40px 40px;">
+                            <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 700; color: #1f2937; text-align: center;">
+                                Password Reset Request
+                            </h1>
+                            
+                            <p style="margin: 0 0 25px 0; font-size: 16px; line-height: 1.6; color: #4b5563;">
+                                Hi <strong style="color: #0d9488;">{user_name}</strong>,
+                            </p>
+                            
+                            <p style="margin: 0 0 25px 0; font-size: 16px; line-height: 1.6; color: #4b5563;">
+                                We received a request to reset the password for your SkillConnect account. Click the button below to create a new password:
+                            </p>
+                            
+                            <!-- CTA Button -->
+                            <table role="presentation" style="width: 100%; margin: 30px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{reset_link}" style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                                            🔑 Reset My Password
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Timer Warning -->
+                            <table role="presentation" style="width: 100%; background: #fef3c7; border-radius: 12px; margin: 25px 0;">
+                                <tr>
+                                    <td style="padding: 16px 20px;">
+                                        <p style="margin: 0; font-size: 14px; color: #92400e; text-align: center;">
+                                            ⏰ This link will expire in <strong>1 hour</strong>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <p style="margin: 25px 0 15px 0; font-size: 14px; color: #6b7280;">
+                                If the button doesn't work, copy and paste this link into your browser:
+                            </p>
+                            
+                            <p style="margin: 0 0 25px 0; font-size: 12px; color: #0d9488; word-break: break-all; background: #f0fdfa; padding: 12px; border-radius: 8px;">
+                                {reset_link}
+                            </p>
+                            
+                            <!-- Security Notice -->
+                            <table role="presentation" style="width: 100%; background: #fef2f2; border-radius: 12px; margin-top: 25px;">
+                                <tr>
+                                    <td style="padding: 16px 20px;">
+                                        <p style="margin: 0; font-size: 13px; color: #991b1b;">
+                                            🛡️ <strong>Didn't request this?</strong> If you didn't request a password reset, please ignore this email or contact our support team. Your account is safe.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background: #f9fafb; padding: 30px 40px; border-radius: 0 0 16px 16px; text-align: center; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0 0 15px 0; font-size: 14px; color: #6b7280;">
+                                Need help? Contact us at<br>
+                                <a href="mailto:support@skillconnect.dev" style="color: #0d9488; text-decoration: none; font-weight: 600;">support@skillconnect.dev</a>
+                            </p>
+                            
+                            <table role="presentation" style="margin: 20px auto;">
+                                <tr>
+                                    <td style="padding: 0 8px;"><a href="https://skillconnect.dev" style="color: #9ca3af; font-size: 20px; text-decoration: none;">🌐</a></td>
+                                    <td style="padding: 0 8px;"><a href="#" style="color: #9ca3af; font-size: 20px; text-decoration: none;">📘</a></td>
+                                    <td style="padding: 0 8px;"><a href="#" style="color: #9ca3af; font-size: 20px; text-decoration: none;">🐦</a></td>
+                                    <td style="padding: 0 8px;"><a href="#" style="color: #9ca3af; font-size: 20px; text-decoration: none;">💼</a></td>
+                                </tr>
+                            </table>
+                            
+                            <p style="margin: 20px 0 0 0; font-size: 12px; color: #9ca3af;">
+                                © 2026 SkillConnect. All rights reserved.<br>
+                                India's Premier Job Platform
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Bottom Text -->
+                <table role="presentation" style="width: 100%; max-width: 600px; margin-top: 20px;">
+                    <tr>
+                        <td style="text-align: center; padding: 0 20px;">
+                            <p style="margin: 0; font-size: 11px; color: #9ca3af;">
+                                This email was sent to {email} because a password reset was requested for this account.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+'''
+            
+            # Plain text fallback
+            text_content = f'''
+Hi {user_name},
 
-You requested to reset your password for your SkillConnect account.
+We received a request to reset the password for your SkillConnect account.
 
 Click the link below to reset your password:
 {reset_link}
 
 This link will expire in 1 hour.
 
-If you didn't request this, please ignore this email.
+If you didn't request this, please ignore this email. Your account is safe.
 
 Best regards,
 SkillConnect Team
-                    ''',
+support@skillconnect.dev
+
+© 2026 SkillConnect - India's Premier Job Platform
+'''
+            
+            # Send HTML email
+            try:
+                msg = EmailMultiAlternatives(
+                    subject='🔐 Reset Your SkillConnect Password',
+                    body=text_content,
                     from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=True,
+                    to=[email]
                 )
+                msg.attach_alternative(html_content, "text/html")
+                msg.send(fail_silently=True)
             except Exception as e:
                 print(f"Email sending failed: {e}")
             
