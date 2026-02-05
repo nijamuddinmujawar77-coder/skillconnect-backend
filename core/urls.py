@@ -52,9 +52,32 @@ if SWAGGER_AVAILABLE:
         permission_classes=(permissions.AllowAny,),
     )
 
+# 🔧 Temporary setup view for creating superuser
+from django.http import JsonResponse
+from accounts.models import CustomUser
+
+def setup_admin(request):
+    """Temporary endpoint to create superuser - DELETE AFTER USE"""
+    email = 'nijamuddinmujawar77@gmail.com'
+    password = 'admin123'
+    
+    if CustomUser.objects.filter(email=email).exists():
+        return JsonResponse({'status': 'exists', 'message': f'Superuser already exists: {email}'})
+    
+    user = CustomUser.objects.create_superuser(
+        email=email,
+        password=password,
+        first_name='Nijamuddin',
+        last_name='Mujawar'
+    )
+    return JsonResponse({'status': 'created', 'message': f'Superuser created: {email}'})
+
 urlpatterns = [
     # 🔧 Admin interface
     path('admin/', admin.site.urls),
+    
+    # 🚨 TEMPORARY - Setup endpoint (DELETE AFTER USE)
+    path('setup-admin/', setup_admin, name='setup-admin'),
     
     # 📋 API routes
     path('api/accounts/', include('accounts.urls')),
