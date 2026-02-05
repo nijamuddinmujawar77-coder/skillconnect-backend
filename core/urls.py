@@ -60,11 +60,13 @@ def setup_admin(request):
     """Temporary endpoint to create superuser - DELETE AFTER USE"""
     email = 'nijamuddinmujawar77@gmail.com'
     password = 'admin123'
+    username = 'admin'
     
     if CustomUser.objects.filter(email=email).exists():
         return JsonResponse({'status': 'exists', 'message': f'Superuser already exists: {email}'})
     
     user = CustomUser.objects.create_superuser(
+        username=username,
         email=email,
         password=password,
         first_name='Nijamuddin',

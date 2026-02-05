@@ -9,9 +9,11 @@ from accounts.models import CustomUser
 # Create superuser if not exists
 email = 'nijamuddinmujawar77@gmail.com'
 password = 'admin123'
+username = 'admin'
 
 if not CustomUser.objects.filter(email=email).exists():
     user = CustomUser.objects.create_superuser(
+        username=username,
         email=email,
         password=password,
         first_name='Nijamuddin',
