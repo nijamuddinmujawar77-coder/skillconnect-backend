@@ -135,3 +135,107 @@ class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
     
     def get_queryset(self):
         return Skill.objects.filter(user=self.request.user)
+
+
+# ========== FORGOT PASSWORD VIEWS ==========
+import secrets
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils import timezone
+from datetime import timedelta
+
+class ForgotPasswordView(APIView):
+    """Send password reset email"""
+    def post(self, request):
+        email = request.data.get('email', '').strip().lower()
+        
+        if not email:
+            return Response({'error': 'Email is required'}, status=400)
+        
+        try:
+            user = CustomUser.objects.get(email=email)
+            
+            # Generate reset token
+            reset_token = secrets.token_urlsafe(32)
+            
+            # Store token in cache (expires in 1 hour)
+            cache_key = f'password_reset_{reset_token}'
+            cache.set(cache_key, user.id, timeout=3600)  # 1 hour
+            
+            # Create reset link
+            frontend_url = 'https://skillconnect.dev'
+            reset_link = f'{frontend_url}/reset-password.html?token={reset_token}'
+            
+            # Send email
+            try:
+                send_mail(
+                    subject='Reset Your SkillConnect Password',
+                    message=f'''
+Hi {user.first_name or 'User'},
+
+You requested to reset your password for your SkillConnect account.
+
+Click the link below to reset your password:
+{reset_link}
+
+This link will expire in 1 hour.
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+SkillConnect Team
+                    ''',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                print(f"Email sending failed: {e}")
+            
+            return Response({
+                'message': 'If an account exists with this email, a reset link has been sent.',
+                'success': True
+            })
+            
+        except CustomUser.DoesNotExist:
+            # Don't reveal if email exists or not (security)
+            return Response({
+                'message': 'If an account exists with this email, a reset link has been sent.',
+                'success': True
+            })
+
+
+class ResetPasswordView(APIView):
+    """Reset password with token"""
+    def post(self, request):
+        token = request.data.get('token', '')
+        new_password = request.data.get('password', '')
+        
+        if not token or not new_password:
+            return Response({'error': 'Token and password are required'}, status=400)
+        
+        if len(new_password) < 6:
+            return Response({'error': 'Password must be at least 6 characters'}, status=400)
+        
+        # Get user from cache
+        cache_key = f'password_reset_{token}'
+        user_id = cache.get(cache_key)
+        
+        if not user_id:
+            return Response({'error': 'Invalid or expired reset link'}, status=400)
+        
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user.set_password(new_password)
+            user.save()
+            
+            # Delete the token
+            cache.delete(cache_key)
+            
+            return Response({
+                'message': 'Password reset successfully! You can now login.',
+                'success': True
+            })
+            
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=400)

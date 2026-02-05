@@ -3,13 +3,18 @@ from .views import (
     RegisterView, LoginView, ProfileView,
     WorkExperienceListCreateView, WorkExperienceDetailView,
     EducationListCreateView, EducationDetailView,
-    SkillListCreateView, SkillDetailView
+    SkillListCreateView, SkillDetailView,
+    ForgotPasswordView, ResetPasswordView
 )
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('profile/', ProfileView.as_view(), name='profile'),
+    
+    # Password Reset URLs
+    path('forgot-password/', ForgotPasswordView.as_view(), name='forgot-password'),
+    path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
     
     # Work Experience URLs
     path('experience/', WorkExperienceListCreateView.as_view(), name='experience-list-create'),
