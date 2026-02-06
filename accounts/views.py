@@ -140,18 +140,46 @@ class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
 # ========== FORGOT PASSWORD VIEWS ==========
 import secrets
 import threading
-from django.core.mail import send_mail, EmailMultiAlternatives
+import requests
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+import os
 
-def send_email_async(msg):
-    """Send email in background thread to prevent timeout"""
+def send_email_with_resend(to_email, subject, html_content, text_content):
+    """Send email using Resend API (works on Render free tier)"""
     try:
-        msg.send(fail_silently=False)
-        print("Email sent successfully!")
+        resend_api_key = os.environ.get('RESEND_API_KEY')
+        
+        if not resend_api_key:
+            print("RESEND_API_KEY not set!")
+            return False
+        
+        response = requests.post(
+            'https://api.resend.com/emails',
+            headers={
+                'Authorization': f'Bearer {resend_api_key}',
+                'Content-Type': 'application/json'
+            },
+            json={
+                'from': 'SkillConnect <onboarding@resend.dev>',
+                'to': [to_email],
+                'subject': subject,
+                'html': html_content,
+                'text': text_content
+            }
+        )
+        
+        if response.status_code == 200:
+            print(f"Email sent successfully to {to_email}!")
+            return True
+        else:
+            print(f"Email failed: {response.text}")
+            return False
+            
     except Exception as e:
         print(f"Email sending failed: {e}")
+        return False
 
 class ForgotPasswordView(APIView):
     """Send password reset email"""
@@ -333,17 +361,12 @@ support@skillconnect.dev
 © 2026 SkillConnect - India's Premier Job Platform
 '''
             
-            # Send HTML email in background thread
+            # Send email using Resend API (works on Render free tier!)
             try:
-                msg = EmailMultiAlternatives(
-                    subject='🔐 Reset Your SkillConnect Password',
-                    body=text_content,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[email]
+                email_thread = threading.Thread(
+                    target=send_email_with_resend,
+                    args=(email, '🔐 Reset Your SkillConnect Password', html_content, text_content)
                 )
-                msg.attach_alternative(html_content, "text/html")
-                # Send in background to prevent timeout
-                email_thread = threading.Thread(target=send_email_async, args=(msg,))
                 email_thread.start()
             except Exception as e:
                 print(f"Email setup failed: {e}")
