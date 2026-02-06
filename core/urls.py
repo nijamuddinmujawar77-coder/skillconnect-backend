@@ -114,6 +114,9 @@ urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
     path('api/newsletter/', include('newsletter.urls')),
     path('api/jobs/', include('jobs.urls')),
+    
+    # 🤖 AI Resume Analysis (Groq - FREE)
+    path('api/ai/', include('core.ai_urls')),
 ]
 
 # Add API documentation URLs only if available

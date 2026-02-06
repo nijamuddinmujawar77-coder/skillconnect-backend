@@ -22,3 +22,5 @@ services:
         value: false
       - key: PYTHON_VERSION
         value: 3.12.0
+      - key: GROQ_API_KEY
+        sync: false
