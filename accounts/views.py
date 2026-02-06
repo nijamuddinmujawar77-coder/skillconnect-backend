@@ -139,10 +139,19 @@ class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # ========== FORGOT PASSWORD VIEWS ==========
 import secrets
+import threading
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+
+def send_email_async(msg):
+    """Send email in background thread to prevent timeout"""
+    try:
+        msg.send(fail_silently=False)
+        print("Email sent successfully!")
+    except Exception as e:
+        print(f"Email sending failed: {e}")
 
 class ForgotPasswordView(APIView):
     """Send password reset email"""
@@ -324,7 +333,7 @@ support@skillconnect.dev
 © 2026 SkillConnect - India's Premier Job Platform
 '''
             
-            # Send HTML email
+            # Send HTML email in background thread
             try:
                 msg = EmailMultiAlternatives(
                     subject='🔐 Reset Your SkillConnect Password',
@@ -333,9 +342,11 @@ support@skillconnect.dev
                     to=[email]
                 )
                 msg.attach_alternative(html_content, "text/html")
-                msg.send(fail_silently=True)
+                # Send in background to prevent timeout
+                email_thread = threading.Thread(target=send_email_async, args=(msg,))
+                email_thread.start()
             except Exception as e:
-                print(f"Email sending failed: {e}")
+                print(f"Email setup failed: {e}")
             
             return Response({
                 'message': 'If an account exists with this email, a reset link has been sent.',
