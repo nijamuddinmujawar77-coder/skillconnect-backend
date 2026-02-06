@@ -373,3 +373,286 @@ CERTIFICATIONS
         result = analyzer.analyze_resume(sample_resume)
         
         return Response(result)
+
+
+class GroqJobMatchAnalyzer:
+    """AI-powered job match analysis using Groq"""
+    
+    GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+    
+    def __init__(self):
+        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', ''))
+    
+    def analyze_match(self, profile_text: str, job_description: str) -> dict:
+        """Analyze how well a profile matches a job description"""
+        
+        if not self.api_key:
+            return self._get_error_response("GROQ_API_KEY not configured")
+        
+        system_prompt = """You are an expert HR recruiter and job matching specialist.
+Analyze the candidate profile against the job description and provide a detailed match analysis.
+
+IMPORTANT: Return ONLY valid JSON, no additional text.
+
+JSON Structure:
+{
+    "overall_match": 85,
+    "breakdown": {
+        "skills_match": {
+            "score": 80,
+            "matched_skills": ["Python", "JavaScript", "React"],
+            "missing_skills": ["Docker", "Kubernetes"],
+            "feedback": "Strong technical skills, but missing some DevOps requirements"
+        },
+        "experience_match": {
+            "score": 75,
+            "feedback": "2 years experience, job requires 4+ years. Consider highlighting leadership roles."
+        },
+        "education_match": {
+            "score": 90,
+            "feedback": "Education requirements fully met with relevant degree."
+        },
+        "keywords_match": {
+            "score": 70,
+            "matched_keywords": ["REST API", "Agile", "Full Stack"],
+            "missing_keywords": ["GraphQL", "CI/CD", "Microservices"],
+            "feedback": "Add more industry keywords to improve ATS score"
+        }
+    },
+    "strengths": [
+        "Strong programming fundamentals",
+        "Relevant project experience"
+    ],
+    "gaps": [
+        "Less experience than required",
+        "Missing cloud certifications"
+    ],
+    "recommendations": [
+        "Highlight any leadership or mentoring experience",
+        "Add Docker and Kubernetes to your skillset",
+        "Consider getting AWS Developer certification"
+    ],
+    "interview_tips": [
+        "Prepare examples of complex projects you've built",
+        "Be ready to discuss your problem-solving approach"
+    ],
+    "summary": "Good match with room for improvement. Focus on gaining more experience with cloud technologies."
+}"""
+
+        user_prompt = f"""Analyze this job match:
+
+CANDIDATE PROFILE:
+{profile_text}
+
+JOB DESCRIPTION:
+{job_description}
+
+Provide detailed match analysis in the exact JSON format specified."""
+
+        try:
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                "max_tokens": 2000,
+                "temperature": 0.3,
+                "response_format": {"type": "json_object"}
+            }
+            
+            response = requests.post(
+                self.GROQ_API_URL,
+                headers=headers,
+                json=payload,
+                timeout=30
+            )
+            
+            if response.status_code != 200:
+                error_detail = response.json().get('error', {}).get('message', 'Unknown error')
+                return self._get_error_response(f"Groq API error: {error_detail}")
+            
+            result = response.json()
+            ai_content = result['choices'][0]['message']['content']
+            
+            analysis = json.loads(ai_content)
+            return {'success': True, 'analysis': analysis}
+                
+        except Exception as e:
+            return self._get_error_response(f"Analysis error: {str(e)}")
+    
+    def _get_error_response(self, error_message: str) -> dict:
+        return {
+            'success': False,
+            'error': error_message,
+            'analysis': {
+                "overall_match": 75,
+                "breakdown": {},
+                "strengths": ["Profile analyzed"],
+                "gaps": ["Detailed analysis unavailable"],
+                "recommendations": ["Please try again"],
+                "summary": "Analysis temporarily unavailable"
+            }
+        }
+
+
+class GroqInterviewFeedback:
+    """AI-powered interview answer feedback using Groq"""
+    
+    GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+    
+    def __init__(self):
+        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', ''))
+    
+    def evaluate_answer(self, question: str, answer: str, job_role: str = "Software Developer") -> dict:
+        """Evaluate an interview answer and provide feedback"""
+        
+        if not self.api_key:
+            return self._get_error_response("GROQ_API_KEY not configured")
+        
+        system_prompt = """You are an expert interview coach and HR professional.
+Evaluate the candidate's answer to the interview question and provide constructive feedback.
+
+IMPORTANT: Return ONLY valid JSON, no additional text.
+
+JSON Structure:
+{
+    "scores": {
+        "clarity": 8.5,
+        "relevance": 9.0,
+        "confidence": 7.5,
+        "structure": 8.0,
+        "overall": 8.2
+    },
+    "feedback": "Your answer was well-structured and relevant. You provided good examples...",
+    "strengths": [
+        "Clear communication",
+        "Good use of specific examples"
+    ],
+    "improvements": [
+        "Add more quantifiable results",
+        "Be more concise in delivery"
+    ],
+    "better_answer_tips": "Consider structuring your answer using the STAR method...",
+    "follow_up_questions": [
+        "Can you give another example of...",
+        "How did you measure the success of..."
+    ]
+}
+
+Score each aspect from 1-10 where:
+- 1-4: Needs significant improvement
+- 5-6: Average, needs work
+- 7-8: Good, minor improvements needed
+- 9-10: Excellent"""
+
+        user_prompt = f"""Evaluate this interview answer:
+
+JOB ROLE: {job_role}
+
+INTERVIEW QUESTION:
+{question}
+
+CANDIDATE'S ANSWER:
+{answer}
+
+Provide detailed feedback and scores in the exact JSON format specified."""
+
+        try:
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                "max_tokens": 1500,
+                "temperature": 0.3,
+                "response_format": {"type": "json_object"}
+            }
+            
+            response = requests.post(
+                self.GROQ_API_URL,
+                headers=headers,
+                json=payload,
+                timeout=30
+            )
+            
+            if response.status_code != 200:
+                error_detail = response.json().get('error', {}).get('message', 'Unknown error')
+                return self._get_error_response(f"Groq API error: {error_detail}")
+            
+            result = response.json()
+            ai_content = result['choices'][0]['message']['content']
+            
+            feedback = json.loads(ai_content)
+            return {'success': True, 'feedback': feedback}
+                
+        except Exception as e:
+            return self._get_error_response(f"Evaluation error: {str(e)}")
+    
+    def _get_error_response(self, error_message: str) -> dict:
+        return {
+            'success': False,
+            'error': error_message,
+            'feedback': {
+                "scores": {"clarity": 7, "relevance": 7, "confidence": 7, "structure": 7, "overall": 7},
+                "feedback": "Unable to provide detailed feedback at this time.",
+                "strengths": ["Answer provided"],
+                "improvements": ["Please try again for detailed feedback"]
+            }
+        }
+
+
+class GroqJobMatchView(APIView):
+    """API endpoint for AI job match analysis"""
+    
+    permission_classes = [AllowAny]
+    parser_classes = [JSONParser]
+    
+    def post(self, request):
+        profile_text = request.data.get('profile', '').strip()
+        job_description = request.data.get('job_description', '').strip()
+        
+        if not profile_text or not job_description:
+            return Response({
+                'success': False,
+                'error': 'Both profile and job description are required.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        analyzer = GroqJobMatchAnalyzer()
+        result = analyzer.analyze_match(profile_text, job_description)
+        
+        return Response(result)
+
+
+class GroqInterviewFeedbackView(APIView):
+    """API endpoint for AI interview answer feedback"""
+    
+    permission_classes = [AllowAny]
+    parser_classes = [JSONParser]
+    
+    def post(self, request):
+        question = request.data.get('question', '').strip()
+        answer = request.data.get('answer', '').strip()
+        job_role = request.data.get('job_role', 'Software Developer')
+        
+        if not question or not answer:
+            return Response({
+                'success': False,
+                'error': 'Both question and answer are required.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        evaluator = GroqInterviewFeedback()
+        result = evaluator.evaluate_answer(question, answer, job_role)
+        
+        return Response(result)
