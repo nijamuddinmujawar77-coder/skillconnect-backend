@@ -162,7 +162,7 @@ def send_email_with_resend(to_email, subject, html_content, text_content):
                 'Content-Type': 'application/json'
             },
             json={
-                'from': 'SkillConnect <onboarding@resend.dev>',
+                'from': 'SkillConnect <noreply@skillconnect.dev>',
                 'to': [to_email],
                 'subject': subject,
                 'html': html_content,
