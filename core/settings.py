@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     'skillconnect.dev',
     'www.skillconnect.dev',
     'api.skillconnect.dev',
+    'admin.skillconnect.dev',
 ]
 
 # CSRF Trusted Origins (for production)
@@ -43,7 +44,10 @@ CSRF_TRUSTED_ORIGINS = [
     'https://skillconnect.dev',
     'https://www.skillconnect.dev',
     'https://*.onrender.com',
+    'https://admin.skillconnect.dev',
 ]
+
+
 
 # ✅ Installed apps with optional dependencies
 INSTALLED_APPS = [
