@@ -135,7 +135,11 @@ def apply_to_job(request, job_id):
     
     serializer = JobApplicationCreateSerializer(data=data)
     if serializer.is_valid():
-        application = serializer.save()
+        # Link application to user if authenticated
+        if request.user.is_authenticated:
+            application = serializer.save(user=request.user)
+        else:
+            application = serializer.save()
         return Response({
             'success': True,
             'message': 'Application submitted successfully!',
