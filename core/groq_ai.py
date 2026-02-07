@@ -29,7 +29,7 @@ class GroqResumeAnalyzer:
     
     def __init__(self):
         # Get API key from environment or settings
-        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', ''))
+        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', '')).strip()
     
     def analyze_resume(self, resume_text: str, job_description: str = None) -> dict:
         """
@@ -381,7 +381,7 @@ class GroqJobMatchAnalyzer:
     GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
     
     def __init__(self):
-        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', ''))
+        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', '')).strip()
     
     def analyze_match(self, profile_text: str, job_description: str) -> dict:
         """Analyze how well a profile matches a job description"""
@@ -507,7 +507,7 @@ class GroqInterviewFeedback:
     GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
     
     def __init__(self):
-        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', ''))
+        self.api_key = os.environ.get('GROQ_API_KEY', getattr(settings, 'GROQ_API_KEY', '')).strip()
     
     def evaluate_answer(self, question: str, answer: str, job_role: str = "Software Developer") -> dict:
         """Evaluate an interview answer and provide feedback"""
