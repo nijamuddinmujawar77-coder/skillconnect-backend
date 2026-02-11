@@ -28,12 +28,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-7_i=ddw24n81(1!3%8urd
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-# Allowed Hosts - Local + Cloud (Render + DigitalOcean)
+# Allowed Hosts - Local + Cloud
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '.onrender.com',           # Render.com
-    '.ondigitalocean.app',     # DigitalOcean App Platform
+    '.onrender.com',
     'skillconnect.dev',
     'www.skillconnect.dev',
     'api.skillconnect.dev',
@@ -45,7 +44,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://skillconnect.dev',
     'https://www.skillconnect.dev',
     'https://*.onrender.com',
-    'https://*.ondigitalocean.app',  # DigitalOcean App Platform
     'https://admin.skillconnect.dev',
 ]
 
@@ -123,14 +121,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# ✅ Database Configuration (3-in-1: Production PostgreSQL / Local MySQL / Fallback SQLite)
+# ✅ Database Configuration (Auto-detect: Local MySQL or Cloud PostgreSQL)
 import dj_database_url
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
-USE_MYSQL = os.environ.get('USE_MYSQL', 'false').lower() == 'true'
 
 if DATABASE_URL:
-    # 🌐 Cloud/Production (DigitalOcean/Render PostgreSQL)
+    # 🌐 Cloud/Production (Render PostgreSQL)
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -138,29 +135,21 @@ if DATABASE_URL:
             conn_health_checks=True,
         )
     }
-elif USE_MYSQL:
-    # 🏠 Local Development (XAMPP MySQL) - Set USE_MYSQL=true in .env
+else:
+    # 🏠 Local Development (XAMPP MySQL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('MYSQL_DB_NAME', 'skillconnect_db'),
-            'USER': os.environ.get('MYSQL_USER', 'root'),
-            'PASSWORD': os.environ.get('MYSQL_PASSWORD', ''),
-            'HOST': os.environ.get('MYSQL_HOST', '127.0.0.1'),
-            'PORT': os.environ.get('MYSQL_PORT', '3306'),
+            'NAME': 'skillconnect_db',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
             'OPTIONS': {
                 'charset': 'utf8mb4',
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': 600,
-        }
-    }
-else:
-    # 🔧 Fallback (SQLite - for build time / simple local dev)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
