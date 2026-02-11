@@ -1,0 +1,10 @@
+# System packages needed for Python dependencies
+# These will be installed via apt-get during build
+
+# For Pillow (image processing)
+libjpeg-dev
+libpng-dev
+libwebp-dev
+
+# For PDF processing
+libffi-dev
