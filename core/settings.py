@@ -123,13 +123,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# ✅ Database Configuration (Auto-detect: Local MySQL or Cloud PostgreSQL)
+# ✅ Database Configuration (3-in-1: Production PostgreSQL / Local MySQL / Fallback SQLite)
 import dj_database_url
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
+USE_MYSQL = os.environ.get('USE_MYSQL', 'false').lower() == 'true'
 
 if DATABASE_URL:
-    # 🌐 Cloud/Production (Render PostgreSQL)
+    # 🌐 Cloud/Production (DigitalOcean/Render PostgreSQL)
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -137,21 +138,29 @@ if DATABASE_URL:
             conn_health_checks=True,
         )
     }
-else:
-    # 🏠 Local Development (XAMPP MySQL)
+elif USE_MYSQL:
+    # 🏠 Local Development (XAMPP MySQL) - Set USE_MYSQL=true in .env
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'skillconnect_db',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
+            'NAME': os.environ.get('MYSQL_DB_NAME', 'skillconnect_db'),
+            'USER': os.environ.get('MYSQL_USER', 'root'),
+            'PASSWORD': os.environ.get('MYSQL_PASSWORD', ''),
+            'HOST': os.environ.get('MYSQL_HOST', '127.0.0.1'),
+            'PORT': os.environ.get('MYSQL_PORT', '3306'),
             'OPTIONS': {
                 'charset': 'utf8mb4',
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': 600,
+        }
+    }
+else:
+    # 🔧 Fallback (SQLite - for build time / simple local dev)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
