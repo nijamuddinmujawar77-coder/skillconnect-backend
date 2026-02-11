@@ -25,7 +25,6 @@ services:
     build_command: |
       pip install --upgrade pip
       pip install -r requirements.txt
-      python manage.py collectstatic --no-input
     
     # Run Configuration
     run_command: gunicorn core.wsgi:application --bind 0.0.0.0:8000 --timeout 120 --workers 2 --threads 2
@@ -75,6 +74,9 @@ services:
       - key: ALLOWED_HOSTS
         value: ".ondigitalocean.app,.digitalocean.app,skillconnect.dev,www.skillconnect.dev,api.skillconnect.dev"
       
+      - key: DIGITALOCEAN_APP_DOMAIN
+        value: "true"
+      
       - key: DJANGO_SETTINGS_MODULE
         value: "core.settings"
       
@@ -87,6 +89,7 @@ jobs:
     kind: PRE_DEPLOY
     
     run_command: |
+      python manage.py collectstatic --no-input
       python manage.py migrate --no-input
       python create_admin.py || true
       python add_jobs.py || true

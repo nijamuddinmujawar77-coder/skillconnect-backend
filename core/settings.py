@@ -177,7 +177,12 @@ USE_TZ = True
 # ✅ Static files
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Use simpler storage for DigitalOcean deployment
+if os.environ.get('DIGITALOCEAN_APP_DOMAIN'):
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ✅ Media files - Use Cloudinary in production
 MEDIA_URL = 'media/'
