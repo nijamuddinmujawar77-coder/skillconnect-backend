@@ -28,24 +28,26 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-7_i=ddw24n81(1!3%8urd
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-# Allowed Hosts - Local + Cloud
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '.onrender.com',
-    'skillconnect.dev',
-    'www.skillconnect.dev',
-    'api.skillconnect.dev',
-    'admin.skillconnect.dev',
-]
+# ---------- Hosts / CSRF (env-driven, safe defaults) ----------
+# Provide ALLOWED_HOSTS as comma-separated env var in production, e.g.
+# ALLOWED_HOSTS=skillconnect.dev,api.skillconnect.dev,.ondigitalocean.app
+_allowed_hosts = os.environ.get(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,.ondigitalocean.app,skillconnect.dev,www.skillconnect.dev'
+).split(',')
+ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts if h.strip()]
 
-# CSRF Trusted Origins (for production)
-CSRF_TRUSTED_ORIGINS = [
-    'https://skillconnect.dev',
-    'https://www.skillconnect.dev',
-    'https://*.onrender.com',
-    'https://admin.skillconnect.dev',
-]
+# Build CSRF trusted origins from provided hosts when possible
+_csrf_from_env = os.environ.get('CSRF_TRUSTED_ORIGINS')
+if _csrf_from_env:
+    CSRF_TRUSTED_ORIGINS = [u.strip() for u in _csrf_from_env.split(',') if u.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = [f"https://{h.lstrip('.') }" for h in ALLOWED_HOSTS if h not in ('localhost', '127.0.0.1')]
+
+# Ensure localhost remains usable in development
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS += ['http://localhost', 'http://127.0.0.1']
+
 
 
 
@@ -201,9 +203,9 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Database sessions
 SESSION_COOKIE_AGE = 86400  # 1 day
 SESSION_SAVE_EVERY_REQUEST = False  # Don't save on every request
 
-# ✅ CORS settings - Allow all origins and methods
-CORS_ALLOW_ALL_ORIGINS = True  # For development only
-CORS_ALLOW_CREDENTIALS = True
+# ✅ CORS settings - environment controlled (safe by default)
+CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'False').lower() == 'true'
+CORS_ALLOW_CREDENTIALS = os.environ.get('CORS_ALLOW_CREDENTIALS', 'True').lower() == 'true'
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -223,6 +225,10 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Safety: never allow open CORS in production
+if not DEBUG and CORS_ALLOW_ALL_ORIGINS:
+    raise RuntimeError('CORS_ALLOW_ALL_ORIGINS must be False in production — set specific origins instead')
  
 
 REST_FRAMEWORK = {
@@ -246,6 +252,27 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
+
+# ---------- Production security defaults (enforced when DEBUG=False) ----------
+# Common mistakes we prevent here: insecure SECRET_KEY, open CORS, missing hosts
+if not DEBUG:
+    # Don't allow Django insecure default key in production
+    if SECRET_KEY.startswith('django-insecure-'):
+        raise RuntimeError('Insecure SECRET_KEY detected — set SECRET_KEY via environment for production')
+
+    # Require explicit ALLOWED_HOSTS in production
+    if os.environ.get('ALLOWED_HOSTS', '').strip() == '':
+        raise RuntimeError('Set ALLOWED_HOSTS environment variable in production (comma-separated)')
+
+    # Secure cookie + SSL
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'True').lower() == 'true'
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # Recommended HSTS (optional - enable after verifying HTTPS works)
+    SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', 60))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'False').lower() == 'true'
+    SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'False').lower() == 'true'
 
 # ✅ Swagger/OpenAPI Configuration
 SWAGGER_SETTINGS = {

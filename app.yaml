@@ -1,0 +1,53 @@
+name: skillconnect-backend-do
+region: blr1
+services:
+  - name: web
+    github:
+      repo: your-github-username/skillconnect-backend
+      branch: main
+    envs:
+      - key: SECRET_KEY
+        scope: RUN_TIME
+      - key: DEBUG
+        scope: RUN_TIME
+      - key: DATABASE_URL
+        scope: RUN_TIME
+      - key: ALLOWED_HOSTS
+        scope: RUN_TIME
+      - key: EMAIL_HOST_USER
+        scope: RUN_TIME
+      - key: EMAIL_HOST_PASSWORD
+        scope: RUN_TIME
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+      - key: CLOUDINARY_CLOUD_NAME
+        scope: RUN_TIME
+      - key: CLOUDINARY_API_KEY
+        scope: RUN_TIME
+      - key: CLOUDINARY_API_SECRET
+        scope: RUN_TIME
+      - key: OPENAI_API_KEY
+        scope: RUN_TIME
+      - key: CORS_ALLOW_ALL_ORIGINS
+        scope: RUN_TIME
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    run_command: gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
+    build_command: pip install -r requirements.txt
+    release_command: |
+      python manage.py migrate --noinput
+      python manage.py collectstatic --noinput
+    source_dir: .
+    health_check:
+      protocol: HTTP
+      path: /api/jobs/
+      port: 8080
+      initial_delay_seconds: 10
+      timeout_seconds: 5
+      healthy_threshold: 1
+      unhealthy_threshold: 3
+static_sites: []
+
+# Notes:
+# - Replace `github.repo` with your GitHub repo when creating the App via DO UI.
+# - Environment variables should be set in the DO App settings (do NOT hardcode secrets).
