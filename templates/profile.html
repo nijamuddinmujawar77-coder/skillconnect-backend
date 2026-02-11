@@ -1,0 +1,3706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-container {
+            background: var(--gray-50);
+            min-height: 100vh;
+            padding: 100px 0 50px;
+        }
+        
+        .profile-header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .profile-banner {
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            border-radius: 15px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .profile-avatar {
+            position: absolute;
+            bottom: -60px;
+            left: 30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--primary-teal);
+            border: 5px solid white;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 50%;
+        }
+        
+        .profile-avatar:hover .avatar-overlay {
+            opacity: 1;
+        }
+        
+        .profile-info {
+            margin-left: 170px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .user-details h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+        
+        .user-title {
+            font-size: 18px;
+            color: var(--gray-600);
+            margin-bottom: 10px;
+        }
+        
+        .user-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-500);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-teal);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .profile-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .profile-main {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-edit {
+            background: var(--gray-100);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--gray-600);
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-edit:hover {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .btn-login {
+            background: var(--gray-600);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            background: var(--gray-700);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: var(--gray-50);
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-teal);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .resume-info {
+            text-align: center;
+        }
+        
+        .resume-placeholder {
+            padding: 30px 20px;
+        }
+        
+        .resume-file {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .file-icon {
+            flex-shrink: 0;
+        }
+        
+        .file-details h4 {
+            margin: 0 0 5px 0;
+            color: var(--gray-800);
+            font-size: 16px;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+            border-radius: 6px;
+        }
+        
+        .no-experience, .no-education {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .experience-item, .education-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .experience-item:last-child, .education-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 0 0 8px 0;
+        }
+        
+        .item-company, .item-school {
+            font-size: 16px;
+            color: var(--coral);
+            margin: 0 0 8px 0;
+            font-weight: 500;
+        }
+        
+        .item-duration {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0 0 12px 0;
+        }
+        
+        .item-description {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-item {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .skill-level {
+            width: 60px;
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: var(--primary-teal);
+            transition: width 0.3s ease;
+        }
+        
+        .experience-item,
+        .education-item {
+            padding: 20px;
+            border-left: 3px solid var(--primary-teal);
+            background: var(--gray-50);
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .experience-item:before,
+        .education-item:before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 20px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-teal);
+            border-radius: 50%;
+        }
+        
+        .item-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+        
+        .item-company,
+        .item-school {
+            font-size: 16px;
+            color: var(--coral);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .item-duration {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 10px;
+        }
+        
+        .item-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        
+        .applications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .application-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--gray-50);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .application-item:hover {
+            background: var(--gray-100);
+        }
+        
+        .application-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+        
+        .application-info p {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+        
+        .application-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-applied {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .status-reviewing {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+        
+        .status-shortlisted {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        
+        .status-accepted {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .status-interview {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+        }
+        
+        .empty-applications {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-600);
+        }
+        
+        .empty-applications i {
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .empty-applications p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .loading-applications {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-600);
+        }
+        
+        .loading-applications i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .loading-applications p {
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+        
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+        }
+        
+        .progress-ring .bg {
+            stroke: var(--gray-200);
+        }
+        
+        .progress-ring .progress {
+            stroke: var(--primary-teal);
+            stroke-dasharray: 157;
+            stroke-dashoffset: 157;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        @media (max-width: 1024px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-sidebar {
+                order: 1;
+            }
+            
+            .profile-main {
+                order: 2;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-info {
+                margin-left: 0;
+                margin-top: 80px;
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .profile-avatar {
+                position: static;
+                margin: -60px auto 20px;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+        
+        .profile-actions {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" class="active">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="logout()">Logout</button>
+                <a href="jobs.html" class="btn-primary">Find Jobs</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="container">
+            <!-- Profile Header -->
+            <div class="profile-header" data-aos="fade-up">
+                <div class="profile-banner">
+                    <div class="profile-avatar" onclick="changeProfilePicture()">
+                        <img id="profile-picture" src="" alt="Profile" style="display: none;">
+                        <i id="profile-icon" class="fas fa-user"></i>
+                        <div class="avatar-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="user-details">
+                        <h1 id="user-name">Loading...</h1>
+                        <p class="user-title" id="user-title">Professional</p>
+                        <div class="user-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="user-location">India</span>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="applications-count"><i class="fas fa-spinner fa-spin" style="font-size: 16px;"></i></span>
+                                <span class="stat-label">Applications</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="interviews-count"><i class="fas fa-spinner fa-spin" style="font-size: 16px;"></i></span>
+                                <span class="stat-label">Interviews</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="profile-score"><i class="fas fa-spinner fa-spin" style="font-size: 16px;"></i></span>
+                                <span class="stat-label">Profile Score</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-primary" onclick="editProfile()">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="btn-secondary" onclick="manageResume()" id="resume-btn">
+                            <i class="fas fa-upload"></i> Upload Resume
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <!-- Contact Information -->
+                    <div class="profile-card" data-aos="fade-right">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-address-book"></i>
+                                Contact Info
+                            </h3>
+                            <button class="btn-edit" onclick="editContact()">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <strong>Email</strong>
+                                    <p id="user-email">Loading...</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <strong>Phone</strong>
+                                    <p id="user-phone">Not provided</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
+                                <div>
+                                    <strong>LinkedIn</strong>
+                                    <p id="user-linkedin">Not provided</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resume Section -->
+                    <div class="profile-card" data-aos="fade-right" data-aos-delay="50">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-file-alt"></i>
+                                Resume
+                            </h3>
+                            <button class="btn-edit" onclick="manageResume()">
+                                <i class="fas fa-edit"></i> Manage
+                            </button>
+                        </div>
+                        <div class="resume-info" id="resume-info">
+                            <div class="resume-placeholder">
+                                <i class="fas fa-file-upload" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                                <p style="color: var(--gray-600); margin-bottom: 15px;">No resume uploaded yet</p>
+                                <button class="btn-primary btn-small" onclick="uploadResume()">
+                                    <i class="fas fa-upload"></i> Upload Resume
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="profile-card" data-aos="fade-right" data-aos-delay="100">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-cogs"></i>
+                                Skills
+                            </h3>
+                            <button class="btn-edit" onclick="editSkills()">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        <div id="skills-container" class="skills-grid">
+                            <div class="empty-state" id="skills-empty">
+                                <i class="fas fa-cogs"></i>
+                                <p>No skills added yet</p>
+                                <button class="btn-primary btn-small" onclick="editSkills()">
+                                    <i class="fas fa-plus"></i> Add Skills
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Completeness -->
+                    <div class="profile-card" data-aos="fade-right" data-aos-delay="200">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-pie"></i>
+                                Profile Score
+                            </h3>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="progress-ring">
+                                <svg width="60" height="60">
+                                    <circle class="bg" cx="30" cy="30" r="25"></circle>
+                                    <circle id="progress-circle" class="progress" cx="30" cy="30" r="25" style="stroke-dashoffset: 15.7;"></circle>
+                                </svg>
+                                <div id="progress-percentage" class="progress-text">0%</div>
+                            </div>
+                            <p id="progress-message" style="margin-top: 15px; color: var(--gray-600); font-size: 14px;">
+                                Complete your profile to increase your score.
+                            </p>
+                            <button id="complete-profile-btn" class="btn-primary" style="margin-top: 10px; font-size: 12px; padding: 8px 16px;" onclick="showProfileTips()">
+                                Complete Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="profile-main">
+                    <!-- Experience -->
+                    <div class="profile-card" data-aos="fade-left">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-briefcase"></i>
+                                Work Experience
+                            </h3>
+                            <button class="btn-edit" onclick="console.log('Header button clicked!'); addExperience();">
+                                <i class="fas fa-plus"></i> Add Experience
+                            </button>
+                        </div>
+                        <div id="experience-list">
+                            <div class="no-experience">
+                                <i class="fas fa-briefcase" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                                <p style="color: var(--gray-600); margin-bottom: 15px;">No work experience added yet</p>
+                                <button class="btn-primary btn-small" onclick="console.log('Button clicked!'); addExperience();">
+                                    <i class="fas fa-plus"></i> Add Your First Experience
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="profile-card" data-aos="fade-left" data-aos-delay="100">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                Education
+                            </h3>
+                            <button class="btn-edit" onclick="console.log('Education button clicked!'); addEducation();">
+                                <i class="fas fa-plus"></i> Add Education
+                            </button>
+                        </div>
+                        <div id="education-list">
+                            <div class="no-education">
+                                <i class="fas fa-graduation-cap" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                                <p style="color: var(--gray-600); margin-bottom: 15px;">No education details added yet</p>
+                                <button class="btn-primary btn-small" onclick="console.log('Education placeholder clicked!'); addEducation();">
+                                    <i class="fas fa-plus"></i> Add Education
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Applications -->
+                    <div class="profile-card" data-aos="fade-left" data-aos-delay="200">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-file-alt"></i>
+                                Recent Applications
+                            </h3>
+                            <button class="btn-edit" onclick="viewAllApplications()">
+                                <i class="fas fa-eye"></i> View All
+                            </button>
+                        </div>
+                        <div id="applications-list" class="applications-list">
+                            <div class="loading-applications">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading applications...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = 'login.html?next=profile.html';
+                return;
+            }
+            
+            // Initialize AOS
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    offset: 100,
+                    once: true
+                });
+            }
+            
+            // Load user data
+            loadUserProfile();
+        });
+        
+        async function loadUserProfile() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const userData = await response.json();
+                    displayUserData(userData);
+                    loadUserApplications();
+                    loadUserExperience();
+                    loadUserEducation();
+                    loadUserSkills();
+                } else if (response.status === 401) {
+                    // Token expired
+                    localStorage.clear();
+                    window.location.href = 'login.html?next=profile.html';
+                } else {
+                    showNotification('Failed to load profile data', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showNotification('Network error. Please try again.', 'error');
+            }
+        }
+        
+        async function loadUserExperience() {
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/experience/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const experiences = await response.json();
+                    displayUserExperiences(experiences);
+                }
+            } catch (error) {
+                console.error('Error loading experiences:', error);
+            }
+        }
+        
+        async function loadUserEducation() {
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/education/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const educations = await response.json();
+                    displayUserEducations(educations);
+                }
+            } catch (error) {
+                console.error('Error loading education:', error);
+            }
+        }
+        
+        function displayUserExperiences(experiences) {
+            const experienceList = document.getElementById('experience-list');
+            
+            if (experiences.length === 0) {
+                experienceList.innerHTML = `
+                    <div class="no-experience">
+                        <i class="fas fa-briefcase" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                        <p style="color: var(--gray-600); margin-bottom: 15px;">No work experience added yet</p>
+                        <button class="btn-primary btn-small" onclick="console.log('Button clicked!'); addExperience();">
+                            <i class="fas fa-plus"></i> Add Your First Experience
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            experienceList.innerHTML = experiences.map(exp => `
+                <div class="experience-item timeline-item" data-exp-id="${exp.id}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h4 class="item-title">${exp.title}</h4>
+                            <p class="item-company">${exp.company}${exp.location ? ' • ' + exp.location : ''}</p>
+                            <p class="item-duration">${formatBackendDuration(exp.start_date, exp.end_date, exp.is_current)}</p>
+                            ${exp.description ? `<p class="item-description">${exp.description}</p>` : ''}
+                        </div>
+                        <button class="btn-edit" onclick="deleteExperience(${exp.id})" style="color: #ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function displayUserEducations(educations) {
+            const educationList = document.getElementById('education-list');
+            
+            if (educations.length === 0) {
+                educationList.innerHTML = `
+                    <div class="no-education">
+                        <i class="fas fa-graduation-cap" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                        <p style="color: var(--gray-600); margin-bottom: 15px;">No education details added yet</p>
+                        <button class="btn-primary btn-small" onclick="console.log('Education placeholder clicked!'); addEducation();">
+                            <i class="fas fa-plus"></i> Add Education
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            educationList.innerHTML = educations.map(edu => `
+                <div class="education-item timeline-item" data-edu-id="${edu.id}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h4 class="item-title">${edu.degree}</h4>
+                            <p class="item-school">${edu.school}</p>
+                            <p class="item-duration">${edu.start_year} - ${edu.is_current ? 'Present' : (edu.end_year || 'Present')}${edu.grade ? ' • ' + edu.grade : ''}</p>
+                            ${edu.description ? `<p class="item-description">${edu.description}</p>` : ''}
+                        </div>
+                        <button class="btn-edit" onclick="deleteEducation(${edu.id})" style="color: #ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function formatBackendDuration(startDate, endDate, isCurrent) {
+            const start = new Date(startDate);
+            const end = isCurrent ? new Date() : new Date(endDate);
+            
+            const startText = start.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            const endText = isCurrent ? 'Present' : end.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            
+            return `${startText} - ${endText}`;
+        }
+        
+        function displayUserData(userData) {
+            document.getElementById('user-name').textContent = `${userData.first_name} ${userData.last_name}`;
+            
+            // Load dynamic stats from backend
+            loadDynamicStats();
+            
+            // Update profile picture
+            updateProfilePicture(userData.profile_picture);
+            
+            // Calculate dynamic profile score
+            calculateAndUpdateProfileScore(userData);
+            
+            // Update contact info
+            const emailElement = document.getElementById('user-email');
+            const phoneElement = document.getElementById('user-phone');
+            const linkedinElement = document.getElementById('user-linkedin');
+            
+            if (emailElement) emailElement.textContent = userData.email || 'Not provided';
+            if (phoneElement) phoneElement.textContent = userData.phone_number || 'Not provided';
+            if (linkedinElement) linkedinElement.textContent = userData.linkedin_url ? extractLinkedInHandle(userData.linkedin_url) : 'Not provided';
+            
+            // Update resume status
+            if (userData.resume_file) {
+                // Try to get file info from backend or use defaults
+                const fileName = extractFileName(userData.resume_file);
+                const uploadDate = userData.updated_at || userData.date_joined;
+                updateResumeDisplay(fileName, null, uploadDate); // Pass null for size since we don't have it
+                updateResumeButton(true);
+            } else {
+                updateResumeButton(false);
+            }
+        }
+        
+        // ============== PROFILE PICTURE MANAGEMENT ==============
+        function updateProfilePicture(profilePictureUrl) {
+            const profileImg = document.getElementById('profile-picture');
+            const profileIcon = document.getElementById('profile-icon');
+            
+            if (profilePictureUrl) {
+                // Show profile picture
+                // Check if URL is already absolute (Cloudinary) or relative
+                if (profilePictureUrl.startsWith('http')) {
+                    profileImg.src = profilePictureUrl;
+                } else {
+                    profileImg.src = `https://skillconnect-backend-jcn0.onrender.com${profilePictureUrl}`;
+                }
+                profileImg.style.display = 'block';
+                profileIcon.style.display = 'none';
+            } else {
+                // Show default icon
+                profileImg.style.display = 'none';
+                profileIcon.style.display = 'flex';
+            }
+        }
+        
+        function changeProfilePicture() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = handleProfilePictureUpload;
+            input.click();
+        }
+        
+        function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file
+            if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                showNotification('Image size must be less than 2MB', 'error');
+                return;
+            }
+            
+            if (!file.type.startsWith('image/')) {
+                showNotification('Please select a valid image file', 'error');
+                return;
+            }
+            
+            uploadProfilePictureToServer(file);
+        }
+        
+        async function uploadProfilePictureToServer(file) {
+            const token = localStorage.getItem('access_token');
+            const formData = new FormData();
+            formData.append('profile_picture', file);
+            
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const userData = await response.json();
+                    updateProfilePicture(userData.profile_picture);
+                    showNotification('Profile picture updated successfully!', 'success');
+                    
+                    // Recalculate profile score (profile picture might add points)
+                    calculateAndUpdateProfileScore(userData);
+                } else {
+                    showNotification('Failed to update profile picture', 'error');
+                }
+            } catch (error) {
+                console.error('Error uploading profile picture:', error);
+                showNotification('Error uploading profile picture', 'error');
+            }
+        }
+        
+        // Make function globally accessible
+        window.changeProfilePicture = changeProfilePicture;
+        
+        async function calculateAndUpdateProfileScore(userData) {
+            let score = 0;
+            const maxScore = 100;
+            let missingItems = [];
+            
+            // Basic Info (35 points)
+            if (userData.first_name && userData.last_name) score += 10;
+            else missingItems.push('Complete name');
+            
+            if (userData.email) score += 5;
+            if (userData.phone_number) score += 10;
+            else missingItems.push('Phone number');
+            
+            if (userData.linkedin_url) score += 5;
+            else missingItems.push('LinkedIn profile');
+            
+            if (userData.profile_picture) score += 5;
+            else missingItems.push('Profile picture');
+            
+            // Resume (20 points)
+            if (userData.resume_file) score += 20;
+            else missingItems.push('Resume upload');
+            
+            // Experience (20 points)
+            try {
+                const token = localStorage.getItem('access_token');
+                const expResponse = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/experience/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (expResponse.ok) {
+                    const experiences = await expResponse.json();
+                    if (experiences.length > 0) score += 20;
+                    else missingItems.push('Work experience');
+                }
+            } catch (error) {
+                missingItems.push('Work experience');
+            }
+            
+            // Education (15 points)
+            try {
+                const token = localStorage.getItem('access_token');
+                const eduResponse = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/education/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (eduResponse.ok) {
+                    const education = await eduResponse.json();
+                    if (education.length > 0) score += 15;
+                    else missingItems.push('Education details');
+                }
+            } catch (error) {
+                missingItems.push('Education details');
+            }
+            
+            // Skills (15 points)
+            try {
+                const token = localStorage.getItem('access_token');
+                const skillsResponse = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/skills/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (skillsResponse.ok) {
+                    const skills = await skillsResponse.json();
+                    if (skills.length >= 3) score += 15;
+                    else if (skills.length > 0) score += (skills.length * 5);
+                    else missingItems.push('Skills (add at least 3)');
+                }
+            } catch (error) {
+                missingItems.push('Skills');
+            }
+            
+            // Update UI
+            updateProfileScoreDisplay(score, missingItems);
+        }
+        
+        function updateProfileScoreDisplay(score, missingItems) {
+            // Update both score displays
+            document.getElementById('profile-score').textContent = `${score}%`;
+            document.getElementById('progress-percentage').textContent = `${score}%`;
+            
+            // Update progress ring
+            const progressCircle = document.getElementById('progress-circle');
+            const circumference = 2 * Math.PI * 25; // radius = 25
+            const offset = circumference - (score / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+            
+            // Update message and button based on score
+            const messageElement = document.getElementById('progress-message');
+            const buttonElement = document.getElementById('complete-profile-btn');
+            
+            if (score >= 90) {
+                messageElement.textContent = 'Excellent! Your profile is almost perfect.';
+                messageElement.style.color = '#10b981'; // Green
+                buttonElement.textContent = 'Profile Complete ✓';
+                buttonElement.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            } else if (score >= 70) {
+                messageElement.textContent = 'Great progress! Just a few more details needed.';
+                messageElement.style.color = '#f59e0b'; // Yellow
+                buttonElement.textContent = 'Complete Profile';
+            } else if (score >= 50) {
+                messageElement.textContent = 'Good start! Add more details to improve your score.';
+                messageElement.style.color = '#ef4444'; // Red
+                buttonElement.textContent = 'Complete Profile';
+            } else {
+                messageElement.textContent = "Let's build your professional profile!";
+                messageElement.style.color = '#6b7280'; // Gray
+                buttonElement.textContent = 'Start Building';
+            }
+            
+            // Store missing items for profile tips
+            window.profileMissingItems = missingItems;
+        }
+        
+        function showProfileTips() {
+            const missingItems = window.profileMissingItems || [];
+            
+            if (missingItems.length === 0) {
+                showNotification('Your profile is complete! 🎉', 'success');
+                return;
+            }
+            
+            const tips = missingItems.map(item => `• ${item}`).join('\n');
+            const message = `To improve your profile score, please add:\n\n${tips}`;
+            
+            if (confirm(message + '\n\nWould you like to start editing your profile?')) {
+                // You can add specific navigation logic here
+                showNotification('Great! Start by clicking the Edit buttons on each section.', 'info');
+            }
+        }
+        
+        // Make function globally accessible
+        window.showProfileTips = showProfileTips;
+        
+        // ============== SKILLS MANAGEMENT ==============
+        async function loadUserSkills() {
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/skills/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const skills = await response.json();
+                    displayUserSkills(skills);
+                } else {
+                    console.error('Failed to load skills');
+                }
+            } catch (error) {
+                console.error('Error loading skills:', error);
+            }
+        }
+        
+        function displayUserSkills(skills) {
+            const skillsContainer = document.getElementById('skills-container');
+            
+            if (skills.length === 0) {
+                skillsContainer.innerHTML = `
+                    <div class="empty-state" id="skills-empty">
+                        <i class="fas fa-cogs"></i>
+                        <p>No skills added yet</p>
+                        <button class="btn-primary btn-small" onclick="editSkills()">
+                            <i class="fas fa-plus"></i> Add Skills
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            skillsContainer.innerHTML = skills.map(skill => `
+                <div class="skill-item">
+                    ${skill.name}
+                    <div class="skill-level">
+                        <div class="skill-progress" style="width: ${skill.level_percentage}%;"></div>
+                    </div>
+                    <button class="skill-delete" onclick="deleteSkill(${skill.id})" title="Remove skill">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function editSkills() {
+            showSkillsModal();
+        }
+        
+        window.editSkills = editSkills;
+        
+        async function deleteSkill(skillId) {
+            if (!confirm('Are you sure you want to delete this skill?')) {
+                return;
+            }
+            
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch(`https://skillconnect-backend-jcn0.onrender.com/api/accounts/skills/${skillId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showNotification('Skill deleted successfully!', 'success');
+                    loadUserSkills(); // Reload skills
+                } else {
+                    showNotification('Failed to delete skill. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Network error deleting skill:', error);
+                showNotification('Network error. Please check your connection.', 'error');
+            }
+        }
+        
+        function extractFileName(filePath) {
+            if (!filePath) return 'resume.pdf';
+            return filePath.split('/').pop() || 'resume.pdf';
+        }
+        
+        function extractLinkedInHandle(url) {
+            if (!url) return 'Not provided';
+            // Extract handle from LinkedIn URL
+            const match = url.match(/linkedin\.com\/in\/([^\/\?]+)/);
+            return match ? `/in/${match[1]}` : url;
+        }
+        
+        async function loadDynamicStats() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                // Set to 0 if no token
+                document.getElementById('applications-count').textContent = '0';
+                document.getElementById('interviews-count').textContent = '0';
+                return;
+            }
+            
+            console.log('Loading dynamic stats...'); // Debug log
+            
+            try {
+                // Load applications count
+                const applicationsResponse = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/jobs/applications/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Applications response status:', applicationsResponse.status); // Debug log
+                
+                if (applicationsResponse.ok) {
+                    const applications = await applicationsResponse.json();
+                    console.log('Applications data:', applications); // Debug log
+                    
+                    const applicationsCount = Array.isArray(applications) ? applications.length : 0;
+                    
+                    // Count interviews (applications with interview status)
+                    const interviewsCount = Array.isArray(applications) ? applications.filter(app => 
+                        app.status === 'interview_scheduled' || 
+                        app.status === 'shortlisted' ||
+                        app.status === 'accepted'
+                    ).length : 0;
+                    
+                    console.log('Counts - Applications:', applicationsCount, 'Interviews:', interviewsCount); // Debug log
+                    
+                    // Update the display with animation
+                    animateStatUpdate('applications-count', applicationsCount);
+                    animateStatUpdate('interviews-count', interviewsCount);
+                } else {
+                    console.log('Applications API failed, setting to 0'); // Debug log
+                    // Fallback to 0 if API fails
+                    document.getElementById('applications-count').textContent = '0';
+                    document.getElementById('interviews-count').textContent = '0';
+                }
+            } catch (error) {
+                console.error('Error loading dynamic stats:', error);
+                // Fallback to 0 if network error - but server might be down
+                console.log('Setting stats to 0 due to error'); // Debug log
+                document.getElementById('applications-count').textContent = '0';
+                document.getElementById('interviews-count').textContent = '0';
+            }
+        }
+        
+        function animateStatUpdate(elementId, finalValue) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.log('Element not found:', elementId); // Debug log
+                return;
+            }
+            
+            console.log(`Animating ${elementId} to ${finalValue}`); // Debug log
+            
+            // Clear any existing content (like spinner)
+            element.innerHTML = '';
+            
+            const currentValue = parseInt(element.textContent) || 0;
+            
+            if (currentValue === finalValue) {
+                element.textContent = finalValue;
+                return;
+            }
+            
+            const duration = 1000; // 1 second animation
+            const steps = Math.min(30, Math.max(10, Math.abs(finalValue - currentValue))); // Adaptive steps
+            const stepValue = (finalValue - currentValue) / steps;
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                currentStep++;
+                const newValue = Math.round(currentValue + (stepValue * currentStep));
+                element.textContent = newValue;
+                
+                if (currentStep >= steps) {
+                    clearInterval(interval);
+                    element.textContent = finalValue; // Ensure final value is exact
+                    console.log(`Animation complete for ${elementId}: ${finalValue}`); // Debug log
+                }
+            }, duration / steps);
+        }
+
+        async function loadUserApplications() {
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/jobs/applications/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const applications = await response.json();
+                    displayUserApplications(applications);
+                }
+            } catch (error) {
+                console.error('Error loading applications:', error);
+            }
+        }
+        
+        function displayUserApplications(applications) {
+            const applicationsList = document.getElementById('applications-list');
+            
+            if (!applications || applications.length === 0) {
+                applicationsList.innerHTML = `
+                    <div class="empty-applications">
+                        <i class="fas fa-file-alt" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                        <p style="color: var(--gray-600); margin-bottom: 15px;">No applications yet</p>
+                        <a href="jobs.html" class="btn-primary btn-small">
+                            <i class="fas fa-search"></i> Find Jobs
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Show only latest 3 applications for the profile dashboard
+            const recentApplications = applications.slice(0, 3);
+            
+            applicationsList.innerHTML = recentApplications.map(app => `
+                <div class="application-item">
+                    <div class="application-info">
+                        <h4>${app.job_title || 'Job Title'}</h4>
+                        <p>${app.company_name || 'Company'} • Applied ${formatApplicationDate(app.applied_date || app.created_at)}</p>
+                    </div>
+                    <span class="application-status ${getStatusClass(app.status)}">${formatStatus(app.status)}</span>
+                </div>
+            `).join('');
+        }
+        
+        function formatApplicationDate(dateString) {
+            if (!dateString) return 'recently';
+            
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'today';
+            if (diffDays === 1) return '1 day ago';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 14) return '1 week ago';
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            return `${Math.floor(diffDays / 30)} months ago`;
+        }
+        
+        function getStatusClass(status) {
+            const statusMap = {
+                'pending': 'status-applied',
+                'reviewed': 'status-reviewing',
+                'shortlisted': 'status-shortlisted',
+                'rejected': 'status-rejected',
+                'accepted': 'status-accepted',
+                'interview_scheduled': 'status-interview'
+            };
+            return statusMap[status] || 'status-applied';
+        }
+        
+        function formatStatus(status) {
+            const statusMap = {
+                'pending': 'Applied',
+                'reviewed': 'Under Review',
+                'shortlisted': 'Shortlisted',
+                'rejected': 'Rejected',
+                'accepted': 'Accepted',
+                'interview_scheduled': 'Interview Scheduled'
+            };
+            return statusMap[status] || 'Applied';
+        }
+        
+        function viewAllApplications() {
+            // You can implement a detailed applications view or redirect
+            window.location.href = 'jobs.html?view=applications';
+        }
+        
+        // Make function globally accessible
+        window.viewAllApplications = viewAllApplications;
+        
+        function editProfile() {
+            showEditProfileModal();
+        }
+        
+        function editContact() {
+            showEditProfileModal(); // Same modal can be used for contact editing
+        }
+        
+        function manageResume() {
+            showResumeModal();
+        }
+        
+        function showResumeModal() {
+            // Ensure modal styles are loaded
+            if (!document.getElementById('modal-styles')) {
+                const modalStyles = `
+                    <style id="modal-styles">
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10000;
+                        backdrop-filter: blur(5px);
+                    }
+                    
+                    .modal-content {
+                        background: white;
+                        border-radius: 15px;
+                        padding: 0;
+                        max-width: 500px;
+                        width: 90%;
+                        max-height: 70vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+                    
+                    .resume-manager {
+                        text-align: center;
+                        padding: 30px;
+                    }
+                    
+                    .current-resume {
+                        background: #f9fafb;
+                        border: 2px dashed #e5e7eb;
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                    }
+                    
+                    .file-upload-area {
+                        border: 2px dashed #e5e7eb;
+                        border-radius: 8px;
+                        padding: 40px 20px;
+                        margin: 20px 0;
+                        background: #f9fafb;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .file-upload-area:hover {
+                        border-color: #1e90ff;
+                        background: #f0f9ff;
+                    }
+                    
+                    .file-upload-area.dragover {
+                        border-color: #1e90ff;
+                        background: #eff6ff;
+                    }
+                    
+                    .upload-icon {
+                        font-size: 48px;
+                        color: #6b7280;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .upload-text {
+                        color: #374151;
+                        font-size: 16px;
+                        margin-bottom: 5px;
+                    }
+                    
+                    .upload-subtext {
+                        color: #6b7280;
+                        font-size: 12px;
+                    }
+                    </style>
+                `;
+                document.head.insertAdjacentHTML('beforeend', modalStyles);
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-file-alt"></i> Manage Resume</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="resume-manager">
+                            <div id="current-resume-section">
+                                <!-- Current resume info will be loaded here -->
+                                <div class="current-resume">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #6b7280;"></i>
+                                    <p>Loading resume info...</p>
+                                </div>
+                            </div>
+                            
+                            <div class="file-upload-area" onclick="triggerFileUpload()" ondrop="handleDropUpload(event)" ondragover="handleDragOver(event)" ondragenter="handleDragEnter(event)" ondragleave="handleDragLeave(event)">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div class="upload-text">
+                                    Click to upload or drag & drop
+                                </div>
+                                <div class="upload-subtext">
+                                    PDF, DOC, DOCX (Max 5MB)
+                                </div>
+                            </div>
+                            
+                            <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleResumeUpload(event)">
+                            
+                            <div style="margin-top: 20px;">
+                                <p style="font-size: 12px; color: #6b7280;">
+                                    <i class="fas fa-info-circle"></i>
+                                    Keep your resume updated to increase job application success rate
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Load current resume info
+            loadCurrentResumeInfo();
+        }
+        
+        async function loadCurrentResumeInfo() {
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const userData = await response.json();
+                    displayCurrentResumeInfo(userData);
+                } else {
+                    document.getElementById('current-resume-section').innerHTML = `
+                        <div class="current-resume">
+                            <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+                            <p>Failed to load resume info</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading resume info:', error);
+                document.getElementById('current-resume-section').innerHTML = `
+                    <div class="current-resume">
+                        <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+                        <p>Error loading resume info</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayCurrentResumeInfo(userData) {
+            const currentResumeSection = document.getElementById('current-resume-section');
+            
+            if (userData.resume_file) {
+                const fileName = extractFileName(userData.resume_file);
+                const uploadDate = userData.updated_at || userData.date_joined;
+                const formattedDate = formatUploadDate(uploadDate);
+                
+                currentResumeSection.innerHTML = `
+                    <div class="current-resume">
+                        <h4 style="margin-bottom: 10px; color: #374151;">Current Resume</h4>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                            <i class="fas fa-file-pdf" style="font-size: 32px; color: #ef4444;"></i>
+                            <div style="text-align: left;">
+                                <p style="margin: 0; font-weight: 600; color: #374151;">${fileName}</p>
+                                <p style="margin: 0; font-size: 12px; color: #6b7280;">Uploaded ${formattedDate}</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <button class="btn-primary btn-small" onclick="downloadCurrentResume()">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button class="btn-secondary btn-small" onclick="deleteCurrentResume()">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                currentResumeSection.innerHTML = `
+                    <div class="current-resume">
+                        <i class="fas fa-file-upload" style="font-size: 32px; color: #6b7280; margin-bottom: 10px;"></i>
+                        <h4 style="margin-bottom: 10px; color: #6b7280;">No Resume Uploaded</h4>
+                        <p style="font-size: 14px; color: #6b7280; margin: 0;">Upload your resume to apply for jobs</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function triggerFileUpload() {
+            document.getElementById('resume-file-input').click();
+        }
+        
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+        
+        function handleDragEnter(event) {
+            event.preventDefault();
+        }
+        
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('dragover');
+        }
+        
+        function handleDropUpload(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                processResumeFile(file);
+            }
+        }
+        
+        function processResumeFile(file) {
+            // Validate file
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showNotification('File size must be less than 5MB', 'error');
+                return;
+            }
+            
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!allowedTypes.includes(file.type)) {
+                showNotification('Only PDF, DOC, and DOCX files are allowed', 'error');
+                return;
+            }
+            
+            uploadResumeToServer(file);
+        }
+        
+        async function deleteCurrentResume() {
+            if (!confirm('Are you sure you want to delete your current resume?')) {
+                return;
+            }
+            
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ resume_file: null })
+                });
+                
+                if (response.ok) {
+                    showNotification('Resume deleted successfully!', 'success');
+                    loadCurrentResumeInfo(); // Reload the modal
+                    loadUserProfile(); // Reload the profile page
+                } else {
+                    showNotification('Failed to delete resume', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting resume:', error);
+                showNotification('Error deleting resume', 'error');
+            }
+        }
+        
+        // Make functions globally accessible
+        window.triggerFileUpload = triggerFileUpload;
+        window.handleDragOver = handleDragOver;
+        window.handleDragEnter = handleDragEnter;
+        window.handleDragLeave = handleDragLeave;
+        window.handleDropUpload = handleDropUpload;
+        window.deleteCurrentResume = deleteCurrentResume;
+        
+        function uploadResume() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.doc,.docx';
+            input.onchange = handleResumeUpload;
+            input.click();
+        }
+        
+        function handleResumeUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            processResumeFile(file);
+        }
+        
+        async function uploadResumeToServer(file) {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                showNotification('Please login to upload resume', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('resume_file', file);
+            
+            try {
+                showNotification('Uploading resume...', 'info');
+                
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                
+                const result = await response.json();
+                console.log('Upload response:', result);
+                
+                if (response.ok) {
+                    showNotification('Resume uploaded successfully!', 'success');
+                    updateResumeDisplay(file.name, file.size);
+                    updateResumeButton(true);
+                } else {
+                    console.error('Upload failed:', result);
+                    const errorMsg = result.resume_file ? result.resume_file.join(', ') : (result.msg || 'Upload failed');
+                    showNotification(errorMsg, 'error');
+                }
+            } catch (error) {
+                console.error('Network error uploading resume:', error);
+                showNotification('Network error. Make sure Django server is running.', 'error');
+            }
+        }
+        
+        function updateResumeDisplay(fileName, fileSize, uploadDate = null) {
+            const resumeInfo = document.getElementById('resume-info');
+            const formattedSize = formatFileSize(fileSize);
+            const formattedDate = uploadDate ? formatUploadDate(uploadDate) : 'Recently';
+            
+            resumeInfo.innerHTML = `
+                <div class="resume-file">
+                    <div class="file-icon">
+                        <i class="fas fa-file-pdf" style="font-size: 36px; color: #ef4444;"></i>
+                    </div>
+                    <div class="file-details">
+                        <h4>${fileName}</h4>
+                        <p style="color: var(--gray-600); font-size: 12px;">${formattedSize} • Uploaded ${formattedDate}</p>
+                        <div style="margin-top: 10px;">
+                            <button class="btn-primary btn-small" onclick="downloadCurrentResume()" style="margin-right: 10px;">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button class="btn-secondary btn-small" onclick="uploadResume()">
+                                <i class="fas fa-upload"></i> Replace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateResumeButton(hasResume) {
+            const resumeBtn = document.getElementById('resume-btn');
+            if (hasResume) {
+                resumeBtn.innerHTML = '<i class="fas fa-download"></i> Download Resume';
+                resumeBtn.onclick = downloadCurrentResume;
+            } else {
+                resumeBtn.innerHTML = '<i class="fas fa-upload"></i> Upload Resume';
+                resumeBtn.onclick = uploadResume;
+            }
+        }
+        
+        function downloadCurrentResume() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                showNotification('Please login to download resume', 'error');
+                return;
+            }
+            
+            // Get current user data to find resume file
+            fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(userData => {
+                if (userData.resume_file) {
+                    // Create download link
+                    const link = document.createElement('a');
+                    link.href = `https://skillconnect-backend-jcn0.onrender.com${userData.resume_file}`;
+                    link.target = '_blank';
+                    link.download = extractFileName(userData.resume_file);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    showNotification('Resume download started!', 'success');
+                } else {
+                    showNotification('No resume file found', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error downloading resume:', error);
+                showNotification('Failed to download resume', 'error');
+            });
+        }
+        
+        function formatFileSize(bytes) {
+            if (!bytes || bytes === 'Unknown size' || isNaN(bytes)) {
+                return 'Unknown size';
+            }
+            
+            const numBytes = typeof bytes === 'string' ? parseInt(bytes) : bytes;
+            if (numBytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(numBytes) / Math.log(k));
+            return parseFloat((numBytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function formatUploadDate(dateString) {
+            if (!dateString) return 'Recently';
+            
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch (error) {
+                return 'Recently';
+            }
+        }
+        
+        // Experience Management Functions
+        function addExperience() {
+            console.log('addExperience function called!');
+            showExperienceModal();
+        }
+        
+        // Make functions global for onclick access
+        window.addExperience = addExperience;
+        
+        function showExperienceModal() {
+            // Add modal styles to head if not already present
+            if (!document.getElementById('modal-styles')) {
+                const modalStyles = `
+                    <style id="modal-styles">
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10000;
+                        backdrop-filter: blur(5px);
+                    }
+                    
+                    .modal-content {
+                        background: white;
+                        border-radius: 15px;
+                        padding: 0;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+                    
+                    @keyframes modalSlideIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-50px) scale(0.95);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0) scale(1);
+                        }
+                    }
+                    
+                    .modal-header {
+                        padding: 20px 25px;
+                        border-bottom: 2px solid #f1f5f9;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        background: linear-gradient(135deg, #1e90ff, #ff6b6b);
+                        color: white;
+                        border-radius: 15px 15px 0 0;
+                    }
+                    
+                    .modal-header h3 {
+                        margin: 0;
+                        font-size: 18px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                    
+                    .modal-close {
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        color: white;
+                        cursor: pointer;
+                        padding: 0;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                        transition: background 0.3s ease;
+                    }
+                    
+                    .modal-close:hover {
+                        background: rgba(255, 255, 255, 0.2);
+                    }
+                    
+                    .modal-body {
+                        padding: 25px;
+                    }
+                    
+                    .form-row {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 15px;
+                    }
+                    
+                    .form-group {
+                        margin-bottom: 20px;
+                    }
+                    
+                    .form-group label {
+                        display: block;
+                        margin-bottom: 8px;
+                        font-weight: 600;
+                        color: #374151;
+                        font-size: 14px;
+                    }
+                    
+                    .form-group input,
+                    .form-group textarea {
+                        width: 100%;
+                        padding: 12px 15px;
+                        border: 2px solid #e5e7eb;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        font-family: system-ui, -apple-system, sans-serif;
+                        transition: all 0.3s ease;
+                        box-sizing: border-box;
+                        background: #ffffff;
+                    }
+                    
+                    .form-group input:focus,
+                    .form-group textarea:focus {
+                        outline: none;
+                        border-color: #1e90ff;
+                        box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+                    }
+                    
+                    .form-group input:disabled {
+                        background: #f9fafb;
+                        color: #9ca3af;
+                        cursor: not-allowed;
+                    }
+                    
+                    .modal-footer {
+                        padding: 20px 25px;
+                        border-top: 2px solid #f1f5f9;
+                        display: flex;
+                        gap: 15px;
+                        justify-content: flex-end;
+                        background: #f9fafb;
+                        border-radius: 0 0 15px 15px;
+                    }
+                    
+                    .btn-secondary, .btn-primary {
+                        padding: 12px 24px;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        border: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    
+                    .btn-secondary {
+                        background: #6b7280;
+                        color: white;
+                    }
+                    
+                    .btn-secondary:hover {
+                        background: #4b5563;
+                    }
+                    
+                    .btn-primary {
+                        background: linear-gradient(135deg, #1e90ff, #ff6b6b);
+                        color: white;
+                    }
+                    
+                    .btn-primary:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .form-row {
+                            grid-template-columns: 1fr;
+                        }
+                        
+                        .modal-content {
+                            width: 95%;
+                            max-height: 90vh;
+                        }
+                        
+                        .modal-footer {
+                            flex-direction: column;
+                        }
+                    }
+                    </style>
+                `;
+                document.head.insertAdjacentHTML('beforeend', modalStyles);
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-briefcase"></i> Add Work Experience</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="experience-form">
+                            <div class="form-group">
+                                <label for="exp-title">Job Title *</label>
+                                <input type="text" id="exp-title" placeholder="e.g., Frontend Developer" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exp-company">Company Name *</label>
+                                <input type="text" id="exp-company" placeholder="e.g., TechCorp Solutions" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="exp-start">Start Date *</label>
+                                    <input type="month" id="exp-start" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exp-end">End Date</label>
+                                    <input type="month" id="exp-end">
+                                    <label style="margin-top: 8px; font-weight: normal;">
+                                        <input type="checkbox" id="exp-current" style="margin-right: 5px;" onchange="toggleEndDate()"> Currently working here
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exp-location">Location</label>
+                                <input type="text" id="exp-location" placeholder="e.g., Mumbai, India">
+                            </div>
+                            <div class="form-group">
+                                <label for="exp-description">Job Description</label>
+                                <textarea id="exp-description" rows="4" placeholder="Describe your role, responsibilities, and achievements..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="button" class="btn-primary" onclick="saveExperience()">
+                            <i class="fas fa-save"></i> Save Experience
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Clear form and focus on first input
+            setTimeout(() => {
+                clearExperienceForm();
+                document.getElementById('exp-title').focus();
+            }, 100);
+            
+            // Add event listener for current job checkbox
+            document.getElementById('exp-current').addEventListener('change', function() {
+                const endDateInput = document.getElementById('exp-end');
+                if (this.checked) {
+                    endDateInput.disabled = true;
+                    endDateInput.value = '';
+                } else {
+                    endDateInput.disabled = false;
+                }
+            });
+        }
+        
+        function clearExperienceForm() {
+            document.getElementById('exp-title').value = '';
+            document.getElementById('exp-company').value = '';
+            document.getElementById('exp-start').value = '';
+            document.getElementById('exp-end').value = '';
+            document.getElementById('exp-current').checked = false;
+            document.getElementById('exp-location').value = '';
+            document.getElementById('exp-description').value = '';
+            document.getElementById('exp-end').disabled = false;
+        }
+        
+        function toggleEndDate() {
+            const endDateInput = document.getElementById('exp-end');
+            const isCurrentChecked = document.getElementById('exp-current').checked;
+            
+            if (isCurrentChecked) {
+                endDateInput.value = '';
+                endDateInput.disabled = true;
+            } else {
+                endDateInput.disabled = false;
+            }
+        }
+        
+        // Make functions globally accessible
+        window.toggleEndDate = toggleEndDate;
+        
+        async function saveExperience() {
+            const title = document.getElementById('exp-title').value.trim();
+            const company = document.getElementById('exp-company').value.trim();
+            const startDate = document.getElementById('exp-start').value;
+            const endDate = document.getElementById('exp-end').value;
+            const isCurrent = document.getElementById('exp-current').checked;
+            const location = document.getElementById('exp-location').value.trim();
+            const description = document.getElementById('exp-description').value.trim();
+            
+            if (!title || !company || !startDate) {
+                showNotification('Please fill in all required fields', 'warning');
+                return;
+            }
+            
+            const experience = {
+                title,
+                company,
+                start_date: startDate + '-01', // Convert YYYY-MM to YYYY-MM-DD
+                end_date: isCurrent ? null : (endDate ? endDate + '-01' : null),
+                is_current: isCurrent,
+                location: location || null,
+                description: description || null
+            };
+            
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/experience/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(experience)
+                });
+                
+                if (response.ok) {
+                    closeModal();
+                    showNotification('Experience added successfully!', 'success');
+                    loadUserExperience(); // Reload experiences from backend
+                } else {
+                    const error = await response.json();
+                    console.error('Error saving experience:', error);
+                    showNotification('Failed to save experience. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Network error saving experience:', error);
+                showNotification('Network error. Please check your connection.', 'error');
+            }
+        }
+        
+        function addExperienceToProfile(experience) {
+            const experienceList = document.getElementById('experience-list');
+            
+            // Remove "no experience" placeholder
+            const placeholder = experienceList.querySelector('.no-experience');
+            if (placeholder) {
+                placeholder.remove();
+            }
+            
+            const durationText = formatExperienceDuration(experience.startDate, experience.endDate, experience.isCurrent);
+            
+            const experienceItem = document.createElement('div');
+            experienceItem.className = 'experience-item';
+            experienceItem.innerHTML = `
+                <div style="display: flex; justify-content: between; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <h4 class="item-title">${experience.title}</h4>
+                        <p class="item-company">${experience.company}${experience.location ? ' • ' + experience.location : ''}</p>
+                        <p class="item-duration">${durationText}</p>
+                        ${experience.description ? `<p class="item-description">${experience.description}</p>` : ''}
+                    </div>
+                    <button class="btn-edit" onclick="removeExperience(this)" style="color: #ef4444;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            experienceList.appendChild(experienceItem);
+        }
+        
+        function formatExperienceDuration(startDate, endDate, isCurrent) {
+            const start = new Date(startDate);
+            const end = isCurrent ? new Date() : new Date(endDate);
+            
+            const startText = start.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            const endText = isCurrent ? 'Present' : end.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            
+            // Calculate duration
+            const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+            const years = Math.floor(months / 12);
+            const remainingMonths = months % 12;
+            
+            let durationText = '';
+            if (years > 0) {
+                durationText += `${years} year${years > 1 ? 's' : ''}`;
+                if (remainingMonths > 0) {
+                    durationText += ` ${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+                }
+            } else {
+                durationText = `${months} month${months !== 1 ? 's' : ''}`;
+            }
+            
+            return `${startText} - ${endText} (${durationText})`;
+        }
+        
+        function removeExperience(button) {
+            if (confirm('Are you sure you want to remove this experience?')) {
+                const experienceItem = button.closest('.experience-item');
+                experienceItem.remove();
+                
+                // Show placeholder if no experiences left
+                const experienceList = document.getElementById('experience-list');
+                if (experienceList.children.length === 0) {
+                    experienceList.innerHTML = `
+                        <div class="no-experience">
+                            <i class="fas fa-briefcase" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                            <p style="color: var(--gray-600); margin-bottom: 15px;">No work experience added yet</p>
+                            <button class="btn-primary btn-small" onclick="addExperience()">
+                                <i class="fas fa-plus"></i> Add Your First Experience
+                            </button>
+                        </div>
+                    `;
+                }
+                showNotification('Experience removed', 'info');
+            }
+        }
+        
+        // Education Management Functions
+        function addEducation() {
+            console.log('addEducation function called!');
+            showEducationModal();
+        }
+        
+        // Make functions global
+        window.addEducation = addEducation;
+        window.removeExperience = removeExperience;
+        window.removeEducation = removeEducation;
+        window.saveExperience = saveExperience;
+        window.saveEducation = saveEducation;
+        window.closeModal = closeModal;
+        
+        function showEducationModal() {
+            // Ensure modal styles are loaded
+            if (!document.getElementById('modal-styles')) {
+                const modalStyles = `
+                    <style id="modal-styles">
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10000;
+                        backdrop-filter: blur(5px);
+                    }
+                    
+                    .modal-content {
+                        background: white;
+                        border-radius: 15px;
+                        padding: 0;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+                    
+                    @keyframes modalSlideIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-50px) scale(0.95);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0) scale(1);
+                        }
+                    }
+                    
+                    .modal-header {
+                        padding: 20px 25px;
+                        border-bottom: 2px solid #f1f5f9;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        background: linear-gradient(135deg, #1e90ff, #ff6b6b);
+                        color: white;
+                        border-radius: 15px 15px 0 0;
+                    }
+                    
+                    .modal-header h3 {
+                        margin: 0;
+                        font-size: 18px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                    
+                    .modal-close {
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        color: white;
+                        cursor: pointer;
+                        padding: 0;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                        transition: background 0.3s ease;
+                    }
+                    
+                    .modal-close:hover {
+                        background: rgba(255, 255, 255, 0.2);
+                    }
+                    
+                    .modal-body {
+                        padding: 25px;
+                    }
+                    
+                    .form-row {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 15px;
+                    }
+                    
+                    .form-group {
+                        margin-bottom: 20px;
+                    }
+                    
+                    .form-group label {
+                        display: block;
+                        margin-bottom: 8px;
+                        font-weight: 600;
+                        color: #374151;
+                        font-size: 14px;
+                    }
+                    
+                    .form-group input,
+                    .form-group textarea {
+                        width: 100%;
+                        padding: 12px 15px;
+                        border: 2px solid #e5e7eb;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        font-family: system-ui, -apple-system, sans-serif;
+                        transition: all 0.3s ease;
+                        box-sizing: border-box;
+                        background: #ffffff;
+                    }
+                    
+                    .form-group input:focus,
+                    .form-group textarea:focus {
+                        outline: none;
+                        border-color: #1e90ff;
+                        box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+                    }
+                    
+                    .form-group input:disabled {
+                        background: #f9fafb;
+                        color: #9ca3af;
+                        cursor: not-allowed;
+                    }
+                    
+                    .modal-footer {
+                        padding: 20px 25px;
+                        border-top: 2px solid #f1f5f9;
+                        display: flex;
+                        gap: 15px;
+                        justify-content: flex-end;
+                        background: #f9fafb;
+                        border-radius: 0 0 15px 15px;
+                    }
+                    
+                    .btn-secondary, .btn-primary {
+                        padding: 12px 24px;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        border: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    
+                    .btn-secondary {
+                        background: #6b7280;
+                        color: white;
+                    }
+                    
+                    .btn-secondary:hover {
+                        background: #4b5563;
+                    }
+                    
+                    .btn-primary {
+                        background: linear-gradient(135deg, #1e90ff, #ff6b6b);
+                        color: white;
+                    }
+                    
+                    .btn-primary:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .form-row {
+                            grid-template-columns: 1fr;
+                        }
+                        
+                        .modal-content {
+                            width: 95%;
+                            max-height: 90vh;
+                        }
+                        
+                        .modal-footer {
+                            flex-direction: column;
+                        }
+                    }
+                    </style>
+                `;
+                document.head.insertAdjacentHTML('beforeend', modalStyles);
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-graduation-cap"></i> Add Education</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="education-form">
+                            <div class="form-group">
+                                <label for="edu-degree">Degree/Course *</label>
+                                <input type="text" id="edu-degree" placeholder="e.g., Bachelor of Computer Science" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edu-school">School/University *</label>
+                                <input type="text" id="edu-school" placeholder="e.g., Mumbai University" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edu-start-year">Start Year *</label>
+                                    <input type="number" id="edu-start-year" min="1980" max="2030" placeholder="2020" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edu-end-year">End Year</label>
+                                    <input type="number" id="edu-end-year" min="1980" max="2030" placeholder="2024">
+                                    <label style="margin-top: 8px; font-weight: normal;">
+                                        <input type="checkbox" id="edu-current" style="margin-right: 5px;" onchange="toggleEducationEndYear()"> Currently studying
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edu-grade">Grade/CGPA (Optional)</label>
+                                <input type="text" id="edu-grade" placeholder="e.g., First Class, 8.5 CGPA">
+                            </div>
+                            <div class="form-group">
+                                <label for="edu-description">Description (Optional)</label>
+                                <textarea id="edu-description" rows="3" placeholder="Relevant coursework, achievements, activities..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="button" class="btn-primary" onclick="saveEducation()">
+                            <i class="fas fa-save"></i> Save Education
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Clear form and focus on first input
+            setTimeout(() => {
+                clearEducationForm();
+                document.getElementById('edu-degree').focus();
+            }, 100);
+            
+            // Add event listener for current study checkbox
+            document.getElementById('edu-current').addEventListener('change', function() {
+                const endYearInput = document.getElementById('edu-end-year');
+                if (this.checked) {
+                    endYearInput.disabled = true;
+                    endYearInput.value = '';
+                } else {
+                    endYearInput.disabled = false;
+                }
+            });
+        }
+        
+        function clearEducationForm() {
+            document.getElementById('edu-degree').value = '';
+            document.getElementById('edu-school').value = '';
+            document.getElementById('edu-start-year').value = '';
+            document.getElementById('edu-end-year').value = '';
+            document.getElementById('edu-current').checked = false;
+            document.getElementById('edu-grade').value = '';
+            document.getElementById('edu-description').value = '';
+            document.getElementById('edu-end-year').disabled = false;
+        }
+        
+        function toggleEducationEndYear() {
+            const endYearInput = document.getElementById('edu-end-year');
+            const isCurrentChecked = document.getElementById('edu-current').checked;
+            
+            if (isCurrentChecked) {
+                endYearInput.value = '';
+                endYearInput.disabled = true;
+            } else {
+                endYearInput.disabled = false;
+            }
+        }
+        
+        // Make functions globally accessible
+        window.toggleEducationEndYear = toggleEducationEndYear;
+        
+        async function saveEducation() {
+            const degree = document.getElementById('edu-degree').value.trim();
+            const school = document.getElementById('edu-school').value.trim();
+            const startYear = document.getElementById('edu-start-year').value;
+            const endYear = document.getElementById('edu-end-year').value;
+            const isCurrent = document.getElementById('edu-current').checked;
+            const grade = document.getElementById('edu-grade').value.trim();
+            const description = document.getElementById('edu-description').value.trim();
+            
+            if (!degree || !school || !startYear) {
+                showNotification('Please fill in all required fields', 'warning');
+                return;
+            }
+            
+            const education = {
+                degree,
+                school,
+                start_year: parseInt(startYear),
+                end_year: isCurrent ? null : (endYear ? parseInt(endYear) : null),
+                is_current: isCurrent,
+                grade: grade || null,
+                description: description || null
+            };
+            
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/education/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(education)
+                });
+                
+                if (response.ok) {
+                    closeModal();
+                    showNotification('Education added successfully!', 'success');
+                    loadUserEducation(); // Reload education from backend
+                } else {
+                    const error = await response.json();
+                    console.error('Error saving education:', error);
+                    showNotification('Failed to save education. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Network error saving education:', error);
+                showNotification('Network error. Please check your connection.', 'error');
+            }
+        }
+        
+        function addEducationToProfile(education) {
+            const educationList = document.getElementById('education-list');
+            
+            // Remove "no education" placeholder
+            const placeholder = educationList.querySelector('.no-education');
+            if (placeholder) {
+                placeholder.remove();
+            }
+            
+            const durationText = education.isCurrent ? 
+                `${education.startYear} - Present` : 
+                `${education.startYear} - ${education.endYear || 'Present'}`;
+            
+            const educationItem = document.createElement('div');
+            educationItem.className = 'education-item';
+            educationItem.innerHTML = `
+                <div style="display: flex; justify-content: between; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <h4 class="item-title">${education.degree}</h4>
+                        <p class="item-school">${education.school}</p>
+                        <p class="item-duration">${durationText}${education.grade ? ' • ' + education.grade : ''}</p>
+                        ${education.description ? `<p class="item-description">${education.description}</p>` : ''}
+                    </div>
+                    <button class="btn-edit" onclick="removeEducation(this)" style="color: #ef4444;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            educationList.appendChild(educationItem);
+        }
+        
+        function removeEducation(button) {
+            if (confirm('Are you sure you want to remove this education?')) {
+                const educationItem = button.closest('.education-item');
+                educationItem.remove();
+                
+                // Show placeholder if no education left
+                const educationList = document.getElementById('education-list');
+                if (educationList.children.length === 0) {
+                    educationList.innerHTML = `
+                        <div class="no-education">
+                            <i class="fas fa-graduation-cap" style="font-size: 48px; color: var(--gray-400); margin-bottom: 15px;"></i>
+                            <p style="color: var(--gray-600); margin-bottom: 15px;">No education details added yet</p>
+                            <button class="btn-primary btn-small" onclick="addEducation()">
+                                <i class="fas fa-plus"></i> Add Education
+                            </button>
+                        </div>
+                    `;
+                }
+                showNotification('Education removed', 'info');
+            }
+        }
+        
+        // ============== SKILLS MODAL ==============
+        function showSkillsModal() {
+            // Ensure modal styles are loaded
+            if (!document.getElementById('modal-styles')) {
+                const modalStyles = `
+                    <style id="modal-styles">
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10000;
+                        backdrop-filter: blur(5px);
+                    }
+                    
+                    .modal-content {
+                        background: white;
+                        border-radius: 15px;
+                        padding: 0;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+                    
+                    .skills-manager {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+                    
+                    .skill-add-section {
+                        border: 2px dashed #0d9488;
+                        border-radius: 12px;
+                        padding: 25px;
+                        text-align: center;
+                        background: linear-gradient(135deg, rgba(13, 148, 136, 0.05), rgba(249, 115, 22, 0.05));
+                    }
+                    
+                    .skill-add-section h4 {
+                        color: #0d9488;
+                        font-size: 16px;
+                        font-weight: 600;
+                        margin-bottom: 20px !important;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                    }
+                    
+                    .skill-add-section h4::before {
+                        content: '✨';
+                    }
+                    
+                    .skill-input-group {
+                        display: flex;
+                        gap: 12px;
+                        max-width: 500px;
+                        margin: 0 auto;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                    }
+                    
+                    .skill-input-group input {
+                        flex: 1;
+                        min-width: 180px;
+                        padding: 12px 16px;
+                        border: 2px solid #e5e7eb;
+                        border-radius: 10px;
+                        font-size: 14px;
+                        font-family: 'Inter', sans-serif;
+                        transition: all 0.3s ease;
+                        background: white;
+                    }
+                    
+                    .skill-input-group input:focus {
+                        outline: none;
+                        border-color: #0d9488;
+                        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+                    }
+                    
+                    .skill-input-group input::placeholder {
+                        color: #9ca3af;
+                    }
+                    
+                    .skill-input-group select {
+                        padding: 12px 16px;
+                        border: 2px solid #e5e7eb;
+                        border-radius: 10px;
+                        font-size: 14px;
+                        font-family: 'Inter', sans-serif;
+                        background: white;
+                        color: #374151;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        min-width: 140px;
+                    }
+                    
+                    .skill-input-group select:focus {
+                        outline: none;
+                        border-color: #0d9488;
+                        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+                    }
+                    
+                    .skill-input-group button {
+                        padding: 12px 24px;
+                        background: linear-gradient(135deg, #0d9488, #f97316);
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+                    }
+                    
+                    .skill-input-group button:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+                    }
+                    
+                    .skill-input-group button:active {
+                        transform: translateY(0);
+                    }
+                    
+                    .skills-list {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        gap: 15px;
+                    }
+                    
+                    #current-skills h4 {
+                        color: #0d9488;
+                        font-size: 16px;
+                        font-weight: 600;
+                        margin-bottom: 15px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    
+                    #current-skills h4::before {
+                        content: '💼';
+                    }
+                    
+                    .skill-item-manager {
+                        background: linear-gradient(135deg, #f0fdfa, #fff7ed);
+                        padding: 16px;
+                        border-radius: 12px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border: 1px solid rgba(13, 148, 136, 0.2);
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .skill-item-manager:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+                    }
+                    
+                    .skill-info h4 {
+                        margin: 0 0 5px 0;
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+                    
+                    .skill-info p {
+                        margin: 0;
+                        font-size: 12px;
+                        color: #6b7280;
+                    }
+                    
+                    .skill-delete-btn {
+                        background: #ef4444;
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 24px;
+                        height: 24px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    
+                    .skill-delete {
+                        position: absolute;
+                        top: 5px;
+                        right: 5px;
+                        background: rgba(239, 68, 68, 0.9);
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        font-size: 10px;
+                        display: none;
+                    }
+                    
+                    .skill-item:hover .skill-delete {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    
+                    .skill-item {
+                        position: relative;
+                    }
+                    </style>
+                `;
+                document.head.insertAdjacentHTML('beforeend', modalStyles);
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-cogs"></i> Manage Skills</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="skills-manager">
+                            <div class="skill-add-section">
+                                <h4>Add New Skill</h4>
+                                <div class="skill-input-group">
+                                    <input type="text" id="skill-name" placeholder="e.g., React.js" maxlength="100">
+                                    <select id="skill-level">
+                                        <option value="1">Beginner</option>
+                                        <option value="2">Basic</option>
+                                        <option value="3" selected>Intermediate</option>
+                                        <option value="4">Advanced</option>
+                                        <option value="5">Expert</option>
+                                    </select>
+                                    <button type="button" onclick="addSkill()">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="current-skills">
+                                <h4>Current Skills</h4>
+                                <div id="skills-manager-list" class="skills-list">
+                                    <p>Loading skills...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Load current skills
+            loadSkillsForManager();
+            
+            // Focus on skill name input
+            setTimeout(() => {
+                document.getElementById('skill-name').focus();
+            }, 100);
+        }
+        
+        async function loadSkillsForManager() {
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/skills/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const skills = await response.json();
+                    displaySkillsInManager(skills);
+                } else {
+                    document.getElementById('skills-manager-list').innerHTML = '<p>Failed to load skills</p>';
+                }
+            } catch (error) {
+                console.error('Error loading skills for manager:', error);
+                document.getElementById('skills-manager-list').innerHTML = '<p>Error loading skills</p>';
+            }
+        }
+        
+        function displaySkillsInManager(skills) {
+            const skillsList = document.getElementById('skills-manager-list');
+            
+            if (skills.length === 0) {
+                skillsList.innerHTML = '<p style="color: #6b7280;">No skills added yet</p>';
+                return;
+            }
+            
+            skillsList.innerHTML = skills.map(skill => `
+                <div class="skill-item-manager">
+                    <div class="skill-info">
+                        <h4>${skill.name}</h4>
+                        <p>${skill.level_display} (${skill.level_percentage}%)</p>
+                    </div>
+                    <button class="skill-delete-btn" onclick="deleteSkillFromManager(${skill.id})" title="Remove skill">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        async function addSkill() {
+            const name = document.getElementById('skill-name').value.trim();
+            const level = parseInt(document.getElementById('skill-level').value);
+            
+            console.log('Adding skill:', { name, level }); // Debug log
+            
+            if (!name) {
+                showNotification('Please enter a skill name', 'warning');
+                return;
+            }
+            
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                showNotification('Please log in again', 'error');
+                return;
+            }
+            
+            console.log('Making API request...'); // Debug log
+            
+            try {
+                const response = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/skills/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, level })
+                });
+                
+                console.log('Response status:', response.status); // Debug log
+                
+                if (response.ok) {
+                    document.getElementById('skill-name').value = '';
+                    document.getElementById('skill-level').value = '3';
+                    showNotification('Skill added successfully!', 'success');
+                    loadSkillsForManager(); // Reload skills in manager
+                    loadUserSkills(); // Reload skills in profile
+                } else {
+                    const error = await response.json();
+                    console.error('API Error:', error); // Debug log
+                    if (error.name && error.name[0].includes('already exists')) {
+                        showNotification('You already have this skill!', 'warning');
+                    } else {
+                        showNotification('Failed to add skill. Please try again.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Network error adding skill:', error);
+                showNotification('Network error. Please check your connection.', 'error');
+            }
+        }
+        
+        async function deleteSkillFromManager(skillId) {
+            if (!confirm('Are you sure you want to delete this skill?')) {
+                return;
+            }
+            
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch(`https://skillconnect-backend-jcn0.onrender.com/api/accounts/skills/${skillId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showNotification('Skill deleted successfully!', 'success');
+                    loadSkillsForManager(); // Reload skills in manager
+                    loadUserSkills(); // Reload skills in profile
+                } else {
+                    showNotification('Failed to delete skill. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Network error deleting skill:', error);
+                showNotification('Network error. Please check your connection.', 'error');
+            }
+        }
+        
+        // Make functions globally accessible
+        window.addSkill = addSkill;
+        window.deleteSkillFromManager = deleteSkillFromManager;
+        
+        function showEditProfileModal() {
+            // Get current user data
+            const currentName = document.getElementById('user-name').textContent || '';
+            const nameParts = currentName.split(' ');
+            const firstName = nameParts[0] || '';
+            const lastName = nameParts.slice(1).join(' ') || '';
+            
+            const currentTitle = document.getElementById('user-title').textContent || 'Professional';
+            const currentLocation = document.getElementById('user-location').textContent || 'India';
+            
+            // Get data from localStorage as fallback
+            const storedUserData = JSON.parse(localStorage.getItem('user_data') || '{}');
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-edit"></i> Edit Profile</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-first-name">First Name</label>
+                                    <input type="text" id="edit-first-name" value="${firstName}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-last-name">Last Name</label>
+                                    <input type="text" id="edit-last-name" value="${lastName}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-title">Professional Title</label>
+                                <input type="text" id="edit-title" value="${currentTitle}" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-email">Email</label>
+                                    <input type="email" id="edit-email" value="${storedUserData.email || ''}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-phone">Phone</label>
+                                    <input type="tel" id="edit-phone" value="${storedUserData.phone_number || ''}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-location">Location</label>
+                                <input type="text" id="edit-location" value="${currentLocation}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-linkedin">LinkedIn Profile URL</label>
+                                <input type="url" id="edit-linkedin" value="" placeholder="https://linkedin.com/in/yourprofile">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-bio">Professional Bio</label>
+                                <textarea id="edit-bio" rows="3" placeholder="Write a brief professional bio...">Experienced professional looking for new opportunities.</textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="button" class="btn-primary" onclick="saveProfileChanges()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add modal styles
+            const modalStyles = `
+                <style>
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .modal-content {
+                    background: white;
+                    border-radius: 15px;
+                    padding: 0;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    animation: modalSlideIn 0.3s ease-out;
+                }
+                
+                @keyframes modalSlideIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-50px) scale(0.95);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+                
+                .modal-header {
+                    padding: 20px 25px;
+                    border-bottom: 2px solid var(--gray-100);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+                    color: white;
+                    border-radius: 15px 15px 0 0;
+                }
+                
+                .modal-header h3 {
+                    margin: 0;
+                    font-size: 18px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .modal-close {
+                    background: none;
+                    border: none;
+                    font-size: 24px;
+                    color: white;
+                    cursor: pointer;
+                    padding: 0;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: background 0.3s ease;
+                }
+                
+                .modal-close:hover {
+                    background: rgba(255, 255, 255, 0.2);
+                }
+                
+                .modal-body {
+                    padding: 25px;
+                }
+                
+                .form-row {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                }
+                
+                .form-group {
+                    margin-bottom: 20px;
+                }
+                
+                .form-group label {
+                    display: block;
+                    margin-bottom: 5px;
+                    font-weight: 500;
+                    color: var(--gray-700);
+                }
+                
+                .form-group input,
+                .form-group textarea {
+                    width: 100%;
+                    padding: 12px 15px;
+                    border: 2px solid var(--gray-200);
+                    border-radius: 8px;
+                    font-size: 14px;
+                    transition: border-color 0.3s ease;
+                    box-sizing: border-box;
+                }
+                
+                .form-group input[type="month"] {
+                    font-family: system-ui, -apple-system, sans-serif;
+                    color: var(--gray-700);
+                }
+                
+                .form-group input:focus,
+                .form-group textarea:focus {
+                    outline: none;
+                    border-color: var(--primary-teal);
+                }
+                
+                .modal-footer {
+                    padding: 20px 25px;
+                    border-top: 2px solid var(--gray-100);
+                    display: flex;
+                    gap: 15px;
+                    justify-content: flex-end;
+                }
+                
+                @media (max-width: 768px) {
+                    .form-row {
+                        grid-template-columns: 1fr;
+                    }
+                    
+                    .modal-content {
+                        width: 95%;
+                        max-height: 90vh;
+                    }
+                }
+                </style>
+            `;
+            
+            document.head.insertAdjacentHTML('beforeend', modalStyles);
+            document.body.appendChild(modal);
+            
+            // Load current user data
+            const editUserData = JSON.parse(localStorage.getItem('user_data') || '{}');
+            const userEmail = localStorage.getItem('user_email');
+            
+            if (editUserData.firstName) document.getElementById('edit-first-name').value = editUserData.firstName;
+            if (editUserData.lastName) document.getElementById('edit-last-name').value = editUserData.lastName;
+            if (userEmail) document.getElementById('edit-email').value = userEmail;
+            if (editUserData.phone) document.getElementById('edit-phone').value = editUserData.phone;
+        }
+        
+        function closeModal() {
+            const modal = document.querySelector('.modal-overlay');
+            if (modal) {
+                modal.style.opacity = '0';
+                modal.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        }
+      async function saveProfileChanges() {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    showNotification('You are not logged in', 'error');
+    return;
+  }
+
+  const payload = {
+    first_name: document.getElementById('edit-first-name').value.trim(),
+    last_name: document.getElementById('edit-last-name').value.trim(),
+    phone_number: document.getElementById('edit-phone').value.trim(),
+    email: document.getElementById('edit-email').value.trim()
+  };
+
+  if (!payload.first_name || !payload.last_name || !payload.email) {
+    showNotification('Please fill in all required fields', 'warning');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://skillconnect-backend-jcn0.onrender.com/api/accounts/profile/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem('user_data', JSON.stringify(payload));
+      localStorage.setItem('user_email', payload.email);
+      document.getElementById('user-name').textContent = `${payload.first_name} ${payload.last_name}`;
+      document.getElementById('user-email').textContent = payload.email;
+      document.getElementById('user-phone').textContent = payload.phone_number;
+      closeModal();
+      showNotification('✅ Profile updated successfully!', 'success');
+    } else {
+      showNotification(data.detail || 'Update failed', 'error');
+    }
+  } catch (err) {
+    showNotification('Server error. Try again later.', 'error');
+  }
+}
+
+function logout() {
+    // Clear all stored user data
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_data');
+    
+    showNotification('Logged out successfully!', 'success');
+    
+    // Redirect to login page after short delay
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 1500);
+}
+
+function showNotification(message, type = 'info') {
+    const colors = {
+        success: '#10b981',
+        error: '#ef4444',
+        warning: '#f59e0b',
+        info: '#3b82f6'
+    };
+    
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${colors[type] || colors.info};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 14px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Delete Experience Function
+async function deleteExperience(expId) {
+    if (!confirm('Are you sure you want to delete this work experience?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`https://skillconnect-backend-jcn0.onrender.com/api/accounts/experience/${expId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            // Remove from UI immediately
+            const expElement = document.querySelector(`[data-exp-id="${expId}"]`);
+            if (expElement) {
+                expElement.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    expElement.remove();
+                    // Update experience counter
+                    updateExperienceCount();
+                }, 300);
+            }
+            
+            showNotification('Work experience deleted successfully!', 'success');
+        } else {
+            throw new Error('Failed to delete experience');
+        }
+    } catch (error) {
+        console.error('Delete experience error:', error);
+        showNotification('Failed to delete work experience. Please try again.', 'error');
+    }
+}
+
+// Delete Education Function
+async function deleteEducation(eduId) {
+    if (!confirm('Are you sure you want to delete this education entry?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`https://skillconnect-backend-jcn0.onrender.com/api/accounts/education/${eduId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            // Remove from UI immediately
+            const eduElement = document.querySelector(`[data-edu-id="${eduId}"]`);
+            if (eduElement) {
+                eduElement.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    eduElement.remove();
+                    // Update education counter if needed
+                    updateEducationCount();
+                }, 300);
+            }
+            
+            showNotification('Education entry deleted successfully!', 'success');
+        } else {
+            throw new Error('Failed to delete education');
+        }
+    } catch (error) {
+        console.error('Delete education error:', error);
+        showNotification('Failed to delete education entry. Please try again.', 'error');
+    }
+}
+
+// Update experience count helper
+function updateExperienceCount() {
+    const expItems = document.querySelectorAll('.timeline-item[data-exp-id]');
+    const expCount = expItems.length;
+    const expSection = document.querySelector('.section-title');
+    if (expSection && expSection.textContent.includes('Experience')) {
+        // Update count if section title shows count
+        const countSpan = expSection.querySelector('.count');
+        if (countSpan) {
+            countSpan.textContent = expCount;
+        }
+    }
+}
+
+// Update education count helper  
+function updateEducationCount() {
+    const eduItems = document.querySelectorAll('.timeline-item[data-edu-id]');
+    const eduCount = eduItems.length;
+    const eduSection = document.querySelector('.section-title');
+    if (eduSection && eduSection.textContent.includes('Education')) {
+        // Update count if section title shows count
+        const countSpan = eduSection.querySelector('.count');
+        if (countSpan) {
+            countSpan.textContent = eduCount;
+        }
+    }
+}
+
+    </script>
+    
+    <!-- Authentication Check Script -->
+    <script src="assets/js/tool-blocker-compact.js"></script>
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                // User not logged in - redirect to login with return URL
+                const returnUrl = window.location.href;
+                window.location.href = `login.html?next=${encodeURIComponent(returnUrl)}`;
+            }
+        });
+    </script>
+</body>
+</html>

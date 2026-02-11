@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Guide to Technical Interviews | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .guide-platform {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .guide-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .guide-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .guide-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .guide-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .guide-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .guide-nav {
+            background: var(--gray-50);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .content-nav .nav-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .content-nav .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .content-nav .nav-link {
+            background: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+        
+        .content-nav .nav-link:hover,
+        .content-nav .nav-link.active {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .guide-section {
+            margin-bottom: 40px;
+            display: none;
+        }
+        
+        .guide-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-teal);
+            padding-bottom: 10px;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-teal);
+        }
+        
+        .concept-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .concept-desc {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .code-example {
+            background: var(--gray-800);
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .easy { background: #D1FAE5; color: #065F46; }
+        .medium { background: #FEF3C7; color: #92400E; }
+        .hard { background: #FEE2E2; color: #991B1B; }
+        
+        .practice-problems {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .problem-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .problem-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .problem-item:last-child {
+            border-bottom: none;
+        }
+        
+        .problem-name {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+        
+        .practice-btn {
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tip-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .tip-text {
+            line-height: 1.5;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .content-nav .nav-links {
+                grid-template-columns: 1fr;
+            }
+            
+            .guide-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Technical Interview Guide -->
+    <section class="guide-platform">
+        <div class="guide-container">
+            <div class="guide-header" data-aos="fade-up">
+                <h1>Complete Guide to Technical Interviews</h1>
+                <div class="guide-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">min read</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2.4K</span>
+                        <span class="stat-label">likes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">456</span>
+                        <span class="stat-label">shares</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guide-content" data-aos="fade-up" data-aos-delay="200">
+                <!-- Navigation -->
+                <div class="guide-nav content-nav">
+                    <div class="nav-title">Table of Contents</div>
+                    <div class="nav-links">
+                        <button class="nav-link active" onclick="showSection('algorithms')">Algorithms</button>
+                        <button class="nav-link" onclick="showSection('data-structures')">Data Structures</button>
+                        <button class="nav-link" onclick="showSection('system-design')">System Design</button>
+                        <button class="nav-link" onclick="showSection('coding-tips')">Coding Tips</button>
+                        <button class="nav-link" onclick="showSection('behavioral')">Behavioral Questions</button>
+                        <button class="nav-link" onclick="showSection('preparation')">Preparation Strategy</button>
+                    </div>
+                </div>
+                
+                <!-- Algorithms Section -->
+                <div id="algorithms" class="guide-section active">
+                    <h2 class="section-title">Algorithms</h2>
+                    
+                    <div class="concept-card">
+                        <div class="difficulty-badge easy">Easy</div>
+                        <div class="concept-title">Two Pointers Technique</div>
+                        <div class="concept-desc">
+                            A powerful technique for solving array and string problems efficiently. Use two pointers moving from different positions to find optimal solutions.
+                        </div>
+                        <div class="code-example">
+// Two Sum - Sorted Array
+function twoSum(nums, target) {
+    let left = 0, right = nums.length - 1;
+    
+    while (left < right) {
+        const sum = nums[left] + nums[right];
+        if (sum === target) return [left, right];
+        else if (sum < target) left++;
+        else right--;
+    }
+    return [];
+}</div>
+                        <div class="practice-problems">
+                            <h4>Practice Problems:</h4>
+                            <ul class="problem-list">
+                                <li class="problem-item">
+                                    <span class="problem-name">Container With Most Water</span>
+                                    <button class="practice-btn" onclick="openProblem('container-water')">Solve</button>
+                                </li>
+                                <li class="problem-item">
+                                    <span class="problem-name">Valid Palindrome</span>
+                                    <button class="practice-btn" onclick="openProblem('palindrome')">Solve</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <div class="difficulty-badge medium">Medium</div>
+                        <div class="concept-title">Binary Search</div>
+                        <div class="concept-desc">
+                            Essential for searching in sorted arrays. Master the template and variants like finding first/last occurrence.
+                        </div>
+                        <div class="code-example">
+// Binary Search Template
+function binarySearch(nums, target) {
+    let left = 0, right = nums.length - 1;
+    
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        if (nums[mid] === target) return mid;
+        else if (nums[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}</div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-icon">💡</div>
+                        <div class="tip-text">
+                            <strong>Pro Tip:</strong> Always consider the time and space complexity of your solution. Interviewers love to see optimization thinking!
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Structures Section -->
+                <div id="data-structures" class="guide-section">
+                    <h2 class="section-title">Data Structures</h2>
+                    
+                    <div class="concept-card">
+                        <div class="difficulty-badge easy">Easy</div>
+                        <div class="concept-title">Arrays & Hash Maps</div>
+                        <div class="concept-desc">
+                            Foundation of most coding problems. Understand when to use arrays vs hash maps for optimal lookups.
+                        </div>
+                        <div class="code-example">
+// Hash Map for frequency counting
+function charFrequency(str) {
+    const freq = {};
+    for (const char of str) {
+        freq[char] = (freq[char] || 0) + 1;
+    }
+    return freq;
+}</div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <div class="difficulty-badge medium">Medium</div>
+                        <div class="concept-title">Linked Lists</div>
+                        <div class="concept-desc">
+                            Master pointer manipulation, cycle detection, and reversal techniques.
+                        </div>
+                        <div class="code-example">
+// Reverse Linked List
+function reverseList(head) {
+    let prev = null, curr = head;
+    
+    while (curr) {
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}</div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <div class="difficulty-badge hard">Hard</div>
+                        <div class="concept-title">Trees & Graphs</div>
+                        <div class="concept-desc">
+                            Essential for system design and complex algorithmic problems. Practice DFS, BFS, and tree traversals.
+                        </div>
+                        <div class="code-example">
+// Binary Tree Inorder Traversal
+function inorderTraversal(root) {
+    const result = [];
+    
+    function dfs(node) {
+        if (!node) return;
+        dfs(node.left);
+        result.push(node.val);
+        dfs(node.right);
+    }
+    
+    dfs(root);
+    return result;
+}</div>
+                    </div>
+                </div>
+                
+                <!-- System Design Section -->
+                <div id="system-design" class="guide-section">
+                    <h2 class="section-title">System Design</h2>
+                    
+                    <div class="concept-card">
+                        <div class="concept-title">Scalability Fundamentals</div>
+                        <div class="concept-desc">
+                            Learn to design systems that can handle millions of users. Focus on load balancing, caching, and database optimization.
+                        </div>
+                        <div class="practice-problems">
+                            <h4>Common System Design Questions:</h4>
+                            <ul class="problem-list">
+                                <li class="problem-item">
+                                    <span class="problem-name">Design a URL Shortener (like bit.ly)</span>
+                                    <button class="practice-btn" onclick="openSystemDesign('url-shortener')">Study</button>
+                                </li>
+                                <li class="problem-item">
+                                    <span class="problem-name">Design a Chat Application</span>
+                                    <button class="practice-btn" onclick="openSystemDesign('chat-app')">Study</button>
+                                </li>
+                                <li class="problem-item">
+                                    <span class="problem-name">Design a Social Media Feed</span>
+                                    <button class="practice-btn" onclick="openSystemDesign('social-feed')">Study</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Coding Tips Section -->
+                <div id="coding-tips" class="guide-section">
+                    <h2 class="section-title">Coding Tips</h2>
+                    
+                    <div class="concept-card">
+                        <div class="concept-title">Problem-Solving Framework</div>
+                        <div class="concept-desc">
+                            <ol>
+                                <li><strong>Understand:</strong> Ask clarifying questions</li>
+                                <li><strong>Plan:</strong> Think through approach before coding</li>
+                                <li><strong>Code:</strong> Write clean, readable code</li>
+                                <li><strong>Test:</strong> Walk through examples</li>
+                                <li><strong>Optimize:</strong> Discuss improvements</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-icon">🎯</div>
+                        <div class="tip-text">
+                            <strong>Communication is Key:</strong> Think out loud during coding. Explain your approach, trade-offs, and decisions to the interviewer.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Behavioral Questions Section -->
+                <div id="behavioral" class="guide-section">
+                    <h2 class="section-title">Behavioral Questions</h2>
+                    
+                    <div class="concept-card">
+                        <div class="concept-title">STAR Method</div>
+                        <div class="concept-desc">
+                            Structure your answers using Situation, Task, Action, Result format for compelling storytelling.
+                        </div>
+                        <div class="practice-problems">
+                            <h4>Common Behavioral Questions:</h4>
+                            <ul class="problem-list">
+                                <li class="problem-item">
+                                    <span class="problem-name">"Tell me about a challenging project"</span>
+                                    <button class="practice-btn" onclick="practiceBehavioral('challenging-project')">Practice</button>
+                                </li>
+                                <li class="problem-item">
+                                    <span class="problem-name">"Describe a time you disagreed with a team member"</span>
+                                    <button class="practice-btn" onclick="practiceBehavioral('team-conflict')">Practice</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Preparation Strategy Section -->
+                <div id="preparation" class="guide-section">
+                    <h2 class="section-title">Preparation Strategy</h2>
+                    
+                    <div class="concept-card">
+                        <div class="concept-title">8-Week Study Plan</div>
+                        <div class="concept-desc">
+                            <strong>Weeks 1-2:</strong> Arrays, Strings, Hash Maps<br>
+                            <strong>Weeks 3-4:</strong> Linked Lists, Stacks, Queues<br>
+                            <strong>Weeks 5-6:</strong> Trees, Graphs, Recursion<br>
+                            <strong>Weeks 7-8:</strong> Dynamic Programming, System Design
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-icon">📚</div>
+                        <div class="tip-text">
+                            <strong>Practice Daily:</strong> Solve 2-3 problems daily. Quality over quantity - understand each solution deeply.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.guide-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function openProblem(problemId) {
+            const problems = {
+                'container-water': 'Container With Most Water',
+                'palindrome': 'Valid Palindrome'
+            };
+            
+            showNotification(`Opening ${problems[problemId]} problem...`, 'info');
+            setTimeout(() => {
+                showNotification('Practice platform coming soon!', 'success');
+            }, 2000);
+        }
+
+        function openSystemDesign(designId) {
+            const designs = {
+                'url-shortener': 'URL Shortener System Design',
+                'chat-app': 'Chat Application System Design',
+                'social-feed': 'Social Media Feed System Design'
+            };
+            
+            showNotification(`Opening ${designs[designId]}...`, 'info');
+            setTimeout(() => {
+                showNotification('System design tutorials coming soon!', 'success');
+            }, 2000);
+        }
+
+        function practiceBehavioral(questionId) {
+            showNotification('Redirecting to interview practice...', 'info');
+            setTimeout(() => {
+                window.location.href = 'interview-prep.html';
+            }, 1500);
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

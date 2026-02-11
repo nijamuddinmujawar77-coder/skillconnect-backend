@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Match Analyzer | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .analyzer-platform {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .analyzer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .analyzer-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .analyzer-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .analyzer-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .analyzer-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .input-card {
+            background: var(--gray-50);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .input-card:hover {
+            border-color: var(--primary-teal);
+        }
+        
+        .input-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-icon {
+            color: var(--primary-teal);
+        }
+        
+        .input-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .input-textarea:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+        
+        .sample-link {
+            color: var(--primary-teal);
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 8px;
+            display: block;
+        }
+        
+        .sample-link:hover {
+            color: var(--dark-teal);
+        }
+        
+        .analyze-btn {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .results-section {
+            display: none;
+            margin-top: 40px;
+        }
+        
+        .match-score {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            background: conic-gradient(var(--primary-teal) 0deg, var(--primary-teal) var(--score-deg, 270deg), var(--gray-200) var(--score-deg, 270deg), var(--gray-200) 360deg);
+        }
+        
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border-radius: 50%;
+            background: white;
+        }
+        
+        .score-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--primary-teal);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .score-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            margin-top: -5px;
+        }
+        
+        .match-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .match-subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+        
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .analysis-card {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .analysis-card:hover {
+            border-color: var(--primary-teal);
+            transform: translateY(-3px);
+        }
+        
+        .analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .analysis-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .analysis-score {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-teal), var(--dark-teal));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        .analysis-details {
+            color: var(--gray-700);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .recommendations-section {
+            background: rgba(13, 148, 136, 0.05);
+            border: 2px solid rgba(13, 148, 136, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .recommendations-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .recommendation-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid var(--primary-teal);
+        }
+        
+        .recommendation-type {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary-teal);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .recommendation-text {
+            color: var(--gray-700);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--gray-200);
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .loading-section {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-teal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .keywords-section {
+            margin-top: 30px;
+        }
+        
+        .keywords-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .keywords-column {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .keywords-column h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .keyword-tag {
+            display: inline-block;
+            background: var(--primary-teal);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin: 2px;
+        }
+        
+        .keyword-tag.missing {
+            background: var(--error);
+        }
+        
+        .keyword-tag.partial {
+            background: var(--warning);
+        }
+        
+        @media (max-width: 768px) {
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .analyzer-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .keywords-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Job Match Analyzer -->
+    <section class="analyzer-platform">
+        <div class="analyzer-container">
+            <div class="analyzer-header" data-aos="fade-up">
+                <h1>Job Match Analyzer</h1>
+                <div class="analyzer-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">35K+</span>
+                        <span class="stat-label">job matches analyzed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">92%</span>
+                        <span class="stat-label">accuracy rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15 sec</span>
+                        <span class="stat-label">analysis time</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analyzer-content" data-aos="fade-up" data-aos-delay="200">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="input-card">
+                        <div class="input-title">
+                            <i class="fas fa-file-alt input-icon"></i>
+                            Your Profile/Resume
+                        </div>
+                        <textarea 
+                            class="input-textarea" 
+                            id="profileInput" 
+                            placeholder="Paste your resume content, LinkedIn profile, or describe your skills and experience..."
+                        ></textarea>
+                        <span class="sample-link" onclick="loadSampleProfile()">Use sample profile</span>
+                    </div>
+                    
+                    <div class="input-card">
+                        <div class="input-title">
+                            <i class="fas fa-briefcase input-icon"></i>
+                            Job Description
+                        </div>
+                        <textarea 
+                            class="input-textarea" 
+                            id="jobInput" 
+                            placeholder="Paste the job description you want to analyze match against..."
+                        ></textarea>
+                        <span class="sample-link" onclick="loadSampleJob()">Use sample job posting</span>
+                    </div>
+                </div>
+                
+                <button class="analyze-btn" onclick="analyzeMatch()">
+                    <i class="fas fa-search"></i> Analyze Job Match
+                </button>
+                
+                <!-- Loading Section -->
+                <div class="loading-section" id="loadingSection">
+                    <div class="loading-spinner"></div>
+                    <p>Analyzing job match using AI algorithms...</p>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section" id="resultsSection">
+                    <div class="match-score">
+                        <div class="score-circle" id="scoreCircle">
+                            <div class="score-value" id="matchScore">87</div>
+                            <div class="score-label">Match %</div>
+                        </div>
+                        <div class="match-title">Excellent Match!</div>
+                        <div class="match-subtitle">Your profile strongly aligns with this job opportunity</div>
+                    </div>
+                    
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">
+                                    <i class="fas fa-cogs"></i>
+                                    Skills Match
+                                </div>
+                                <div class="analysis-score" id="skillsScore">85%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="skillsProgress" style="width: 85%"></div>
+                            </div>
+                            <div class="analysis-details">
+                                Strong alignment in core technical skills. You have 8/10 required skills and 6/8 preferred skills.
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">
+                                    <i class="fas fa-briefcase"></i>
+                                    Experience Match
+                                </div>
+                                <div class="analysis-score" id="experienceScore">92%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="experienceProgress" style="width: 92%"></div>
+                            </div>
+                            <div class="analysis-details">
+                                Your experience level and background strongly match the job requirements. 5+ years in relevant field.
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Education Match
+                                </div>
+                                <div class="analysis-score" id="educationScore">78%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="educationProgress" style="width: 78%"></div>
+                            </div>
+                            <div class="analysis-details">
+                                Good educational background match. Your degree is relevant to the field with some additional certifications.
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">
+                                    <i class="fas fa-search"></i>
+                                    Keywords Match
+                                </div>
+                                <div class="analysis-score" id="keywordsScore">90%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="keywordsProgress" style="width: 90%"></div>
+                            </div>
+                            <div class="analysis-details">
+                                Excellent keyword alignment. Your profile contains 18/20 key terms from the job description.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Keywords Section -->
+                    <div class="keywords-section">
+                        <div class="keywords-title">Keyword Analysis</div>
+                        <div class="keywords-grid">
+                            <div class="keywords-column">
+                                <h4>✅ Matched Keywords</h4>
+                                <span class="keyword-tag">JavaScript</span>
+                                <span class="keyword-tag">React</span>
+                                <span class="keyword-tag">Node.js</span>
+                                <span class="keyword-tag">MongoDB</span>
+                                <span class="keyword-tag">Agile</span>
+                                <span class="keyword-tag">Git</span>
+                                <span class="keyword-tag">REST API</span>
+                                <span class="keyword-tag">AWS</span>
+                            </div>
+                            <div class="keywords-column">
+                                <h4>⚠️ Missing Keywords</h4>
+                                <span class="keyword-tag missing">Docker</span>
+                                <span class="keyword-tag missing">Kubernetes</span>
+                                <span class="keyword-tag partial">GraphQL</span>
+                                <span class="keyword-tag partial">TypeScript</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommendations -->
+                    <div class="recommendations-section">
+                        <div class="recommendations-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Improvement Recommendations
+                        </div>
+                        <div class="recommendations-grid">
+                            <div class="recommendation-item">
+                                <div class="recommendation-type">Skills Gap</div>
+                                <div class="recommendation-text">
+                                    Consider learning Docker and Kubernetes to strengthen your DevOps capabilities and match 100% of the technical requirements.
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-type">Experience</div>
+                                <div class="recommendation-text">
+                                    Highlight your project management experience more prominently as it's mentioned multiple times in the job description.
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-type">Keywords</div>
+                                <div class="recommendation-text">
+                                    Add "TypeScript" and "GraphQL" to your resume if you have experience with these technologies.
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-type">Certifications</div>
+                                <div class="recommendation-text">
+                                    Consider getting AWS certification to strengthen your cloud computing credentials for this role.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Section -->
+                    <div class="export-section">
+                        <button class="export-btn" onclick="exportReport('pdf')">
+                            <i class="fas fa-file-pdf"></i> Download PDF Report
+                        </button>
+                        <button class="export-btn" onclick="exportReport('email')">
+                            <i class="fas fa-envelope"></i> Email Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // API Configuration - Live Server
+        const API_BASE_URL = 'https://skillconnect-backend-jcn0.onrender.com/api';
+        let currentAnalysis = null;
+        
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        function loadSampleProfile() {
+            const sampleProfile = `John Smith
+Software Engineer | 5+ Years Experience
+
+SKILLS:
+• JavaScript, React, Node.js, MongoDB
+• HTML5, CSS3, REST APIs
+• Git, Agile methodology, AWS
+• Python, SQL, Docker basics
+
+EXPERIENCE:
+Senior Frontend Developer - Tech Corp (2020-2023)
+• Developed responsive web applications using React and Redux
+• Collaborated with backend teams to integrate REST APIs
+• Implemented automated testing with Jest and Cypress
+• Led a team of 3 junior developers
+
+Frontend Developer - StartupCo (2018-2020)
+• Built user interfaces using modern JavaScript frameworks
+• Optimized application performance and user experience
+• Participated in agile development processes
+
+EDUCATION:
+Bachelor of Computer Science - State University (2018)
+
+CERTIFICATIONS:
+• AWS Certified Developer Associate
+• Certified Scrum Master`;
+            
+            document.getElementById('profileInput').value = sampleProfile;
+            showNotification('Sample profile loaded!', 'success');
+        }
+
+        function loadSampleJob() {
+            const sampleJob = `Senior Full Stack Developer - Remote
+Company: Innovation Labs
+
+Job Description:
+We are seeking an experienced Full Stack Developer to join our dynamic team. The ideal candidate will have strong experience in modern web development technologies and a passion for creating scalable applications.
+
+Required Skills:
+• 4+ years of experience in web development
+• Proficiency in JavaScript, TypeScript, React, Node.js
+• Experience with databases (MongoDB, PostgreSQL)
+• Knowledge of RESTful APIs and GraphQL
+• Familiarity with cloud platforms (AWS, Azure)
+• Experience with containerization (Docker, Kubernetes)
+• Version control with Git
+• Agile/Scrum methodology experience
+
+Preferred Skills:
+• Bachelor's degree in Computer Science or related field
+• AWS certifications
+• Experience with microservices architecture
+• CI/CD pipeline experience
+• Leadership or mentoring experience
+
+Responsibilities:
+• Develop and maintain web applications using React and Node.js
+• Design and implement RESTful APIs
+• Collaborate with cross-functional teams in an Agile environment
+• Mentor junior developers
+• Participate in code reviews and architectural decisions`;
+            
+            document.getElementById('jobInput').value = sampleJob;
+            showNotification('Sample job description loaded!', 'success');
+        }
+
+        function analyzeMatch() {
+            const profile = document.getElementById('profileInput').value.trim();
+            const job = document.getElementById('jobInput').value.trim();
+            
+            if (!profile || !job) {
+                showNotification('Please fill in both your profile and job description', 'error');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingSection').style.display = 'block';
+            showNotification('AI is analyzing your job match...', 'info');
+            
+            // Call real AI API
+            fetch(`${API_BASE_URL}/ai/job-match/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    profile: profile,
+                    job_description: job
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingSection').style.display = 'none';
+                
+                if (data.success) {
+                    currentAnalysis = data.analysis;
+                    document.getElementById('resultsSection').style.display = 'block';
+                    displayAnalysis(data.analysis);
+                    showNotification('AI Analysis complete! 🎯', 'success');
+                } else {
+                    showNotification(data.error || 'Analysis failed. Please try again.', 'error');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingSection').style.display = 'none';
+                console.error('Analysis error:', error);
+                showNotification('Could not connect to server. Please try again.', 'error');
+            });
+        }
+
+        function displayAnalysis(analysis) {
+            // Update overall score
+            const overallScore = analysis.overall_match || 75;
+            document.getElementById('matchScore').textContent = overallScore;
+            
+            // Update breakdown scores
+            const breakdown = analysis.breakdown || {};
+            
+            const skillsScore = breakdown.skills_match?.score || 75;
+            const experienceScore = breakdown.experience_match?.score || 75;
+            const educationScore = breakdown.education_match?.score || 75;
+            const keywordsScore = breakdown.keywords_match?.score || 75;
+            
+            document.getElementById('skillsScore').textContent = skillsScore + '%';
+            document.getElementById('experienceScore').textContent = experienceScore + '%';
+            document.getElementById('educationScore').textContent = educationScore + '%';
+            document.getElementById('keywordsScore').textContent = keywordsScore + '%';
+            
+            // Update progress bars
+            document.getElementById('skillsProgress').style.width = skillsScore + '%';
+            document.getElementById('experienceProgress').style.width = experienceScore + '%';
+            document.getElementById('educationProgress').style.width = educationScore + '%';
+            document.getElementById('keywordsProgress').style.width = keywordsScore + '%';
+            
+            // Update circular score
+            const scoreCircle = document.getElementById('scoreCircle');
+            const scoreDeg = (overallScore / 100) * 360;
+            scoreCircle.style.setProperty('--score-deg', scoreDeg + 'deg');
+            
+            // Update match message
+            const matchTitle = document.querySelector('.match-title');
+            const matchSubtitle = document.querySelector('.match-subtitle');
+            
+            if (overallScore >= 90) {
+                matchTitle.textContent = 'Perfect Match!';
+                matchSubtitle.textContent = 'Your profile is an excellent fit for this position';
+            } else if (overallScore >= 80) {
+                matchTitle.textContent = 'Great Match!';
+                matchSubtitle.textContent = 'Your profile strongly aligns with this job opportunity';
+            } else if (overallScore >= 70) {
+                matchTitle.textContent = 'Good Match!';
+                matchSubtitle.textContent = 'Your profile shows good compatibility with some areas for improvement';
+            } else {
+                matchTitle.textContent = 'Partial Match';
+                matchSubtitle.textContent = 'Consider developing additional skills to better match this role';
+            }
+            
+            // Update keywords
+            updateKeywords(breakdown);
+            
+            // Update recommendations
+            updateRecommendations(analysis);
+            
+            // Animate score
+            animateResults();
+        }
+
+        function updateKeywords(breakdown) {
+            const keywordsGrid = document.querySelector('.keywords-grid');
+            if (!keywordsGrid) return;
+            
+            const matched = breakdown.skills_match?.matched_skills || breakdown.keywords_match?.matched_keywords || [];
+            const missing = breakdown.skills_match?.missing_skills || breakdown.keywords_match?.missing_keywords || [];
+            
+            keywordsGrid.innerHTML = `
+                <div class="keywords-column">
+                    <h4>✅ Matched Keywords</h4>
+                    ${matched.map(k => `<span class="keyword-tag">${k}</span>`).join('')}
+                </div>
+                <div class="keywords-column">
+                    <h4>⚠️ Missing Keywords</h4>
+                    ${missing.map(k => `<span class="keyword-tag missing">${k}</span>`).join('')}
+                </div>
+            `;
+        }
+
+        function updateRecommendations(analysis) {
+            const recsGrid = document.querySelector('.recommendations-grid');
+            if (!recsGrid) return;
+            
+            const recommendations = analysis.recommendations || [];
+            const gaps = analysis.gaps || [];
+            
+            let recsHtml = '';
+            
+            recommendations.forEach((rec, index) => {
+                const types = ['Skills Gap', 'Experience', 'Keywords', 'Certifications'];
+                recsHtml += `
+                    <div class="recommendation-item">
+                        <div class="recommendation-type">${types[index % types.length]}</div>
+                        <div class="recommendation-text">${rec}</div>
+                    </div>
+                `;
+            });
+            
+            if (recsHtml) {
+                recsGrid.innerHTML = recsHtml;
+            }
+        }
+
+        function generateScores() {
+            // This is now handled by displayAnalysis
+        }
+
+        function animateResults() {
+            // Animate score counting
+            const scoreElement = document.getElementById('matchScore');
+            const targetScore = parseInt(scoreElement.textContent);
+            let currentScore = 0;
+            
+            const scoreAnimation = setInterval(() => {
+                if (currentScore < targetScore) {
+                    currentScore += 2;
+                    scoreElement.textContent = Math.min(currentScore, targetScore);
+                } else {
+                    clearInterval(scoreAnimation);
+                }
+            }, 50);
+        }
+
+        function exportReport(format) {
+            if (format === 'pdf') {
+                showNotification('Generating PDF report...', 'info');
+                setTimeout(() => {
+                    // Simulate PDF generation
+                    const link = document.createElement('a');
+                    link.href = `data:text/plain;charset=utf-8,JOB MATCH ANALYSIS REPORT\\n\\nOverall Match Score: ${document.getElementById('matchScore').textContent}%\\n\\nSkills Match: ${document.getElementById('skillsScore').textContent}\\nExperience Match: ${document.getElementById('experienceScore').textContent}\\nEducation Match: ${document.getElementById('educationScore').textContent}\\nKeywords Match: ${document.getElementById('keywordsScore').textContent}\\n\\nRECOMMENDATIONS:\\n1. Consider learning Docker and Kubernetes\\n2. Highlight project management experience\\n3. Add TypeScript and GraphQL to resume\\n4. Consider AWS certification\\n\\nGenerated by SkillConnect Job Match Analyzer`;
+                    link.download = 'job-match-analysis.txt';
+                    link.click();
+                    showNotification('Report downloaded successfully! 📄', 'success');
+                }, 2000);
+            } else if (format === 'email') {
+                showNotification('Preparing email report...', 'info');
+                setTimeout(() => {
+                    showNotification('Email feature coming soon! 📧', 'info');
+                }, 1500);
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+                max-width: 400px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

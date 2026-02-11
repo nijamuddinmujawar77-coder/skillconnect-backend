@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Resources - Resume Builder, Interview Tips | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="assets/js/tool-blocker-compact.js"></script>
+    <style>
+        .resources-hero {
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resources-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .resources-hero h1 {
+            font-size: 52px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .resources-hero p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .resource-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .resource-category {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resource-category::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--primary-teal) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        
+        .resource-category:hover::before {
+            opacity: 0.05;
+        }
+        
+        .resource-category:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-teal);
+        }
+        
+        .resource-category > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-coral));
+        }
+        
+        .resource-category h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .resource-category p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .resource-count {
+            display: inline-block;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .btn-explore {
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .btn-explore:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-teal);
+        }
+        
+        .resource-header {
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        }
+        
+        .resource-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .resource-type {
+            background: var(--primary-teal);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .resource-duration {
+            color: var(--gray-500);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .resource-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .resource-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .resource-body {
+            padding: 0 25px 25px;
+        }
+        
+        .resource-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        
+        .topic-tag {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--coral);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .resource-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .btn-view {
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-view:hover {
+            background: var(--dark-teal);
+            transform: translateY(-1px);
+        }
+        
+        .resource-stats {
+            display: flex;
+            gap: 15px;
+            color: var(--gray-500);
+            font-size: 13px;
+        }
+        
+        .resource-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .featured-tools {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+        }
+        
+        .featured-tools h2 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .featured-tools p {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-teal);
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+        }
+        
+        .tool-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .tool-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .btn-use-tool {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-use-tool:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .success-stories {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px 0;
+            text-align: center;
+        }
+        
+        .success-stories h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .success-stories p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .success-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .success-stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .resources-hero h1 {
+                font-size: 36px;
+            }
+            
+            .resource-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-tools {
+                padding: 30px 20px;
+            }
+            
+            .success-stories {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html" class="active">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resources Hero Section -->
+    <section class="resources-hero">
+        <div class="container">
+            <h1 data-aos="fade-up">Career Resources Hub</h1>
+            <p data-aos="fade-up" data-aos-delay="200">
+                Everything you need to accelerate your career. From resume building to interview preparation, we've got you covered with expert guidance and tools.
+            </p>
+        </div>
+    </section>
+
+    <!-- Resource Categories -->
+    <section class="resources-content">
+        <div class="container">
+            <div class="resource-categories" data-aos="fade-up">
+                <div class="resource-category" data-aos="fade-up" data-aos-delay="100">
+                    <div class="category-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="resource-count">25+ Templates</div>
+                    <h3>Resume Builder</h3>
+                    <p>Create professional, ATS-friendly resumes with our advanced builder. Choose from industry-specific templates and get expert tips.</p>
+                    <a href="#" class="btn-explore" onclick="blockTool('Resume Builder', 'resume-builder.html')">
+                        <i class="fas fa-edit"></i> Build Resume
+                    </a>
+                </div>
+                
+                <div class="resource-category" data-aos="fade-up" data-aos-delay="200">
+                    <div class="category-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="resource-count">50+ Questions</div>
+                    <h3>Interview Prep</h3>
+                    <p>Master your next interview with our comprehensive question bank, mock interviews, and expert tips from industry professionals.</p>
+                    <a href="#" class="btn-explore" onclick="blockTool('Interview Preparation', 'interview-prep.html')">
+                        <i class="fas fa-play"></i> Start Practice
+                    </a>
+                </div>
+                
+                <div class="resource-category" data-aos="fade-up" data-aos-delay="300">
+                    <div class="category-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="resource-count">100+ Reports</div>
+                    <h3>Salary Insights</h3>
+                    <p>Get real-time salary data, compare packages across companies, and negotiate better offers with industry benchmarks.</p>
+                    <a href="#" class="btn-explore" onclick="blockTool('Salary Calculator', 'salary-calculator.html')">
+                        <i class="fas fa-search"></i> Check Salary
+                    </a>
+                </div>
+                
+                <div class="resource-category" data-aos="fade-up" data-aos-delay="400">
+                    <div class="category-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="resource-count">200+ Courses</div>
+                    <h3>Skill Development</h3>
+                    <p>Enhance your skills with curated online courses, certifications, and learning paths tailored to your career goals.</p>
+                    <a href="#" class="btn-explore" onclick="blockTool('Skill Development', 'skill-development.html')">
+                        <i class="fas fa-book"></i> Learn Skills
+                    </a>
+                </div>
+                
+                <div class="resource-category" data-aos="fade-up" data-aos-delay="500">
+                    <div class="category-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="resource-count">10K+ Members</div>
+                    <h3>Career Community</h3>
+                    <p>Connect with like-minded professionals, join industry discussions, and get career advice from experienced mentors.</p>
+                    <a href="#" class="btn-explore" onclick="blockTool('Career Community', 'community.html')">
+                        <i class="fas fa-users"></i> Join Community
+                    </a>
+                </div>
+                
+                <div class="resource-category" data-aos="fade-up" data-aos-delay="600">
+                    <div class="category-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="resource-count">Weekly Updates</div>
+                    <h3>Career Blog</h3>
+                    <p>Stay updated with the latest industry trends, career tips, success stories, and expert insights from top professionals.</p>
+                    <a href="#" class="btn-explore" onclick="blockTool('Career Blog', 'blog.html')">
+                        <i class="fas fa-newspaper"></i> Read Articles
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Featured Resources -->
+            <div class="resources-grid" data-aos="fade-up">
+                <div class="resource-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="resource-header">
+                        <div class="resource-meta">
+                            <span class="resource-type">Guide</span>
+                            <div class="resource-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>15 min read</span>
+                            </div>
+                        </div>
+                        <h3>Complete Guide to Technical Interviews</h3>
+                        <p class="resource-description">Master coding interviews with our comprehensive guide covering algorithms, data structures, and system design.</p>
+                    </div>
+                    <div class="resource-body">
+                        <div class="resource-topics">
+                            <span class="topic-tag">Algorithms</span>
+                            <span class="topic-tag">Data Structures</span>
+                            <span class="topic-tag">System Design</span>
+                        </div>
+                        <div class="resource-actions">
+                            <a href="tech-interview-guide.html" class="btn-view" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-eye"></i> View Guide
+                            </a>
+                            <div class="resource-stats">
+                                <div class="resource-stat">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>2.4K</span>
+                                </div>
+                                <div class="resource-stat">
+                                    <i class="fas fa-share"></i>
+                                    <span>456</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="resource-header">
+                        <div class="resource-meta">
+                            <span class="resource-type">Template</span>
+                            <div class="resource-duration">
+                                <i class="fas fa-download"></i>
+                                <span>Free Download</span>
+                            </div>
+                        </div>
+                        <h3>ATS-Optimized Resume Templates</h3>
+                        <p class="resource-description">Professional resume templates that pass through Applicant Tracking Systems and impress recruiters.</p>
+                    </div>
+                    <div class="resource-body">
+                        <div class="resource-topics">
+                            <span class="topic-tag">ATS Friendly</span>
+                            <span class="topic-tag">Professional</span>
+                            <span class="topic-tag">Modern Design</span>
+                        </div>
+                        <div class="resource-actions">
+                            <a href="#" class="btn-view" onclick="blockTool('ATS Templates', 'ats-templates.html')" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <div class="resource-stats">
+                                <div class="resource-stat">
+                                    <i class="fas fa-download"></i>
+                                    <span>15.7K</span>
+                                </div>
+                                <div class="resource-stat">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resource-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="resource-header">
+                        <div class="resource-meta">
+                            <span class="resource-type">Tool</span>
+                            <div class="resource-duration">
+                                <i class="fas fa-calculator"></i>
+                                <span>Interactive</span>
+                            </div>
+                        </div>
+                        <h3>Salary Negotiation Calculator</h3>
+                        <p class="resource-description">Calculate your market value and get personalized negotiation strategies based on industry data.</p>
+                    </div>
+                    <div class="resource-body">
+                        <div class="resource-topics">
+                            <span class="topic-tag">Salary Data</span>
+                            <span class="topic-tag">Negotiation</span>
+                            <span class="topic-tag">Market Research</span>
+                        </div>
+                        <div class="resource-actions">
+                            <a href="salary-negotiation.html" class="btn-view" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </a>
+                            <div class="resource-stats">
+                                <div class="resource-stat">
+                                    <i class="fas fa-users"></i>
+                                    <span>8.2K</span>
+                                </div>
+                                <div class="resource-stat">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resource-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="resource-header">
+                        <div class="resource-meta">
+                            <span class="resource-type">Video</span>
+                            <div class="resource-duration">
+                                <i class="fas fa-play"></i>
+                                <span>45 min course</span>
+                            </div>
+                        </div>
+                        <h3>LinkedIn Profile Optimization</h3>
+                        <p class="resource-description">Step-by-step video course on creating a LinkedIn profile that attracts recruiters and opportunities.</p>
+                    </div>
+                    <div class="resource-body">
+                        <div class="resource-topics">
+                            <span class="topic-tag">LinkedIn</span>
+                            <span class="topic-tag">Personal Branding</span>
+                            <span class="topic-tag">Networking</span>
+                        </div>
+                        <div class="resource-actions">
+                            <a href="linkedin-optimization.html" class="btn-view" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-play"></i> Optimize Profile
+                            </a>
+                            <div class="resource-stats">
+                                <div class="resource-stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>12.5K</span>
+                                </div>
+                                <div class="resource-stat">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.9</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Tools -->
+            <div class="featured-tools" data-aos="fade-up">
+                <h2>Free Career Tools</h2>
+                <p>Powerful tools to accelerate your job search and career growth</p>
+                
+                <div class="tools-grid">
+                    <div class="tool-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI Resume Scanner</h3>
+                        <p>Get instant feedback on your resume with our AI-powered scanner. Identify gaps and optimize for ATS systems.</p>
+                        <a href="ai-resume-scanner.html" class="btn-use-tool" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-scan"></i> Scan Resume
+                        </a>
+                    </div>
+                    
+                    <div class="tool-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="tool-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>Mock Interview AI</h3>
+                        <p>Practice interviews with our AI interviewer. Get personalized feedback and improve your confidence.</p>
+                        <a href="mock-interview-ai.html" class="btn-use-tool" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-play"></i> Start Interview
+                        </a>
+                    </div>
+                    
+                    <div class="tool-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="tool-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Job Match Analyzer</h3>
+                        <p>Analyze how well your profile matches job requirements and get improvement suggestions.</p>
+                        <a href="job-match-analyzer.html" class="btn-use-tool" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-chart-bar"></i> Analyze Match
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Success Stories -->
+            <div class="success-stories" data-aos="fade-up">
+                <h2>Success Through Resources</h2>
+                <p>Our resources have helped thousands of professionals land their dream jobs and advance their careers. Here's the impact:</p>
+                
+                <div class="success-stats">
+                    <div class="success-stat" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stat-number" data-count="25000">0</div>
+                        <div class="stat-label">Resumes Built</div>
+                    </div>
+                    <div class="success-stat" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-number" data-count="15000">0</div>
+                        <div class="stat-label">Interview Preps</div>
+                    </div>
+                    <div class="success-stat" data-aos="fade-up" data-aos-delay="300">
+                        <div class="stat-number" data-count="8500">0</div>
+                        <div class="stat-label">Successful Hires</div>
+                    </div>
+                    <div class="success-stat" data-aos="fade-up" data-aos-delay="400">
+                        <div class="stat-number" data-count="35">0</div>
+                        <div class="stat-label">% Salary Increase</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Resources Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    offset: 100,
+                    once: true
+                });
+            }
+            
+            // Animate success stats
+            setTimeout(animateStats, 1000);
+        });
+        
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(function(stat) {
+                const target = parseInt(stat.getAttribute('data-count')) || 0;
+                let current = 0;
+                const increment = Math.ceil(target / 100);
+                
+                const animate = function() {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target.toLocaleString();
+                    } else {
+                        stat.textContent = current.toLocaleString();
+                        setTimeout(animate, 25);
+                    }
+                };
+                
+                animate();
+            });
+        }
+        
+        // Tool and Resource Functions
+        function openResumeTool() {
+            console.log('Resume builder function called!');
+            showNotification('Opening Resume Builder...', 'info');
+            setTimeout(() => {
+                console.log('Redirecting to resume-builder.html');
+                window.location.href = 'resume-builder.html?' + Date.now();
+            }, 1000);
+        }
+        
+        function openInterviewPrep() {
+            console.log('Interview prep function called!');
+            showNotification('Loading Interview Preparation...', 'info');
+            setTimeout(() => {
+                console.log('Redirecting to interview-prep.html');
+                window.location.href = 'interview-prep.html?' + Date.now();
+            }, 1000);
+        }
+        
+        function openSalaryTool() {
+            console.log('Salary calculator function called!');
+            showNotification('Opening Salary Calculator...', 'info');
+            setTimeout(() => {
+                console.log('Redirecting to salary-calculator.html');
+                window.location.href = 'salary-calculator.html?' + Date.now();
+            }, 1000);
+        }
+        
+        function openSkillHub() {
+            console.log('Skill hub function called!');
+            showNotification('Loading Skill Development Hub...', 'info');
+            setTimeout(() => {
+                console.log('Redirecting to skill-development.html');
+                window.location.href = 'skill-development.html?' + Date.now();
+            }, 1000);
+        }
+        
+        function openCommunity() {
+            showNotification('Connecting to Career Community...', 'info');
+            setTimeout(() => {
+                showNotification('Community platform launching soon! 👥', 'success');
+            }, 1500);
+        }
+        
+        function openBlog() {
+            showNotification('Opening Career Blog...', 'info');
+            setTimeout(() => {
+                showNotification('Blog section coming soon! ✍️', 'success');
+            }, 1500);
+        }
+        
+        function viewResource(resourceId) {
+            showNotification(`Opening ${resourceId.replace('-', ' ')}...`, 'info');
+            setTimeout(() => {
+                showNotification('Resource content is being prepared! 📖', 'success');
+            }, 1500);
+        }
+        
+        function downloadTemplate(templateId) {
+            showNotification('Preparing download...', 'info');
+            setTimeout(() => {
+                showNotification('Template download will be available soon! 📄', 'success');
+            }, 1500);
+        }
+        
+        function openCalculator(calculatorId) {
+            showNotification('Loading calculator...', 'info');
+            setTimeout(() => {
+                showNotification('Calculator tool coming soon! 🧮', 'success');
+            }, 1500);
+        }
+        
+        function watchCourse(courseId) {
+            showNotification('Loading video course...', 'info');
+            setTimeout(() => {
+                showNotification('Video courses will be available soon! 🎥', 'success');
+            }, 1500);
+        }
+        
+        function openTool(toolId) {
+            showNotification(`Launching ${toolId.replace('-', ' ')}...`, 'info');
+            setTimeout(() => {
+                const toolName = toolId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                showNotification(`${toolName} is under development! 🛠️`, 'success');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

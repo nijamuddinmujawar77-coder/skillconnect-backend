@@ -28,11 +28,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-7_i=ddw24n81(1!3%8urd
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-# Allowed Hosts - Local + Cloud
+# Allowed Hosts - Local + Cloud (Render + DigitalOcean)
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '.onrender.com',
+    '.onrender.com',           # Render.com
+    '.ondigitalocean.app',     # DigitalOcean App Platform
     'skillconnect.dev',
     'www.skillconnect.dev',
     'api.skillconnect.dev',
@@ -44,6 +45,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://skillconnect.dev',
     'https://www.skillconnect.dev',
     'https://*.onrender.com',
+    'https://*.ondigitalocean.app',  # DigitalOcean App Platform
     'https://admin.skillconnect.dev',
 ]
 

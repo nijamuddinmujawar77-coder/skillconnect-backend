@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Development Hub - Learn & Grow | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .skills-hub {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .skills-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .skills-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .skills-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .skills-header p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .skills-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-teal);
+            border-color: white;
+        }
+        
+        .skills-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .course-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-teal);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .course-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .course-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .course-desc {
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .course-duration {
+            color: var(--gray-500);
+        }
+        
+        .course-level {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .course-btn {
+            width: 100%;
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .course-btn:hover {
+            background: var(--dark-teal);
+        }
+        
+        .assessment-section {
+            display: none;
+        }
+        
+        .assessment-section.active {
+            display: block;
+        }
+        
+        .quiz-container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .question-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .question-number {
+            font-size: 16px;
+            color: var(--primary-teal);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid var(--gray-200);
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            border-color: var(--primary-teal);
+            background: rgba(13, 148, 136, 0.05);
+        }
+        
+        .option.selected {
+            border-color: var(--primary-teal);
+            background: rgba(13, 148, 136, 0.1);
+        }
+        
+        .option.correct {
+            border-color: #10B981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .option.wrong {
+            border-color: #EF4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .option-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+        
+        .option.selected .option-letter,
+        .option.correct .option-letter {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .quiz-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .quiz-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--gray-500);
+            color: white;
+        }
+        
+        .progress-section {
+            background: var(--gray-50);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .progress-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            background: var(--gray-200);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-teal), var(--coral));
+            height: 100%;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        
+        .results-card {
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+        
+        .results-card.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            font-weight: 900;
+        }
+        
+        .results-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .results-desc {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .skills-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Skills Hub -->
+    <section class="skills-hub">
+        <div class="skills-container">
+            <div class="skills-header" data-aos="fade-up">
+                <h1>Skill Development Hub</h1>
+                <p>Enhance your skills with curated courses, assessments, and learning paths tailored to your career goals.</p>
+            </div>
+            
+            <div class="skills-tabs" data-aos="fade-up" data-aos-delay="200">
+                <button class="tab-btn active" onclick="switchTab('courses')">
+                    <i class="fas fa-book"></i> Courses
+                </button>
+                <button class="tab-btn" onclick="switchTab('assessment')">
+                    <i class="fas fa-chart-bar"></i> Skill Assessment
+                </button>
+                <button class="tab-btn" onclick="switchTab('certifications')">
+                    <i class="fas fa-certificate"></i> Certifications
+                </button>
+            </div>
+            
+            <div class="skills-content" data-aos="fade-up" data-aos-delay="400">
+                <!-- Courses Tab -->
+                <div id="coursesTab" class="courses-section">
+                    <div class="courses-grid">
+                        <div class="course-card">
+                            <i class="fas fa-code course-icon" style="color: #3B82F6;"></i>
+                            <div class="course-title">JavaScript Fundamentals</div>
+                            <div class="course-desc">Master the basics of JavaScript programming, including variables, functions, and DOM manipulation.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">8 hours</span>
+                                <span class="course-level">Beginner</span>
+                            </div>
+                            <button class="course-btn" onclick="startCourse('javascript')">Start Learning</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-paint-brush course-icon" style="color: #EF4444;"></i>
+                            <div class="course-title">UI/UX Design Principles</div>
+                            <div class="course-desc">Learn essential design principles, user research, wireframing, and prototyping techniques.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">12 hours</span>
+                                <span class="course-level">Intermediate</span>
+                            </div>
+                            <button class="course-btn" onclick="startCourse('design')">Start Learning</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-database course-icon" style="color: #10B981;"></i>
+                            <div class="course-title">SQL Database Management</div>
+                            <div class="course-desc">Comprehensive guide to database design, queries, optimization, and management best practices.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">15 hours</span>
+                                <span class="course-level">Intermediate</span>
+                            </div>
+                            <button class="course-btn" onclick="startCourse('sql')">Start Learning</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-chart-line course-icon" style="color: #F59E0B;"></i>
+                            <div class="course-title">Digital Marketing Strategy</div>
+                            <div class="course-desc">Learn SEO, social media marketing, content strategy, and analytics to grow your digital presence.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">10 hours</span>
+                                <span class="course-level">Beginner</span>
+                            </div>
+                            <button class="course-btn" onclick="startCourse('marketing')">Start Learning</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-brain course-icon" style="color: #8B5CF6;"></i>
+                            <div class="course-title">Machine Learning Basics</div>
+                            <div class="course-desc">Introduction to ML algorithms, data preprocessing, model training, and evaluation techniques.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">20 hours</span>
+                                <span class="course-level">Advanced</span>
+                            </div>
+                            <button class="course-btn" onclick="startCourse('ml')">Start Learning</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-users course-icon" style="color: #EC4899;"></i>
+                            <div class="course-title">Project Management</div>
+                            <div class="course-desc">Agile methodologies, team leadership, resource planning, and project delivery best practices.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">14 hours</span>
+                                <span class="course-level">Intermediate</span>
+                            </div>
+                            <button class="course-btn" onclick="startCourse('pm')">Start Learning</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Assessment Tab -->
+                <div id="assessmentTab" class="assessment-section">
+                    <div class="progress-section">
+                        <div class="progress-title">Skill Assessment Progress</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="assessmentProgress"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">Question 0 of 10</div>
+                    </div>
+                    
+                    <div class="quiz-container">
+                        <div class="question-card" id="questionCard">
+                            <div class="question-number" id="questionNumber">Question 1</div>
+                            <div class="question-text" id="questionText">What is the primary purpose of HTML in web development?</div>
+                            
+                            <div class="options-container" id="optionsContainer">
+                                <div class="option" onclick="selectOption(0)">
+                                    <div class="option-letter">A</div>
+                                    <span>To style web pages</span>
+                                </div>
+                                <div class="option" onclick="selectOption(1)">
+                                    <div class="option-letter">B</div>
+                                    <span>To structure and define content</span>
+                                </div>
+                                <div class="option" onclick="selectOption(2)">
+                                    <div class="option-letter">C</div>
+                                    <span>To add interactivity</span>
+                                </div>
+                                <div class="option" onclick="selectOption(3)">
+                                    <div class="option-letter">D</div>
+                                    <span>To manage databases</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-actions">
+                            <button class="quiz-btn btn-secondary" onclick="previousQuestion()" id="prevBtn">Previous</button>
+                            <button class="quiz-btn btn-primary" onclick="nextQuestion()" id="nextBtn">Next</button>
+                        </div>
+                        
+                        <div class="results-card" id="resultsCard">
+                            <div class="score-circle" id="scoreCircle">80%</div>
+                            <div class="results-title">Assessment Complete!</div>
+                            <div class="results-desc">Great job! You've demonstrated strong foundational skills.</div>
+                            <button class="quiz-btn btn-primary" onclick="restartAssessment()" style="background: rgba(255,255,255,0.2);">Take Another Assessment</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certifications Tab -->
+                <div id="certificationsTab" class="courses-section" style="display: none;">
+                    <div class="courses-grid">
+                        <div class="course-card">
+                            <i class="fas fa-certificate course-icon" style="color: #10B981;"></i>
+                            <div class="course-title">Web Development Certificate</div>
+                            <div class="course-desc">Complete certification program covering HTML, CSS, JavaScript, and modern frameworks.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">40 hours</span>
+                                <span class="course-level">Comprehensive</span>
+                            </div>
+                            <button class="course-btn" onclick="startCertification('web-dev')">Start Program</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-shield-alt course-icon" style="color: #EF4444;"></i>
+                            <div class="course-title">Cybersecurity Fundamentals</div>
+                            <div class="course-desc">Essential cybersecurity concepts, threat analysis, and protection strategies.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">35 hours</span>
+                                <span class="course-level">Comprehensive</span>
+                            </div>
+                            <button class="course-btn" onclick="startCertification('security')">Start Program</button>
+                        </div>
+                        
+                        <div class="course-card">
+                            <i class="fas fa-chart-bar course-icon" style="color: #3B82F6;"></i>
+                            <div class="course-title">Data Analytics Certificate</div>
+                            <div class="course-desc">Master data analysis, visualization, statistical modeling, and business intelligence.</div>
+                            <div class="course-meta">
+                                <span class="course-duration">45 hours</span>
+                                <span class="course-level">Comprehensive</span>
+                            </div>
+                            <button class="course-btn" onclick="startCertification('data')">Start Program</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        // Assessment Questions Database
+        const assessmentQuestions = [
+            {
+                question: "What is the primary purpose of HTML in web development?",
+                options: ["To style web pages", "To structure and define content", "To add interactivity", "To manage databases"],
+                correct: 1
+            },
+            {
+                question: "Which CSS property is used to change the text color?",
+                options: ["font-color", "text-color", "color", "background-color"],
+                correct: 2
+            },
+            {
+                question: "What does 'API' stand for?",
+                options: ["Application Programming Interface", "Advanced Programming Integration", "Automated Program Instruction", "Application Process Integration"],
+                correct: 0
+            },
+            {
+                question: "In project management, what does 'Scrum' refer to?",
+                options: ["A programming language", "An agile framework", "A database type", "A design pattern"],
+                correct: 1
+            },
+            {
+                question: "What is the main purpose of version control systems like Git?",
+                options: ["To compile code", "To track changes and collaborate", "To test applications", "To deploy websites"],
+                correct: 1
+            },
+            {
+                question: "Which of these is a NoSQL database?",
+                options: ["MySQL", "PostgreSQL", "MongoDB", "SQLite"],
+                correct: 2
+            },
+            {
+                question: "What does 'UX' stand for in design?",
+                options: ["User Experience", "Universal Extension", "Unified Exchange", "User Extension"],
+                correct: 0
+            },
+            {
+                question: "In digital marketing, what does 'CTR' measure?",
+                options: ["Customer Total Revenue", "Click-Through Rate", "Content Transfer Rate", "Customer Trust Rating"],
+                correct: 1
+            },
+            {
+                question: "What is the primary goal of responsive web design?",
+                options: ["Faster loading times", "Better SEO rankings", "Adaptability to different screen sizes", "Improved security"],
+                correct: 2
+            },
+            {
+                question: "Which programming paradigm does JavaScript primarily support?",
+                options: ["Object-oriented only", "Functional only", "Multi-paradigm", "Procedural only"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let selectedAnswers = [];
+        let showingResults = false;
+
+        // Initialize assessment
+        document.addEventListener('DOMContentLoaded', function() {
+            displayQuestion();
+            updateProgress();
+        });
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            document.getElementById('coursesTab').style.display = tabName === 'courses' ? 'block' : 'none';
+            document.getElementById('assessmentTab').classList.toggle('active', tabName === 'assessment');
+            document.getElementById('certificationsTab').style.display = tabName === 'certifications' ? 'block' : 'none';
+        }
+
+        function displayQuestion() {
+            if (currentQuestion >= assessmentQuestions.length) {
+                showResults();
+                return;
+            }
+
+            const question = assessmentQuestions[currentQuestion];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.onclick = () => selectOption(index);
+                
+                const letter = String.fromCharCode(65 + index); // A, B, C, D
+                optionElement.innerHTML = `
+                    <div class="option-letter">${letter}</div>
+                    <span>${option}</span>
+                `;
+                
+                if (selectedAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update button states
+            document.getElementById('prevBtn').style.opacity = currentQuestion === 0 ? '0.5' : '1';
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === assessmentQuestions.length - 1 ? 'Finish' : 'Next';
+        }
+
+        function selectOption(optionIndex) {
+            selectedAnswers[currentQuestion] = optionIndex;
+            
+            // Update visual selection
+            document.querySelectorAll('.option').forEach((option, index) => {
+                option.classList.toggle('selected', index === optionIndex);
+            });
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < assessmentQuestions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / assessmentQuestions.length) * 100;
+            document.getElementById('assessmentProgress').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                `Question ${currentQuestion + 1} of ${assessmentQuestions.length}`;
+        }
+
+        function showResults() {
+            let correctAnswers = 0;
+            
+            assessmentQuestions.forEach((question, index) => {
+                if (selectedAnswers[index] === question.correct) {
+                    correctAnswers++;
+                }
+            });
+            
+            const percentage = Math.round((correctAnswers / assessmentQuestions.length) * 100);
+            
+            document.getElementById('questionCard').style.display = 'none';
+            document.querySelector('.quiz-actions').style.display = 'none';
+            
+            const resultsCard = document.getElementById('resultsCard');
+            document.getElementById('scoreCircle').textContent = percentage + '%';
+            
+            let resultMessage = '';
+            if (percentage >= 90) {
+                resultMessage = 'Outstanding! You have excellent skills in this area.';
+            } else if (percentage >= 70) {
+                resultMessage = 'Great job! You have strong foundational skills.';
+            } else if (percentage >= 50) {
+                resultMessage = 'Good effort! Consider reviewing some key concepts.';
+            } else {
+                resultMessage = 'Keep learning! This assessment shows areas for improvement.';
+            }
+            
+            resultsCard.querySelector('.results-desc').textContent = resultMessage;
+            resultsCard.classList.add('show');
+            
+            showNotification(`Assessment completed! You scored ${percentage}%`, 'success');
+        }
+
+        function restartAssessment() {
+            currentQuestion = 0;
+            selectedAnswers = [];
+            showingResults = false;
+            
+            document.getElementById('questionCard').style.display = 'block';
+            document.querySelector('.quiz-actions').style.display = 'flex';
+            document.getElementById('resultsCard').classList.remove('show');
+            
+            displayQuestion();
+            updateProgress();
+        }
+
+        function startCourse(courseId) {
+            const courseNames = {
+                javascript: 'JavaScript Fundamentals',
+                design: 'UI/UX Design Principles',
+                sql: 'SQL Database Management',
+                marketing: 'Digital Marketing Strategy',
+                ml: 'Machine Learning Basics',
+                pm: 'Project Management'
+            };
+            
+            showNotification(`Starting ${courseNames[courseId]} course...`, 'info');
+            setTimeout(() => {
+                showNotification(`${courseNames[courseId]} course content will be available soon!`, 'success');
+            }, 2000);
+        }
+
+        function startCertification(certId) {
+            const certNames = {
+                'web-dev': 'Web Development Certificate',
+                'security': 'Cybersecurity Fundamentals',
+                'data': 'Data Analytics Certificate'
+            };
+            
+            showNotification(`Starting ${certNames[certId]} program...`, 'info');
+            setTimeout(() => {
+                showNotification(`${certNames[certId]} program enrollment opens soon!`, 'success');
+            }, 2000);
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

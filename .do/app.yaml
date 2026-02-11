@@ -1,0 +1,102 @@
+# DigitalOcean App Platform Configuration
+# SkillConnect Backend - Django Application
+
+name: skillconnect-backend
+
+# Region (choose based on your users location)
+# Options: nyc, sfo, ams, sgp, lon, fra, tor, blr
+region: blr  # Bangalore - India ke users ke liye best
+
+# ========================================
+# DATABASE - PostgreSQL (Managed)
+# ========================================
+databases:
+  - name: skillconnect-db
+    engine: PG  # PostgreSQL
+    version: "16"
+    size: db-s-dev-database  # Development tier ($7/month) - Can upgrade later
+    num_nodes: 1
+
+# ========================================
+# BACKEND SERVICE - Django
+# ========================================
+services:
+  - name: skillconnect-api
+    
+    # Source Code Configuration
+    github:
+      repo: nijamuddinmujawar77-coder/skillconnect-backend
+      branch: main
+      deploy_on_push: true  # Auto-deploy on git push
+    
+    # Build Configuration
+    build_command: ./build.sh
+    run_command: gunicorn core.wsgi:application --timeout 120 --workers 2 --threads 2
+    
+    # Environment
+    environment_slug: python
+    
+    # Instance Size (Basic - $5/month)
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    instance_count: 1
+    
+    # Health Check
+    http_port: 8000
+    health_check:
+      http_path: /api/health/
+      initial_delay_seconds: 30
+      period_seconds: 10
+    
+    # Environment Variables
+    envs:
+      # Django Settings
+      - key: SECRET_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: "${SECRET_KEY}"  # Will be auto-generated or set manually
+      
+      - key: DEBUG
+        scope: RUN_TIME
+        value: "False"
+      
+      - key: PYTHON_VERSION
+        scope: BUILD_TIME
+        value: "3.12"
+      
+      # Database URL (Auto-linked from managed database)
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: "${skillconnect-db.DATABASE_URL}"
+      
+      # Groq AI API Key
+      - key: GROQ_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: "${GROQ_API_KEY}"  # Set in App Settings
+      
+      # Cloudinary (Image Storage)
+      - key: CLOUDINARY_CLOUD_NAME
+        scope: RUN_TIME
+        value: "${CLOUDINARY_CLOUD_NAME}"
+      
+      - key: CLOUDINARY_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: "${CLOUDINARY_API_KEY}"
+      
+      - key: CLOUDINARY_API_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        value: "${CLOUDINARY_API_SECRET}"
+
+# ========================================
+# NOTES:
+# ========================================
+# 1. Replace YOUR_GITHUB_USERNAME with your actual GitHub username
+# 2. After creating app, set SECRET values in DigitalOcean Dashboard:
+#    - SECRET_KEY (generate random string)
+#    - GROQ_API_KEY (from https://console.groq.com)
+#    - CLOUDINARY keys (if using image uploads)
+# 
+# Estimated Cost: ~$12/month (API: $5 + DB: $7)
+# ========================================

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Negotiation Calculator | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .negotiation-platform {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .negotiation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .negotiation-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .negotiation-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .negotiation-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .negotiation-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+        
+        .calculator-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .calculator-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .calculator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .form-input {
+            padding: 15px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+        
+        .form-select {
+            padding: 15px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .range-input {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: var(--gray-200);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-teal);
+            cursor: pointer;
+        }
+        
+        .range-value {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 5px;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        .results-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .salary-range {
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .range-title {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .range-amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .range-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .negotiation-tips {
+            margin-top: 25px;
+        }
+        
+        .tips-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .tip-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tip-icon {
+            color: var(--primary-teal);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .tip-text {
+            font-size: 14px;
+            color: var(--gray-700);
+            line-height: 1.5;
+        }
+        
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .factor-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .factor-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .factor-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .factor-desc {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .strategies-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .strategies-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .strategy-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background: var(--gray-100);
+            border: 2px solid var(--gray-200);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .strategy-card {
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .strategy-card:hover {
+            border-color: var(--primary-teal);
+            transform: translateY(-3px);
+        }
+        
+        .strategy-number {
+            background: var(--primary-teal);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .strategy-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .strategy-desc {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .negotiation-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .factors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .strategy-tabs {
+                justify-content: stretch;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Salary Negotiation Calculator -->
+    <section class="negotiation-platform">
+        <div class="negotiation-container">
+            <div class="negotiation-header" data-aos="fade-up">
+                <h1>Salary Negotiation Calculator</h1>
+                <div class="negotiation-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">$12K+</span>
+                        <span class="stat-label">avg increase</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">85%</span>
+                        <span class="stat-label">success rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">users helped</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Factors -->
+            <div class="factors-grid" data-aos="fade-up" data-aos-delay="200">
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="factor-title">Market Research</div>
+                    <div class="factor-desc">Understanding current market rates for your role</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-medal"></i></div>
+                    <div class="factor-title">Performance Data</div>
+                    <div class="factor-desc">Quantifiable achievements and contributions</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="factor-title">Negotiation Timing</div>
+                    <div class="factor-desc">Strategic timing for maximum impact</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-target"></i></div>
+                    <div class="factor-title">Value Proposition</div>
+                    <div class="factor-desc">Clear demonstration of your worth</div>
+                </div>
+            </div>
+            
+            <div class="negotiation-content" data-aos="fade-up" data-aos-delay="400">
+                <!-- Calculator Form -->
+                <div class="calculator-section">
+                    <h2 class="calculator-title">Calculate Your Target Salary</h2>
+                    
+                    <form class="calculator-form" id="negotiationForm">
+                        <div class="form-group">
+                            <label class="form-label">Current Salary</label>
+                            <input type="number" class="form-input" id="currentSalary" placeholder="Enter your current salary" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Job Title/Role</label>
+                            <select class="form-select" id="jobRole" required>
+                                <option value="">Select your role</option>
+                                <option value="software-engineer">Software Engineer</option>
+                                <option value="senior-developer">Senior Developer</option>
+                                <option value="product-manager">Product Manager</option>
+                                <option value="data-scientist">Data Scientist</option>
+                                <option value="marketing-manager">Marketing Manager</option>
+                                <option value="sales-rep">Sales Representative</option>
+                                <option value="business-analyst">Business Analyst</option>
+                                <option value="project-manager">Project Manager</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Years of Experience</label>
+                            <input type="range" class="range-input" id="experience" min="0" max="20" value="3" oninput="updateRangeValue('experience', this.value)">
+                            <div class="range-value">
+                                <span>0 years</span>
+                                <span id="experienceValue">3 years</span>
+                                <span>20+ years</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <select class="form-select" id="location" required>
+                                <option value="">Select location</option>
+                                <option value="san-francisco">San Francisco, CA</option>
+                                <option value="new-york">New York, NY</option>
+                                <option value="seattle">Seattle, WA</option>
+                                <option value="austin">Austin, TX</option>
+                                <option value="boston">Boston, MA</option>
+                                <option value="chicago">Chicago, IL</option>
+                                <option value="denver">Denver, CO</option>
+                                <option value="remote">Remote</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Company Size</label>
+                            <select class="form-select" id="companySize">
+                                <option value="">Select company size</option>
+                                <option value="startup">Startup (1-50 employees)</option>
+                                <option value="small">Small (51-200 employees)</option>
+                                <option value="medium">Medium (201-1000 employees)</option>
+                                <option value="large">Large (1000+ employees)</option>
+                                <option value="enterprise">Enterprise (10000+ employees)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Performance Rating</label>
+                            <input type="range" class="range-input" id="performance" min="1" max="5" value="3" oninput="updateRangeValue('performance', this.value)">
+                            <div class="range-value">
+                                <span>Below Average</span>
+                                <span id="performanceValue">Average</span>
+                                <span>Exceptional</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Additional Skills/Certifications</label>
+                            <input type="text" class="form-input" id="skills" placeholder="e.g., AWS, PMP, Leadership">
+                        </div>
+                        
+                        <button type="submit" class="calculate-btn">Calculate Negotiation Range</button>
+                    </form>
+                </div>
+                
+                <!-- Results Panel -->
+                <div class="results-section">
+                    <h3 class="results-title">Your Negotiation Range</h3>
+                    
+                    <div class="salary-range" id="salaryRange" style="display: none;">
+                        <div class="range-title">Recommended Ask Range</div>
+                        <div class="range-amount" id="rangeAmount">$75,000 - $90,000</div>
+                        <div class="range-subtitle">Based on your profile and market data</div>
+                    </div>
+                    
+                    <div id="placeholder" style="text-align: center; color: var(--gray-500); padding: 40px 20px;">
+                        <i class="fas fa-calculator" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>Fill out the form to see your personalized salary negotiation range</p>
+                    </div>
+                    
+                    <div class="negotiation-tips" id="negotiationTips" style="display: none;">
+                        <div class="tips-title">Negotiation Tips for You</div>
+                        
+                        <div class="tip-item">
+                            <i class="fas fa-lightbulb tip-icon"></i>
+                            <div class="tip-text">Research industry benchmarks and come prepared with specific data points.</div>
+                        </div>
+                        
+                        <div class="tip-item">
+                            <i class="fas fa-chart-line tip-icon"></i>
+                            <div class="tip-text">Highlight your achievements and quantifiable contributions to the company.</div>
+                        </div>
+                        
+                        <div class="tip-item">
+                            <i class="fas fa-clock tip-icon"></i>
+                            <div class="tip-text">Time your negotiation strategically - ideally during performance reviews or after major wins.</div>
+                        </div>
+                        
+                        <div class="tip-item">
+                            <i class="fas fa-handshake tip-icon"></i>
+                            <div class="tip-text">Be collaborative, not confrontational. Frame it as a discussion about your growth.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Negotiation Strategies -->
+    <section class="strategies-section" data-aos="fade-up">
+        <div class="negotiation-container">
+            <h2 class="strategies-title">Master Salary Negotiation Strategies</h2>
+            
+            <div class="strategy-tabs">
+                <button class="tab-btn active" onclick="switchTab('preparation')">Preparation</button>
+                <button class="tab-btn" onclick="switchTab('conversation')">The Conversation</button>
+                <button class="tab-btn" onclick="switchTab('followup')">Follow-up</button>
+                <button class="tab-btn" onclick="switchTab('mistakes')">Common Mistakes</button>
+            </div>
+            
+            <!-- Preparation Tab -->
+            <div class="tab-content active" id="preparation">
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <div class="strategy-number">1</div>
+                        <div class="strategy-title">Research Market Rates</div>
+                        <div class="strategy-desc">Use salary comparison websites, network with peers, and analyze job postings to understand current market rates for your role and location.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">2</div>
+                        <div class="strategy-title">Document Your Achievements</div>
+                        <div class="strategy-desc">Create a comprehensive list of your accomplishments, including metrics, cost savings, revenue generated, and processes improved.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">3</div>
+                        <div class="strategy-title">Practice Your Pitch</div>
+                        <div class="strategy-desc">Rehearse your negotiation conversation with friends or mentors. Prepare for different scenarios and potential objections.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">4</div>
+                        <div class="strategy-title">Know Your Worth</div>
+                        <div class="strategy-desc">Understand your unique value proposition - what skills, experience, and qualities make you valuable to the organization.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conversation Tab -->
+            <div class="tab-content" id="conversation">
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <div class="strategy-number">1</div>
+                        <div class="strategy-title">Choose the Right Time</div>
+                        <div class="strategy-desc">Schedule the conversation during performance reviews, after successful project completions, or when you've taken on additional responsibilities.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">2</div>
+                        <div class="strategy-title">Lead with Value</div>
+                        <div class="strategy-desc">Start by discussing your contributions and achievements rather than immediately asking for more money. Build your case first.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">3</div>
+                        <div class="strategy-title">Use Data, Not Emotions</div>
+                        <div class="strategy-desc">Present factual information about market rates, your performance metrics, and objective reasons for the increase.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">4</div>
+                        <div class="strategy-title">Be Professional</div>
+                        <div class="strategy-desc">Maintain a collaborative tone. Frame the discussion as exploring opportunities for growth rather than making demands.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Follow-up Tab -->
+            <div class="tab-content" id="followup">
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <div class="strategy-number">1</div>
+                        <div class="strategy-title">Send a Thank You</div>
+                        <div class="strategy-desc">Always thank your manager for their time and consideration, regardless of the immediate outcome of the conversation.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">2</div>
+                        <div class="strategy-title">Summarize in Writing</div>
+                        <div class="strategy-desc">Send a follow-up email summarizing the key points discussed and any next steps or timelines mentioned.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">3</div>
+                        <div class="strategy-title">Be Patient but Persistent</div>
+                        <div class="strategy-desc">Give your manager time to consider your request and discuss with HR or upper management. Follow up appropriately after agreed timelines.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">4</div>
+                        <div class="strategy-title">Continue Performing</div>
+                        <div class="strategy-desc">Maintain your high performance levels while waiting for a decision. Continue demonstrating the value you bring to the organization.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Common Mistakes Tab -->
+            <div class="tab-content" id="mistakes">
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <div class="strategy-number">❌</div>
+                        <div class="strategy-title">Making it Personal</div>
+                        <div class="strategy-desc">Avoid bringing up personal expenses, comparing to colleagues by name, or making the conversation emotional.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">❌</div>
+                        <div class="strategy-title">Poor Timing</div>
+                        <div class="strategy-desc">Don't negotiate during busy periods, right after mistakes, or when the company is going through financial difficulties.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">❌</div>
+                        <div class="strategy-title">Being Unprepared</div>
+                        <div class="strategy-desc">Never go into a salary negotiation without research, documentation of achievements, or a clear understanding of your ask.</div>
+                    </div>
+                    <div class="strategy-card">
+                        <div class="strategy-number">❌</div>
+                        <div class="strategy-title">Ultimatums</div>
+                        <div class="strategy-desc">Avoid giving ultimatums unless you're genuinely prepared to leave. Focus on collaborative problem-solving instead.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        function updateRangeValue(rangeId, value) {
+            const valueElement = document.getElementById(rangeId + 'Value');
+            
+            if (rangeId === 'experience') {
+                valueElement.textContent = value + ' years';
+            } else if (rangeId === 'performance') {
+                const ratings = ['', 'Below Average', 'Fair', 'Average', 'Good', 'Exceptional'];
+                valueElement.textContent = ratings[value];
+            }
+        }
+
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Handle form submission
+        document.getElementById('negotiationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentSalary = parseFloat(document.getElementById('currentSalary').value);
+            const experience = parseInt(document.getElementById('experience').value);
+            const performance = parseInt(document.getElementById('performance').value);
+            const jobRole = document.getElementById('jobRole').value;
+            const location = document.getElementById('location').value;
+            const companySize = document.getElementById('companySize').value;
+            
+            if (!currentSalary || !jobRole || !location) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            showNotification('Calculating your negotiation range...', 'info');
+            
+            setTimeout(() => {
+                calculateSalaryRange(currentSalary, experience, performance, jobRole, location, companySize);
+            }, 2000);
+        });
+
+        function calculateSalaryRange(currentSalary, experience, performance, jobRole, location, companySize) {
+            // Base multipliers for different factors
+            let baseMultiplier = 1.0;
+            
+            // Experience multiplier
+            if (experience < 2) baseMultiplier += 0.05;
+            else if (experience < 5) baseMultiplier += 0.15;
+            else if (experience < 10) baseMultiplier += 0.25;
+            else baseMultiplier += 0.35;
+            
+            // Performance multiplier
+            switch(performance) {
+                case 1: baseMultiplier += 0.0; break;
+                case 2: baseMultiplier += 0.05; break;
+                case 3: baseMultiplier += 0.10; break;
+                case 4: baseMultiplier += 0.20; break;
+                case 5: baseMultiplier += 0.30; break;
+            }
+            
+            // Location multiplier
+            const locationMultipliers = {
+                'san-francisco': 1.4,
+                'new-york': 1.3,
+                'seattle': 1.2,
+                'boston': 1.15,
+                'austin': 1.05,
+                'chicago': 1.0,
+                'denver': 0.95,
+                'remote': 0.9,
+                'other': 1.0
+            };
+            
+            baseMultiplier *= locationMultipliers[location] || 1.0;
+            
+            // Company size multiplier
+            const companySizeMultipliers = {
+                'startup': 0.9,
+                'small': 0.95,
+                'medium': 1.0,
+                'large': 1.1,
+                'enterprise': 1.2
+            };
+            
+            baseMultiplier *= companySizeMultipliers[companySize] || 1.0;
+            
+            // Calculate range
+            const targetSalary = currentSalary * baseMultiplier;
+            const minRange = Math.round(targetSalary * 0.9);
+            const maxRange = Math.round(targetSalary * 1.1);
+            
+            // Display results
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('salaryRange').style.display = 'block';
+            document.getElementById('negotiationTips').style.display = 'block';
+            
+            document.getElementById('rangeAmount').textContent = 
+                `$${minRange.toLocaleString()} - $${maxRange.toLocaleString()}`;
+            
+            const increase = Math.round(((targetSalary - currentSalary) / currentSalary) * 100);
+            
+            showNotification(`Analysis complete! Recommended ${increase}% increase 🎉`, 'success');
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

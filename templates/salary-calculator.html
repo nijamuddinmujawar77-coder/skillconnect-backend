@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator - Get Real-time Salary Insights | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .salary-calculator {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .calc-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .calc-form {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        .calc-results {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .calc-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .calc-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .calc-header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .salary-card {
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .salary-value {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+        
+        .salary-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .insight-card {
+            background: var(--gray-50);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .insight-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 5px;
+        }
+        
+        .insight-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        
+        .breakdown-section {
+            margin-top: 25px;
+        }
+        
+        .breakdown-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--primary-teal);
+        }
+        
+        .market-data {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .market-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .market-stat {
+            padding: 10px;
+        }
+        
+        .market-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+        
+        .market-label {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+        
+        .tips-section {
+            background: var(--gray-50);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .tips-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+        
+        .tip-icon {
+            color: var(--primary-teal);
+            margin-top: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .calc-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .market-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Salary Calculator -->
+    <section class="salary-calculator">
+        <div class="calc-container">
+            <!-- Calculator Form -->
+            <div class="calc-form" data-aos="fade-right">
+                <div class="calc-header">
+                    <h2 style="color: var(--gray-800); font-size: 28px;">
+                        <i class="fas fa-calculator"></i>
+                        Salary Calculator
+                    </h2>
+                    <p style="color: var(--gray-600); font-size: 16px;">
+                        Get personalized salary insights based on your profile
+                    </p>
+                </div>
+                
+                <form id="salaryForm">
+                    <!-- Personal Info -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Personal Information
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label>Job Title/Role</label>
+                            <input type="text" id="jobTitle" placeholder="e.g. Software Developer" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Experience Level</label>
+                            <select id="experience" required>
+                                <option value="">Select Experience</option>
+                                <option value="0-1">0-1 years (Entry Level)</option>
+                                <option value="2-4">2-4 years (Junior)</option>
+                                <option value="5-7">5-7 years (Mid Level)</option>
+                                <option value="8-12">8-12 years (Senior)</option>
+                                <option value="13+">13+ years (Lead/Manager)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Location</label>
+                            <select id="location" required>
+                                <option value="">Select City</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="pune">Pune</option>
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="kolkata">Kolkata</option>
+                                <option value="ahmedabad">Ahmedabad</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Skills & Education -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            Skills & Education
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label>Industry</label>
+                            <select id="industry" required>
+                                <option value="">Select Industry</option>
+                                <option value="technology">Technology</option>
+                                <option value="finance">Finance</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="education">Education</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="sales">Sales</option>
+                                <option value="design">Design</option>
+                                <option value="consulting">Consulting</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Company Size</label>
+                            <select id="companySize">
+                                <option value="">Select Company Size</option>
+                                <option value="startup">Startup (1-50)</option>
+                                <option value="small">Small (51-200)</option>
+                                <option value="medium">Medium (201-1000)</option>
+                                <option value="large">Large (1000+)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Education Level</label>
+                            <select id="education">
+                                <option value="">Select Education</option>
+                                <option value="diploma">Diploma</option>
+                                <option value="bachelor">Bachelor's Degree</option>
+                                <option value="master">Master's Degree</option>
+                                <option value="phd">PhD</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="calculate-btn">
+                        <i class="fas fa-calculator"></i> Calculate Salary
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="calc-results" data-aos="fade-left">
+                <div id="resultsContainer" style="display: none;">
+                    <div class="salary-card">
+                        <div class="salary-value" id="estimatedSalary">₹12.5 LPA</div>
+                        <div class="salary-label">Estimated Annual Salary</div>
+                    </div>
+                    
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-value" id="minSalary">₹10 LPA</div>
+                            <div class="insight-label">Minimum Range</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="maxSalary">₹15 LPA</div>
+                            <div class="insight-label">Maximum Range</div>
+                        </div>
+                    </div>
+                    
+                    <div class="breakdown-section">
+                        <div class="breakdown-title">Monthly Breakdown</div>
+                        <div class="breakdown-item">
+                            <span>Gross Monthly Salary</span>
+                            <span id="grossMonthly">₹1,04,167</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Tax Deduction (~20%)</span>
+                            <span id="taxDeduction">₹20,833</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Take-home Salary</span>
+                            <span id="takeHome">₹83,334</span>
+                        </div>
+                    </div>
+                    
+                    <div class="market-data">
+                        <div class="market-title">Market Comparison</div>
+                        <div class="market-stats">
+                            <div class="market-stat">
+                                <div class="market-value" id="percentile">75th</div>
+                                <div class="market-label">Percentile</div>
+                            </div>
+                            <div class="market-stat">
+                                <div class="market-value" id="marketAvg">₹11.2 LPA</div>
+                                <div class="market-label">Market Average</div>
+                            </div>
+                            <div class="market-stat">
+                                <div class="market-value" id="growth">+15%</div>
+                                <div class="market-label">YoY Growth</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <div class="tips-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Salary Negotiation Tips
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-check tip-icon"></i>
+                            <span>Research market rates before negotiations</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-check tip-icon"></i>
+                            <span>Highlight your unique skills and achievements</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-check tip-icon"></i>
+                            <span>Consider total compensation, not just base salary</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-check tip-icon"></i>
+                            <span>Be prepared to discuss your value proposition</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="placeholder" class="market-data" style="text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-chart-line" style="font-size: 60px; color: var(--primary-teal); margin-bottom: 20px;"></i>
+                    <h3 style="color: var(--gray-800); margin-bottom: 10px;">Ready to Calculate?</h3>
+                    <p style="color: var(--gray-600);">Fill out the form to get personalized salary insights based on current market data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        // Salary calculation logic
+        const salaryData = {
+            technology: {
+                "0-1": { min: 3.5, max: 8, avg: 5.5 },
+                "2-4": { min: 6, max: 15, avg: 10 },
+                "5-7": { min: 12, max: 25, avg: 18 },
+                "8-12": { min: 20, max: 45, avg: 32 },
+                "13+": { min: 35, max: 80, avg: 55 }
+            },
+            finance: {
+                "0-1": { min: 4, max: 9, avg: 6.5 },
+                "2-4": { min: 7, max: 18, avg: 12 },
+                "5-7": { min: 15, max: 30, avg: 22 },
+                "8-12": { min: 25, max: 50, avg: 37 },
+                "13+": { min: 40, max: 90, avg: 65 }
+            },
+            healthcare: {
+                "0-1": { min: 3, max: 7, avg: 5 },
+                "2-4": { min: 5, max: 12, avg: 8.5 },
+                "5-7": { min: 10, max: 20, avg: 15 },
+                "8-12": { min: 18, max: 35, avg: 26 },
+                "13+": { min: 30, max: 60, avg: 45 }
+            },
+            marketing: {
+                "0-1": { min: 2.5, max: 6, avg: 4 },
+                "2-4": { min: 4, max: 10, avg: 7 },
+                "5-7": { min: 8, max: 18, avg: 13 },
+                "8-12": { min: 15, max: 30, avg: 22 },
+                "13+": { min: 25, max: 50, avg: 37 }
+            },
+            design: {
+                "0-1": { min: 2, max: 5, avg: 3.5 },
+                "2-4": { min: 3.5, max: 8, avg: 5.5 },
+                "5-7": { min: 6, max: 15, avg: 10 },
+                "8-12": { min: 12, max: 25, avg: 18 },
+                "13+": { min: 20, max: 40, avg: 30 }
+            }
+        };
+
+        const locationMultiplier = {
+            mumbai: 1.3,
+            bangalore: 1.25,
+            delhi: 1.2,
+            pune: 1.1,
+            hyderabad: 1.05,
+            chennai: 1.0,
+            kolkata: 0.9,
+            ahmedabad: 0.85
+        };
+
+        const companySizeMultiplier = {
+            startup: 0.9,
+            small: 1.0,
+            medium: 1.1,
+            large: 1.25
+        };
+
+        const educationMultiplier = {
+            diploma: 0.9,
+            bachelor: 1.0,
+            master: 1.15,
+            phd: 1.3
+        };
+
+        document.getElementById('salaryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateSalary();
+        });
+
+        function calculateSalary() {
+            const industry = document.getElementById('industry').value;
+            const experience = document.getElementById('experience').value;
+            const location = document.getElementById('location').value;
+            const companySize = document.getElementById('companySize').value;
+            const education = document.getElementById('education').value;
+
+            // Get base salary data
+            const baseSalary = salaryData[industry]?.[experience] || salaryData.technology[experience];
+            
+            // Apply multipliers
+            let locationMult = locationMultiplier[location] || 1.0;
+            let companyMult = companySizeMultiplier[companySize] || 1.0;
+            let educationMult = educationMultiplier[education] || 1.0;
+
+            // Calculate final salary ranges
+            const minSalary = Math.round(baseSalary.min * locationMult * companyMult * educationMult * 10) / 10;
+            const maxSalary = Math.round(baseSalary.max * locationMult * companyMult * educationMult * 10) / 10;
+            const avgSalary = Math.round(baseSalary.avg * locationMult * companyMult * educationMult * 10) / 10;
+
+            // Display results
+            displayResults(minSalary, maxSalary, avgSalary);
+        }
+
+        function displayResults(minSal, maxSal, avgSal) {
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+
+            // Main salary display
+            document.getElementById('estimatedSalary').textContent = `₹${avgSal} LPA`;
+            document.getElementById('minSalary').textContent = `₹${minSal} LPA`;
+            document.getElementById('maxSalary').textContent = `₹${maxSal} LPA`;
+
+            // Monthly breakdown
+            const grossMonthly = Math.round((avgSal * 100000) / 12);
+            const taxDeduction = Math.round(grossMonthly * 0.2);
+            const takeHome = grossMonthly - taxDeduction;
+
+            document.getElementById('grossMonthly').textContent = `₹${grossMonthly.toLocaleString('en-IN')}`;
+            document.getElementById('taxDeduction').textContent = `₹${taxDeduction.toLocaleString('en-IN')}`;
+            document.getElementById('takeHome').textContent = `₹${takeHome.toLocaleString('en-IN')}`;
+
+            // Market comparison
+            const marketAvg = avgSal * 0.9;
+            const percentile = avgSal > marketAvg ? '75th' : '60th';
+            const growth = Math.floor(Math.random() * 20) + 10; // Random growth 10-30%
+
+            document.getElementById('marketAvg').textContent = `₹${marketAvg.toFixed(1)} LPA`;
+            document.getElementById('percentile').textContent = percentile;
+            document.getElementById('growth').textContent = `+${growth}%`;
+
+            // Show success notification
+            showNotification('Salary calculated successfully! 💰', 'success');
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

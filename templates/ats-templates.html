@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS-Optimized Resume Templates | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .templates-platform {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .templates-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .templates-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .templates-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .templates-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .templates-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .templates-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: var(--gray-100);
+            border: 2px solid var(--gray-200);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+        
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .template-card {
+            background: var(--gray-50);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-teal);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .template-preview {
+            height: 400px;
+            background: white;
+            margin: 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            font-size: 10px;
+            line-height: 1.2;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-teal);
+        }
+        
+        .preview-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 5px;
+        }
+        
+        .preview-contact {
+            font-size: 10px;
+            color: var(--gray-600);
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .preview-section {
+            margin-bottom: 12px;
+        }
+        
+        .preview-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--gray-300);
+            padding-bottom: 2px;
+        }
+        
+        .preview-text {
+            font-size: 9px;
+            color: var(--gray-600);
+            line-height: 1.3;
+        }
+        
+        .template-info {
+            padding: 20px;
+        }
+        
+        .template-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+        
+        .template-desc {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .template-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .template-tag {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .template-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .preview-btn {
+            flex: 1;
+            background: var(--gray-100);
+            border: 2px solid var(--gray-200);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-btn:hover {
+            background: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+        
+        .download-btn {
+            flex: 2;
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .ats-info {
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .ats-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .ats-desc {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--primary-teal);
+            transform: translateY(-3px);
+        }
+        
+        .feature-icon {
+            font-size: 30px;
+            color: var(--primary-teal);
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+        
+        /* Preview Modal Styles */
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .preview-modal.active {
+            display: flex;
+        }
+        
+        .preview-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        
+        .preview-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .preview-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+        
+        .preview-modal-close {
+            background: var(--gray-100);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--gray-600);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-modal-close:hover {
+            background: var(--coral);
+            color: white;
+        }
+        
+        .preview-modal-body {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .full-template-preview {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+        }
+        
+        /* Modern Template Styles */
+        .template-preview.modern-style {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .template-preview.modern-style .preview-header {
+            border-bottom-color: white;
+        }
+        
+        .template-preview.modern-style .preview-name {
+            color: white;
+        }
+        
+        .template-preview.modern-style .preview-section-title {
+            color: white;
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+        
+        .template-preview.modern-style .preview-text {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        /* Executive Template Styles */
+        .template-preview.executive-style {
+            background: linear-gradient(to right, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .template-preview.executive-style .preview-header {
+            border-bottom: 3px solid gold;
+        }
+        
+        .template-preview.executive-style .preview-name {
+            color: gold;
+            font-size: 22px;
+        }
+        
+        .template-preview.executive-style .preview-section-title {
+            color: gold;
+            border-bottom-color: gold;
+        }
+        
+        /* Graduate Template Styles */
+        .template-preview.graduate-style {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+        }
+        
+        .template-preview.graduate-style .preview-header {
+            background: #0ea5e9;
+            color: white;
+            margin: -20px -20px 15px -20px;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .template-preview.graduate-style .preview-name {
+            color: white;
+        }
+        
+        .template-preview.graduate-style .preview-section-title {
+            color: #0ea5e9;
+            border-bottom-color: #0ea5e9;
+        }
+        
+        /* Healthcare Template Styles */
+        .template-preview.healthcare-style {
+            background: #f0fdf4;
+            border-left: 5px solid #10b981;
+        }
+        
+        .template-preview.healthcare-style .preview-name {
+            color: #10b981;
+        }
+        
+        .template-preview.healthcare-style .preview-section-title {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        
+        /* Academic Template Styles */
+        .template-preview.academic-style {
+            background: white;
+            border: 3px double #6366f1;
+        }
+        
+        .template-preview.academic-style .preview-header {
+            border-bottom: 2px double #6366f1;
+        }
+        
+        .template-preview.academic-style .preview-name {
+            color: #1e293b;
+            font-family: 'Georgia', serif;
+        }
+        
+        .template-preview.academic-style .preview-section-title {
+            color: #6366f1;
+            font-family: 'Georgia', serif;
+            border-bottom: 1px solid #6366f1;
+        }
+        
+        @media (max-width: 768px) {
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .templates-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-modal-content {
+                max-width: 95%;
+            }
+            
+            .preview-modal-body {
+                padding: 20px;
+            }
+            
+            .full-template-preview {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ATS Templates -->
+    <section class="templates-platform">
+        <div class="templates-container">
+            <div class="templates-header" data-aos="fade-up">
+                <h1>ATS-Optimized Resume Templates</h1>
+                <div class="templates-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">15.7K</span>
+                        <span class="stat-label">downloads</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">ATS friendly</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="templates-content" data-aos="fade-up" data-aos-delay="200">
+                <!-- ATS Information -->
+                <div class="ats-info">
+                    <div class="ats-title">What is ATS?</div>
+                    <div class="ats-desc">
+                        Applicant Tracking Systems (ATS) scan and filter resumes before human recruiters see them. 
+                        Our templates are optimized to pass through these systems while maintaining professional appeal.
+                    </div>
+                </div>
+                
+                <!-- Key Features -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                        <div class="feature-title">ATS Friendly</div>
+                        <div class="feature-desc">Designed to pass automated screening systems</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-paint-brush"></i></div>
+                        <div class="feature-title">Professional Design</div>
+                        <div class="feature-desc">Clean, modern layouts that impress recruiters</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-edit"></i></div>
+                        <div class="feature-title">Easy to Customize</div>
+                        <div class="feature-desc">Simple to edit with your information</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-download"></i></div>
+                        <div class="feature-title">Multiple Formats</div>
+                        <div class="feature-desc">Word, PDF, and Google Docs versions</div>
+                    </div>
+                </div>
+                
+                <!-- Category Filters -->
+                <div class="templates-filters">
+                    <button class="filter-btn active" onclick="filterTemplates('all')">All Templates</button>
+                    <button class="filter-btn" onclick="filterTemplates('tech')">Tech & IT</button>
+                    <button class="filter-btn" onclick="filterTemplates('business')">Business</button>
+                    <button class="filter-btn" onclick="filterTemplates('creative')">Creative</button>
+                    <button class="filter-btn" onclick="filterTemplates('healthcare')">Healthcare</button>
+                    <button class="filter-btn" onclick="filterTemplates('entry-level')">Entry Level</button>
+                </div>
+                
+                <!-- Templates Grid -->
+                <div class="templates-grid" id="templatesGrid">
+                    <!-- Template 1 - Professional -->
+                    <div class="template-card" data-category="tech business">
+                        <div class="template-preview">
+                            <div class="preview-header">
+                                <div class="preview-name">John Smith</div>
+                                <div class="preview-contact">john@email.com • (555) 123-4567 • linkedin.com/in/johnsmith</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Professional Summary</div>
+                                <div class="preview-text">Results-driven software engineer with 5+ years of experience developing scalable web applications...</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Experience</div>
+                                <div class="preview-text">
+                                    <strong>Senior Developer</strong> - Tech Corp<br>
+                                    • Developed microservices architecture<br>
+                                    • Led team of 4 developers<br>
+                                    • Improved system performance by 40%
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Skills</div>
+                                <div class="preview-text">JavaScript • React • Node.js • AWS • Python</div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <div class="template-title">Professional Classic</div>
+                            <div class="template-desc">Clean and professional design perfect for tech and business roles.</div>
+                            <div class="template-tags">
+                                <span class="template-tag">ATS Friendly</span>
+                                <span class="template-tag">Professional</span>
+                                <span class="template-tag">Tech</span>
+                            </div>
+                            <div class="template-actions">
+                                <button class="preview-btn" onclick="previewTemplate('professional')">Preview</button>
+                                <button class="download-btn" onclick="downloadTemplate('professional')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Template 2 - Modern -->
+                    <div class="template-card" data-category="creative business">
+                        <div class="template-preview modern-style">
+                            <div class="preview-header">
+                                <div class="preview-name">Sarah Johnson</div>
+                                <div class="preview-contact">sarah@email.com • Portfolio: sarahdesigns.com</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">About</div>
+                                <div class="preview-text">Creative UX designer passionate about user-centered design solutions...</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Experience</div>
+                                <div class="preview-text">
+                                    <strong>UX Designer</strong> - Design Studio<br>
+                                    • Redesigned mobile app increasing user engagement<br>
+                                    • Conducted user research and usability testing
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Education</div>
+                                <div class="preview-text">Bachelor of Design • University of Arts • 2020</div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <div class="template-title">Modern Creative</div>
+                            <div class="template-desc">Contemporary design ideal for creative professionals and designers.</div>
+                            <div class="template-tags">
+                                <span class="template-tag">Modern Design</span>
+                                <span class="template-tag">Creative</span>
+                                <span class="template-tag">ATS Safe</span>
+                            </div>
+                            <div class="template-actions">
+                                <button class="preview-btn" onclick="previewTemplate('modern')">Preview</button>
+                                <button class="download-btn" onclick="downloadTemplate('modern')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Template 3 - Executive -->
+                    <div class="template-card" data-category="business">
+                        <div class="template-preview executive-style">
+                            <div class="preview-header">
+                                <div class="preview-name">Michael Brown</div>
+                                <div class="preview-contact">michael@email.com • (555) 987-6543</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Executive Summary</div>
+                                <div class="preview-text">Senior business leader with 15+ years driving growth and operational excellence...</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Professional Experience</div>
+                                <div class="preview-text">
+                                    <strong>VP of Operations</strong> - Global Corp<br>
+                                    • Managed $50M budget and 200+ employees<br>
+                                    • Led digital transformation initiative<br>
+                                    • Achieved 25% cost reduction
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Leadership</div>
+                                <div class="preview-text">Strategic Planning • Team Development • P&L Management</div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <div class="template-title">Executive Leadership</div>
+                            <div class="template-desc">Sophisticated template designed for senior-level executives and managers.</div>
+                            <div class="template-tags">
+                                <span class="template-tag">Executive</span>
+                                <span class="template-tag">Leadership</span>
+                                <span class="template-tag">ATS Optimized</span>
+                            </div>
+                            <div class="template-actions">
+                                <button class="preview-btn" onclick="previewTemplate('executive')">Preview</button>
+                                <button class="download-btn" onclick="downloadTemplate('executive')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Template 4 - Entry Level -->
+                    <div class="template-card" data-category="entry-level tech">
+                        <div class="template-preview graduate-style">
+                            <div class="preview-header">
+                                <div class="preview-name">Alex Chen</div>
+                                <div class="preview-contact">alex@email.com • github.com/alexchen</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Objective</div>
+                                <div class="preview-text">Recent computer science graduate seeking entry-level software development position...</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Education</div>
+                                <div class="preview-text">
+                                    <strong>Bachelor of Computer Science</strong><br>
+                                    State University • GPA: 3.8/4.0 • 2024<br>
+                                    Relevant Coursework: Data Structures, Algorithms
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Projects</div>
+                                <div class="preview-text">
+                                    <strong>E-commerce Web App</strong><br>
+                                    • Built with React and Node.js<br>
+                                    • Implemented payment integration
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <div class="template-title">Fresh Graduate</div>
+                            <div class="template-desc">Perfect for new graduates and entry-level professionals starting their career.</div>
+                            <div class="template-tags">
+                                <span class="template-tag">Entry Level</span>
+                                <span class="template-tag">Graduate</span>
+                                <span class="template-tag">Student Friendly</span>
+                            </div>
+                            <div class="template-actions">
+                                <button class="preview-btn" onclick="previewTemplate('graduate')">Preview</button>
+                                <button class="download-btn" onclick="downloadTemplate('graduate')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Template 5 - Healthcare -->
+                    <div class="template-card" data-category="healthcare">
+                        <div class="template-preview healthcare-style">
+                            <div class="preview-header">
+                                <div class="preview-name">Dr. Lisa Parker</div>
+                                <div class="preview-contact">lisa.parker@email.com • License: MD123456</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Medical Summary</div>
+                                <div class="preview-text">Board-certified physician with 8+ years of clinical experience in internal medicine...</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Clinical Experience</div>
+                                <div class="preview-text">
+                                    <strong>Attending Physician</strong> - City Hospital<br>
+                                    • Managed patient care for 50+ patients daily<br>
+                                    • Led medical rounds and mentored residents
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Certifications</div>
+                                <div class="preview-text">Board Certified Internal Medicine • BLS • ACLS</div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <div class="template-title">Healthcare Professional</div>
+                            <div class="template-desc">Specialized template for healthcare professionals, doctors, and medical staff.</div>
+                            <div class="template-tags">
+                                <span class="template-tag">Healthcare</span>
+                                <span class="template-tag">Medical</span>
+                                <span class="template-tag">Professional</span>
+                            </div>
+                            <div class="template-actions">
+                                <button class="preview-btn" onclick="previewTemplate('healthcare')">Preview</button>
+                                <button class="download-btn" onclick="downloadTemplate('healthcare')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Template 6 - Academic -->
+                    <div class="template-card" data-category="entry-level">
+                        <div class="template-preview academic-style">
+                            <div class="preview-header">
+                                <div class="preview-name">Prof. David Kim</div>
+                                <div class="preview-contact">d.kim@university.edu • ORCID: 0000-0000-0000</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Academic Profile</div>
+                                <div class="preview-text">Research-focused academic with expertise in machine learning and data science...</div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Publications</div>
+                                <div class="preview-text">
+                                    • "Advanced ML Algorithms" - Nature, 2023<br>
+                                    • "Data Science Applications" - IEEE, 2022<br>
+                                    • 25+ peer-reviewed publications
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <div class="preview-section-title">Research Interests</div>
+                                <div class="preview-text">Machine Learning • Artificial Intelligence • Data Mining</div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <div class="template-title">Academic Research</div>
+                            <div class="template-desc">Tailored for academics, researchers, and PhD candidates seeking academic positions.</div>
+                            <div class="template-tags">
+                                <span class="template-tag">Academic</span>
+                                <span class="template-tag">Research</span>
+                                <span class="template-tag">PhD</span>
+                            </div>
+                            <div class="template-actions">
+                                <button class="preview-btn" onclick="previewTemplate('academic')">Preview</button>
+                                <button class="download-btn" onclick="downloadTemplate('academic')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Modal -->
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-modal-content">
+            <div class="preview-modal-header">
+                <div class="preview-modal-title" id="modalTitle">Template Preview</div>
+                <button class="preview-modal-close" onclick="closePreviewModal()">✕</button>
+            </div>
+            <div class="preview-modal-body">
+                <div class="full-template-preview" id="fullPreview">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        function filterTemplates(category) {
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const templates = document.querySelectorAll('.template-card');
+            
+            templates.forEach(template => {
+                if (category === 'all' || template.dataset.category.includes(category)) {
+                    template.style.display = 'block';
+                    template.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    template.style.display = 'none';
+                }
+            });
+            
+            showNotification(`Showing ${category === 'all' ? 'all' : category} templates`, 'info');
+        }
+
+        function previewTemplate(templateId) {
+            const templates = {
+                'professional': {
+                    title: 'Professional Classic Template',
+                    content: `
+                        <div style="text-align: center; border-bottom: 3px solid #0d9488; padding-bottom: 20px; margin-bottom: 30px;">
+                            <h1 style="margin: 0; font-size: 36px; color: #0d9488;">JOHN SMITH</h1>
+                            <p style="margin: 10px 0; color: #666;">john@email.com | (555) 123-4567 | linkedin.com/in/johnsmith</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #0d9488; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 15px;">PROFESSIONAL SUMMARY</h2>
+                            <p style="line-height: 1.8; color: #374151;">Results-driven software engineer with 5+ years of experience developing scalable web applications. Proven track record of delivering high-quality solutions on time and within budget. Strong expertise in full-stack development and agile methodologies.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #0d9488; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 15px;">EXPERIENCE</h2>
+                            <div style="margin-bottom: 20px;">
+                                <h3 style="margin: 0; color: #1f2937;">Senior Developer</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">Tech Corp | 2020 - Present</p>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                    <li>Developed microservices architecture reducing system latency by 35%</li>
+                                    <li>Led team of 4 developers in agile environment</li>
+                                    <li>Improved system performance by 40% through code optimization</li>
+                                    <li>Implemented CI/CD pipeline reducing deployment time by 60%</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; color: #1f2937;">Full Stack Developer</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">StartupXYZ | 2018 - 2020</p>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                    <li>Built responsive web applications using React and Node.js</li>
+                                    <li>Collaborated with design team to implement user-friendly interfaces</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #0d9488; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 15px;">EDUCATION</h2>
+                            <h3 style="margin: 0; color: #1f2937;">Bachelor of Science in Computer Science</h3>
+                            <p style="margin: 5px 0; color: #6b7280;">State University | GPA: 3.8/4.0 | 2018</p>
+                        </div>
+                        
+                        <div>
+                            <h2 style="color: #0d9488; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 15px;">SKILLS</h2>
+                            <p style="line-height: 1.8;"><strong>Languages:</strong> JavaScript, Python, Java, SQL</p>
+                            <p style="line-height: 1.8;"><strong>Frameworks:</strong> React, Node.js, Express, Django</p>
+                            <p style="line-height: 1.8;"><strong>Tools:</strong> Git, Docker, AWS, MongoDB, MySQL</p>
+                        </div>
+                    `
+                },
+                'modern': {
+                    title: 'Modern Creative Template',
+                    content: `
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+                            <h1 style="margin: 0; font-size: 36px;">SARAH JOHNSON</h1>
+                            <p style="margin: 10px 0; opacity: 0.9;">sarah@email.com | Portfolio: sarahdesigns.com</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #764ba2; border-bottom: 3px solid #667eea; padding-bottom: 5px; margin-bottom: 15px;">ABOUT</h2>
+                            <p style="line-height: 1.8; color: #374151;">Creative UX designer passionate about user-centered design solutions. 4+ years of experience creating intuitive interfaces that delight users and drive business results. Strong background in user research and usability testing.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #764ba2; border-bottom: 3px solid #667eea; padding-bottom: 5px; margin-bottom: 15px;">EXPERIENCE</h2>
+                            <div style="margin-bottom: 20px;">
+                                <h3 style="margin: 0; color: #1f2937;">UX Designer</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">Design Studio | 2021 - Present</p>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                    <li>Redesigned mobile app increasing user engagement by 45%</li>
+                                    <li>Conducted user research and usability testing with 100+ participants</li>
+                                    <li>Created design systems used across 5 product teams</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #764ba2; border-bottom: 3px solid #667eea; padding-bottom: 5px; margin-bottom: 15px;">EDUCATION</h2>
+                            <h3 style="margin: 0; color: #1f2937;">Bachelor of Design</h3>
+                            <p style="margin: 5px 0; color: #6b7280;">University of Arts | 2020</p>
+                        </div>
+                        
+                        <div>
+                            <h2 style="color: #764ba2; border-bottom: 3px solid #667eea; padding-bottom: 5px; margin-bottom: 15px;">SKILLS</h2>
+                            <p style="line-height: 1.8;"><strong>Design:</strong> Figma, Sketch, Adobe XD, Photoshop</p>
+                            <p style="line-height: 1.8;"><strong>Research:</strong> User Interviews, Usability Testing, Personas</p>
+                            <p style="line-height: 1.8;"><strong>Code:</strong> HTML, CSS, JavaScript, React</p>
+                        </div>
+                    `
+                },
+                'executive': {
+                    title: 'Executive Leadership Template',
+                    content: `
+                        <div style="background: linear-gradient(to right, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; border-bottom: 5px solid gold;">
+                            <h1 style="margin: 0; font-size: 36px; color: gold;">MICHAEL BROWN</h1>
+                            <p style="margin: 10px 0; font-size: 18px;">Senior Business Leader</p>
+                            <p style="margin: 10px 0; opacity: 0.9;">michael@email.com | (555) 987-6543</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #1e3c72; border-bottom: 3px solid gold; padding-bottom: 5px; margin-bottom: 15px;">EXECUTIVE SUMMARY</h2>
+                            <p style="line-height: 1.8; color: #374151;">Senior business leader with 15+ years driving growth and operational excellence. Proven track record of transforming underperforming divisions into profitable business units. Strategic thinker with strong execution capabilities and P&L management experience exceeding $50M.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #1e3c72; border-bottom: 3px solid gold; padding-bottom: 5px; margin-bottom: 15px;">PROFESSIONAL EXPERIENCE</h2>
+                            <div style="margin-bottom: 20px;">
+                                <h3 style="margin: 0; color: #1f2937;">VP of Operations</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">Global Corp | 2018 - Present</p>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                    <li>Managed $50M budget and 200+ employees across 3 regions</li>
+                                    <li>Led digital transformation initiative resulting in 40% efficiency gain</li>
+                                    <li>Achieved 25% cost reduction while maintaining quality standards</li>
+                                    <li>Increased revenue by $15M through strategic partnerships</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #1e3c72; border-bottom: 3px solid gold; padding-bottom: 5px; margin-bottom: 15px;">EDUCATION</h2>
+                            <h3 style="margin: 0; color: #1f2937;">MBA - Executive Leadership</h3>
+                            <p style="margin: 5px 0; color: #6b7280;">Harvard Business School | 2012</p>
+                        </div>
+                        
+                        <div>
+                            <h2 style="color: #1e3c72; border-bottom: 3px solid gold; padding-bottom: 5px; margin-bottom: 15px;">CORE COMPETENCIES</h2>
+                            <p style="line-height: 1.8;">Strategic Planning • Change Management • P&L Management • Team Development • Digital Transformation • Business Development • Operations Excellence • Mergers & Acquisitions</p>
+                        </div>
+                    `
+                },
+                'graduate': {
+                    title: 'Fresh Graduate Template',
+                    content: `
+                        <div style="background: #0ea5e9; color: white; padding: 25px; border-radius: 10px; margin-bottom: 30px;">
+                            <h1 style="margin: 0; font-size: 36px;">ALEX CHEN</h1>
+                            <p style="margin: 10px 0;">Computer Science Graduate</p>
+                            <p style="margin: 10px 0; opacity: 0.9;">alex@email.com | github.com/alexchen</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 5px; margin-bottom: 15px;">OBJECTIVE</h2>
+                            <p style="line-height: 1.8; color: #374151;">Recent computer science graduate seeking entry-level software development position. Strong foundation in programming, data structures, and algorithms. Passionate about building scalable applications and learning new technologies.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 5px; margin-bottom: 15px;">EDUCATION</h2>
+                            <h3 style="margin: 0; color: #1f2937;">Bachelor of Computer Science</h3>
+                            <p style="margin: 5px 0; color: #6b7280;">State University | GPA: 3.8/4.0 | 2024</p>
+                            <p style="margin: 10px 0;"><strong>Relevant Coursework:</strong> Data Structures, Algorithms, Database Systems, Web Development, Operating Systems</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 5px; margin-bottom: 15px;">PROJECTS</h2>
+                            <div style="margin-bottom: 15px;">
+                                <h3 style="margin: 0; color: #1f2937;">E-commerce Web Application</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">Full Stack Development</p>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                    <li>Built with React, Node.js, and MongoDB</li>
+                                    <li>Implemented Stripe payment integration</li>
+                                    <li>Created responsive design for mobile and desktop</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h2 style="color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 5px; margin-bottom: 15px;">TECHNICAL SKILLS</h2>
+                            <p style="line-height: 1.8;"><strong>Languages:</strong> Python, JavaScript, Java, C++, SQL</p>
+                            <p style="line-height: 1.8;"><strong>Frameworks:</strong> React, Node.js, Express, Flask</p>
+                            <p style="line-height: 1.8;"><strong>Tools:</strong> Git, Docker, VS Code, Postman</p>
+                        </div>
+                    `
+                },
+                'healthcare': {
+                    title: 'Healthcare Professional Template',
+                    content: `
+                        <div style="padding: 30px; border-left: 5px solid #10b981; margin-bottom: 30px; background: #f0fdf4;">
+                            <h1 style="margin: 0; font-size: 36px; color: #10b981;">DR. LISA PARKER, MD</h1>
+                            <p style="margin: 10px 0; color: #374151;">Board Certified Internal Medicine</p>
+                            <p style="margin: 10px 0; color: #6b7280;">lisa.parker@email.com | License: MD123456</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">MEDICAL SUMMARY</h2>
+                            <p style="line-height: 1.8; color: #374151;">Board-certified physician with 8+ years of clinical experience in internal medicine. Committed to providing patient-centered care and evidence-based treatment. Strong background in diagnosis, treatment planning, and patient education.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">CLINICAL EXPERIENCE</h2>
+                            <div style="margin-bottom: 20px;">
+                                <h3 style="margin: 0; color: #1f2937;">Attending Physician</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">City Hospital | 2019 - Present</p>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                    <li>Managed patient care for 50+ patients daily in busy hospital setting</li>
+                                    <li>Led medical rounds and mentored 10+ residents annually</li>
+                                    <li>Achieved 95% patient satisfaction rating</li>
+                                    <li>Published 3 research papers in peer-reviewed journals</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">EDUCATION</h2>
+                            <h3 style="margin: 0; color: #1f2937;">Doctor of Medicine (MD)</h3>
+                            <p style="margin: 5px 0; color: #6b7280;">Johns Hopkins University | 2015</p>
+                            <p style="margin: 10px 0;"><strong>Residency:</strong> Internal Medicine, Mayo Clinic | 2015-2018</p>
+                        </div>
+                        
+                        <div>
+                            <h2 style="color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">CERTIFICATIONS & SKILLS</h2>
+                            <p style="line-height: 1.8;"><strong>Board Certifications:</strong> Internal Medicine (ABIM)</p>
+                            <p style="line-height: 1.8;"><strong>Licenses:</strong> State Medical License (Active)</p>
+                            <p style="line-height: 1.8;"><strong>Certifications:</strong> BLS, ACLS, PALS</p>
+                        </div>
+                    `
+                },
+                'academic': {
+                    title: 'Academic Research Template',
+                    content: `
+                        <div style="padding: 30px; border: 3px double #6366f1; margin-bottom: 30px;">
+                            <h1 style="margin: 0; font-size: 36px; font-family: Georgia, serif; color: #1e293b;">PROF. DAVID KIM, PhD</h1>
+                            <p style="margin: 10px 0; color: #374151; font-family: Georgia, serif;">Associate Professor of Computer Science</p>
+                            <p style="margin: 10px 0; color: #6b7280;">d.kim@university.edu | ORCID: 0000-0000-0000-1234</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #6366f1; font-family: Georgia, serif; border-bottom: 2px solid #6366f1; padding-bottom: 5px; margin-bottom: 15px;">ACADEMIC PROFILE</h2>
+                            <p style="line-height: 1.8; color: #374151;">Research-focused academic with expertise in machine learning and data science. 10+ years of experience in research, teaching, and curriculum development. Published 25+ peer-reviewed papers with h-index of 18. Strong track record of securing research funding and mentoring graduate students.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #6366f1; font-family: Georgia, serif; border-bottom: 2px solid #6366f1; padding-bottom: 5px; margin-bottom: 15px;">ACADEMIC APPOINTMENTS</h2>
+                            <div style="margin-bottom: 15px;">
+                                <h3 style="margin: 0; color: #1f2937; font-family: Georgia, serif;">Associate Professor</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">State University, Computer Science Department | 2020 - Present</p>
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; color: #1f2937; font-family: Georgia, serif;">Assistant Professor</h3>
+                                <p style="margin: 5px 0; color: #6b7280; font-style: italic;">State University, Computer Science Department | 2015 - 2020</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #6366f1; font-family: Georgia, serif; border-bottom: 2px solid #6366f1; padding-bottom: 5px; margin-bottom: 15px;">SELECTED PUBLICATIONS</h2>
+                            <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                                <li>Kim, D. et al. (2023). "Advanced Machine Learning Algorithms for Big Data." <em>Nature</em>, 610(7932), 123-135.</li>
+                                <li>Kim, D. & Smith, J. (2022). "Data Science Applications in Healthcare." <em>IEEE Transactions</em>, 45(3), 456-478.</li>
+                                <li>Kim, D. (2021). "Deep Learning for Natural Language Processing." <em>ACM Computing Surveys</em>, 54(2), 1-28.</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Total Publications:</strong> 25+ peer-reviewed papers | <strong>Citations:</strong> 850+ | <strong>h-index:</strong> 18</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #6366f1; font-family: Georgia, serif; border-bottom: 2px solid #6366f1; padding-bottom: 5px; margin-bottom: 15px;">EDUCATION</h2>
+                            <h3 style="margin: 0; color: #1f2937; font-family: Georgia, serif;">PhD in Computer Science</h3>
+                            <p style="margin: 5px 0; color: #6b7280;">MIT | 2014</p>
+                            <p style="margin: 10px 0;"><strong>Dissertation:</strong> "Novel Approaches to Machine Learning Optimization"</p>
+                        </div>
+                        
+                        <div>
+                            <h2 style="color: #6366f1; font-family: Georgia, serif; border-bottom: 2px solid #6366f1; padding-bottom: 5px; margin-bottom: 15px;">RESEARCH INTERESTS</h2>
+                            <p style="line-height: 1.8;">Machine Learning • Artificial Intelligence • Data Mining • Natural Language Processing • Deep Learning • Big Data Analytics</p>
+                        </div>
+                    `
+                }
+            };
+            
+            const modal = document.getElementById('previewModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const fullPreview = document.getElementById('fullPreview');
+            
+            if (templates[templateId]) {
+                modalTitle.textContent = templates[templateId].title;
+                fullPreview.innerHTML = templates[templateId].content;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closePreviewModal() {
+            const modal = document.getElementById('previewModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal on background click
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('previewModal');
+            if (e.target === modal) {
+                closePreviewModal();
+            }
+        });
+
+        function downloadTemplate(templateId) {
+            const templates = {
+                'professional': {
+                    title: 'Professional Classic',
+                    content: `JOHN SMITH
+john@email.com | (555) 123-4567 | linkedin.com/in/johnsmith
+
+PROFESSIONAL SUMMARY
+Results-driven software engineer with 5+ years of experience developing scalable web applications.
+Proven track record of delivering high-quality solutions on time and within budget.
+
+EXPERIENCE
+
+Senior Developer | Tech Corp | 2020 - Present
+• Developed microservices architecture reducing system latency by 35%
+• Led team of 4 developers in agile environment
+• Improved system performance by 40% through code optimization
+• Implemented CI/CD pipeline reducing deployment time by 60%
+
+Full Stack Developer | StartupXYZ | 2018 - 2020
+• Built responsive web applications using React and Node.js
+• Collaborated with design team to implement user-friendly interfaces
+
+EDUCATION
+
+Bachelor of Science in Computer Science
+State University | GPA: 3.8/4.0 | 2018
+
+SKILLS
+
+Languages: JavaScript, Python, Java, SQL
+Frameworks: React, Node.js, Express, Django
+Tools: Git, Docker, AWS, MongoDB, MySQL
+
+---
+This is an ATS-optimized resume template from SkillConnect.
+Visit skillconnect.com for more templates and career tools!`
+                },
+                'modern': {
+                    title: 'Modern Creative',
+                    content: `SARAH JOHNSON
+UX Designer
+
+sarah@email.com | Portfolio: sarahdesigns.com
+
+═══════════════════════════════════════════════════════
+
+ABOUT
+Creative UX designer passionate about user-centered design solutions.
+4+ years of experience creating intuitive interfaces that delight users.
+
+EXPERIENCE
+
+UX Designer | Design Studio | 2021 - Present
+• Redesigned mobile app increasing user engagement by 45%
+• Conducted user research and usability testing with 100+ participants
+• Created design systems used across 5 product teams
+
+EDUCATION
+
+Bachelor of Design | University of Arts | 2020
+
+SKILLS
+
+Design: Figma, Sketch, Adobe XD, Photoshop
+Research: User Interviews, Usability Testing, Personas
+Code: HTML, CSS, JavaScript, React
+
+---
+This is an ATS-optimized resume template from SkillConnect.`
+                },
+                'executive': {
+                    title: 'Executive Leadership',
+                    content: `MICHAEL BROWN
+Senior Business Leader
+
+michael@email.com | (555) 987-6543
+
+═══════════════════════════════════════════════════════
+
+EXECUTIVE SUMMARY
+Senior business leader with 15+ years driving growth and operational excellence.
+Proven track record of transforming underperforming divisions into profitable units.
+P&L management experience exceeding $50M.
+
+PROFESSIONAL EXPERIENCE
+
+VP of Operations | Global Corp | 2018 - Present
+• Managed $50M budget and 200+ employees across 3 regions
+• Led digital transformation initiative resulting in 40% efficiency gain
+• Achieved 25% cost reduction while maintaining quality standards
+• Increased revenue by $15M through strategic partnerships
+
+EDUCATION
+
+MBA - Executive Leadership | Harvard Business School | 2012
+
+CORE COMPETENCIES
+Strategic Planning • Change Management • P&L Management
+Team Development • Digital Transformation • Operations Excellence
+
+---
+This is an ATS-optimized resume template from SkillConnect.`
+                },
+                'graduate': {
+                    title: 'Fresh Graduate',
+                    content: `ALEX CHEN
+Computer Science Graduate
+
+alex@email.com | github.com/alexchen
+
+═══════════════════════════════════════════════════════
+
+OBJECTIVE
+Recent computer science graduate seeking entry-level software development position.
+Strong foundation in programming, data structures, and algorithms.
+
+EDUCATION
+
+Bachelor of Computer Science | State University
+GPA: 3.8/4.0 | 2024
+Relevant Coursework: Data Structures, Algorithms, Database Systems, Web Development
+
+PROJECTS
+
+E-commerce Web Application | Full Stack Development
+• Built with React, Node.js, and MongoDB
+• Implemented Stripe payment integration
+• Created responsive design for mobile and desktop
+
+TECHNICAL SKILLS
+
+Languages: Python, JavaScript, Java, C++, SQL
+Frameworks: React, Node.js, Express, Flask
+Tools: Git, Docker, VS Code, Postman
+
+---
+This is an ATS-optimized resume template from SkillConnect.`
+                },
+                'healthcare': {
+                    title: 'Healthcare Professional',
+                    content: `DR. LISA PARKER, MD
+Board Certified Internal Medicine
+
+lisa.parker@email.com | License: MD123456
+
+═══════════════════════════════════════════════════════
+
+MEDICAL SUMMARY
+Board-certified physician with 8+ years of clinical experience in internal medicine.
+Committed to providing patient-centered care and evidence-based treatment.
+
+CLINICAL EXPERIENCE
+
+Attending Physician | City Hospital | 2019 - Present
+• Managed patient care for 50+ patients daily in busy hospital setting
+• Led medical rounds and mentored 10+ residents annually
+• Achieved 95% patient satisfaction rating
+• Published 3 research papers in peer-reviewed journals
+
+EDUCATION
+
+Doctor of Medicine (MD) | Johns Hopkins University | 2015
+Residency: Internal Medicine, Mayo Clinic | 2015-2018
+
+CERTIFICATIONS & SKILLS
+
+Board Certifications: Internal Medicine (ABIM)
+Licenses: State Medical License (Active)
+Certifications: BLS, ACLS, PALS
+
+---
+This is an ATS-optimized resume template from SkillConnect.`
+                },
+                'academic': {
+                    title: 'Academic Research',
+                    content: `PROF. DAVID KIM, PhD
+Associate Professor of Computer Science
+
+d.kim@university.edu | ORCID: 0000-0000-0000-1234
+
+═══════════════════════════════════════════════════════
+
+ACADEMIC PROFILE
+Research-focused academic with expertise in machine learning and data science.
+10+ years of experience in research, teaching, and curriculum development.
+Published 25+ peer-reviewed papers with h-index of 18.
+
+ACADEMIC APPOINTMENTS
+
+Associate Professor | State University, CS Department | 2020 - Present
+Assistant Professor | State University, CS Department | 2015 - 2020
+
+SELECTED PUBLICATIONS
+
+Kim, D. et al. (2023). "Advanced Machine Learning Algorithms for Big Data."
+   Nature, 610(7932), 123-135.
+
+Kim, D. & Smith, J. (2022). "Data Science Applications in Healthcare."
+   IEEE Transactions, 45(3), 456-478.
+
+Total Publications: 25+ | Citations: 850+ | h-index: 18
+
+EDUCATION
+
+PhD in Computer Science | MIT | 2014
+Dissertation: "Novel Approaches to Machine Learning Optimization"
+
+RESEARCH INTERESTS
+Machine Learning • Artificial Intelligence • Data Mining • NLP • Deep Learning
+
+---
+This is an ATS-optimized resume template from SkillConnect.`
+                }
+            };
+            
+            if (!templates[templateId]) {
+                showNotification('Template not found!', 'error');
+                return;
+            }
+            
+            showNotification(`Preparing ${templates[templateId].title} for download...`, 'info');
+            
+            // Download the template as a text file
+            setTimeout(() => {
+                const blob = new Blob([templates[templateId].content], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${templateId}-resume-template.txt`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+                
+                showNotification(`${templates[templateId].title} downloaded successfully! 🎉`, 'success');
+            }, 1500);
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

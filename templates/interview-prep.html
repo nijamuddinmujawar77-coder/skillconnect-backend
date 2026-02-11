@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Preparation - Practice Questions & Tips | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .interview-prep {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .prep-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .prep-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .prep-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .prep-header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .prep-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-teal);
+            border-color: white;
+        }
+        
+        .prep-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .question-container {
+            display: none;
+            text-align: center;
+        }
+        
+        .question-container.active {
+            display: block;
+        }
+        
+        .question-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .question-number {
+            font-size: 16px;
+            color: var(--primary-teal);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--gray-800);
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+        
+        .question-category {
+            display: inline-block;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .answer-section {
+            margin-top: 30px;
+            text-align: left;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-teal);
+            display: none;
+        }
+        
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .answer-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 15px;
+        }
+        
+        .answer-text {
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        .question-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-show-answer {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .btn-show-answer:hover {
+            background: var(--dark-teal);
+        }
+        
+        .btn-next {
+            background: var(--coral);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: var(--dark-coral);
+        }
+        
+        .btn-prev {
+            background: var(--gray-500);
+            color: white;
+        }
+        
+        .progress-bar {
+            background: var(--gray-200);
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-teal), var(--coral));
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .filter-btn {
+            background: var(--gray-100);
+            border: 2px solid var(--gray-200);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+        
+        .tips-section {
+            display: none;
+        }
+        
+        .tips-section.active {
+            display: block;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .tip-icon {
+            font-size: 40px;
+            color: var(--primary-teal);
+            margin-bottom: 15px;
+        }
+        
+        .tip-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .tip-desc {
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .prep-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .question-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Interview Prep -->
+    <section class="interview-prep">
+        <div class="prep-container">
+            <div class="prep-header" data-aos="fade-up">
+                <h1>Interview Preparation</h1>
+                <p>Master your next interview with our comprehensive question bank and expert tips</p>
+            </div>
+            
+            <div class="prep-tabs" data-aos="fade-up" data-aos-delay="200">
+                <button class="tab-btn active" onclick="switchTab('questions')">
+                    <i class="fas fa-question-circle"></i> Practice Questions
+                </button>
+                <button class="tab-btn" onclick="switchTab('tips')">
+                    <i class="fas fa-lightbulb"></i> Interview Tips
+                </button>
+            </div>
+            
+            <div class="prep-content" data-aos="fade-up" data-aos-delay="400">
+                <!-- Questions Tab -->
+                <div id="questionsTab" class="question-container active">
+                    <div class="category-filter">
+                        <button class="filter-btn active" onclick="filterQuestions('all')">All Questions</button>
+                        <button class="filter-btn" onclick="filterQuestions('behavioral')">Behavioral</button>
+                        <button class="filter-btn" onclick="filterQuestions('technical')">Technical</button>
+                        <button class="filter-btn" onclick="filterQuestions('situational')">Situational</button>
+                        <button class="filter-btn" onclick="filterQuestions('general')">General</button>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Question 1 of 50</div>
+                    
+                    <div class="question-card" id="questionCard">
+                        <div class="question-number" id="questionNumber">Question 1</div>
+                        <div class="question-text" id="questionText">Tell me about yourself.</div>
+                        <div class="question-category" id="questionCategory">General</div>
+                    </div>
+                    
+                    <div class="answer-section" id="answerSection">
+                        <div class="answer-title">Sample Answer & Tips:</div>
+                        <div class="answer-text" id="answerText"></div>
+                    </div>
+                    
+                    <div class="question-actions">
+                        <button class="action-btn btn-prev" id="prevBtn" onclick="previousQuestion()">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button class="action-btn btn-show-answer" id="showAnswerBtn" onclick="toggleAnswer()">
+                            <i class="fas fa-eye"></i> Show Answer
+                        </button>
+                        <button class="action-btn btn-next" onclick="nextQuestion()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tips Tab -->
+                <div id="tipsTab" class="tips-section">
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-clock"></i></div>
+                            <div class="tip-title">Be Punctual</div>
+                            <div class="tip-desc">Arrive 10-15 minutes early. This shows respect for the interviewer's time and demonstrates your punctuality.</div>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-search"></i></div>
+                            <div class="tip-title">Research the Company</div>
+                            <div class="tip-desc">Study the company's mission, values, recent news, and the role you're applying for. Show genuine interest.</div>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-user-tie"></i></div>
+                            <div class="tip-title">Dress Appropriately</div>
+                            <div class="tip-desc">Dress professionally and appropriately for the company culture. When in doubt, err on the side of being overdressed.</div>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-comments"></i></div>
+                            <div class="tip-title">Practice STAR Method</div>
+                            <div class="tip-desc">Use Situation, Task, Action, Result format for behavioral questions to structure your responses effectively.</div>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-question"></i></div>
+                            <div class="tip-title">Prepare Questions</div>
+                            <div class="tip-desc">Have thoughtful questions ready about the role, team, and company culture. This shows your genuine interest.</div>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-handshake"></i></div>
+                            <div class="tip-title">Follow Up</div>
+                            <div class="tip-desc">Send a thank-you email within 24 hours, reiterating your interest and highlighting key points from the conversation.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        // Interview Questions Database
+        const interviewQuestions = [
+            {
+                category: "general",
+                question: "Tell me about yourself.",
+                answer: "Structure your answer around your professional background, highlighting relevant experiences and skills that align with the position. Keep it concise (2-3 minutes) and end with why you're interested in this role."
+            },
+            {
+                category: "behavioral",
+                question: "Describe a time when you had to work under pressure.",
+                answer: "Use the STAR method: Describe the Situation, the Task you had to accomplish, the Actions you took, and the Results. Focus on how you managed stress and delivered quality work despite challenges."
+            },
+            {
+                category: "technical",
+                question: "What programming languages are you most comfortable with?",
+                answer: "Mention 2-3 languages you're genuinely proficient in, provide examples of projects where you've used them, and explain why you prefer them. Be honest about your skill level."
+            },
+            {
+                category: "situational",
+                question: "How would you handle a disagreement with a team member?",
+                answer: "Emphasize communication, active listening, and finding common ground. Mention that you'd seek to understand their perspective, present your viewpoint respectfully, and work toward a mutually beneficial solution."
+            },
+            {
+                category: "behavioral",
+                question: "Tell me about a time you failed.",
+                answer: "Choose a real failure, explain what happened, take responsibility, and most importantly, focus on what you learned and how you've applied that learning since then."
+            },
+            {
+                category: "general",
+                question: "Why do you want to work here?",
+                answer: "Show you've researched the company. Mention specific aspects like their mission, culture, recent achievements, or growth opportunities that align with your career goals."
+            },
+            {
+                category: "technical",
+                question: "Explain the difference between SQL and NoSQL databases.",
+                answer: "SQL databases are relational with structured schemas, while NoSQL are more flexible with various data models. Mention when to use each type based on project requirements."
+            },
+            {
+                category: "behavioral",
+                question: "Describe your greatest professional achievement.",
+                answer: "Choose an achievement that's relevant to the role. Use specific metrics and explain your role in the success. Focus on the impact and what skills you demonstrated."
+            },
+            {
+                category: "situational",
+                question: "How do you prioritize tasks when everything seems urgent?",
+                answer: "Discuss methods like categorizing by impact and urgency, communicating with stakeholders to understand true priorities, and being transparent about timelines and trade-offs."
+            },
+            {
+                category: "general",
+                question: "Where do you see yourself in 5 years?",
+                answer: "Focus on professional growth that aligns with the company's opportunities. Show ambition but also loyalty and commitment to growing within the organization."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let filteredQuestions = [...interviewQuestions];
+        let showingAnswer = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayQuestion();
+            updateProgress();
+        });
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            document.getElementById('questionsTab').classList.toggle('active', tabName === 'questions');
+            document.getElementById('tipsTab').classList.toggle('active', tabName === 'tips');
+        }
+
+        function filterQuestions(category) {
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter questions
+            if (category === 'all') {
+                filteredQuestions = [...interviewQuestions];
+            } else {
+                filteredQuestions = interviewQuestions.filter(q => q.category === category);
+            }
+            
+            currentQuestionIndex = 0;
+            showingAnswer = false;
+            displayQuestion();
+            updateProgress();
+            hideAnswer();
+        }
+
+        function displayQuestion() {
+            const question = filteredQuestions[currentQuestionIndex];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}`;
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('questionCategory').textContent = 
+                question.category.charAt(0).toUpperCase() + question.category.slice(1);
+            document.getElementById('answerText').textContent = question.answer;
+            
+            // Update previous button state
+            document.getElementById('prevBtn').style.opacity = currentQuestionIndex === 0 ? '0.5' : '1';
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}`;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < filteredQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+                hideAnswer();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+                hideAnswer();
+            }
+        }
+
+        function toggleAnswer() {
+            const answerSection = document.getElementById('answerSection');
+            const showBtn = document.getElementById('showAnswerBtn');
+            
+            if (showingAnswer) {
+                hideAnswer();
+            } else {
+                answerSection.classList.add('show');
+                showBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Answer';
+                showBtn.style.background = 'var(--gray-500)';
+                showingAnswer = true;
+            }
+        }
+
+        function hideAnswer() {
+            const answerSection = document.getElementById('answerSection');
+            const showBtn = document.getElementById('showAnswerBtn');
+            
+            answerSection.classList.remove('show');
+            showBtn.innerHTML = '<i class="fas fa-eye"></i> Show Answer';
+            showBtn.style.background = 'var(--primary-teal)';
+            showingAnswer = false;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                previousQuestion();
+            } else if (event.key === 'ArrowRight') {
+                nextQuestion();
+            } else if (event.key === ' ') {
+                event.preventDefault();
+                toggleAnswer();
+            }
+        });
+    </script>
+</body>
+</html>

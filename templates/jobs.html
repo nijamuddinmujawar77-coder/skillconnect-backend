@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs - Find Your Dream Job | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="assets/js/tool-blocker-compact.js"></script>
+    <style>
+        .jobs-hero {
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        
+        .jobs-search-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow-xl);
+            margin-top: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .jobs-filters {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+        
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            position: relative;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 14px;
+            background: var(--gray-50);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            background: white;
+        }
+        
+        .jobs-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .jobs-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow-lg);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .sidebar-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-teal);
+        }
+        
+        .checkbox-item label {
+            font-size: 14px;
+            color: var(--gray-600);
+            cursor: pointer;
+        }
+        
+        .salary-range {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .salary-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .salary-inputs input {
+            padding: 8px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .jobs-main {
+            min-height: 600px;
+        }
+        
+        .jobs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .results-count {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+        
+        .sort-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sort-dropdown select {
+            padding: 10px 15px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .job-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-teal);
+            transform: translateY(-2px);
+        }
+        
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .company-info {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .job-details h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+        
+        .company-name {
+            color: var(--gray-600);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        .job-meta i {
+            color: var(--primary-teal);
+        }
+        
+        .job-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-bookmark {
+            background: var(--gray-100);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-bookmark:hover {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .btn-bookmark.bookmarked {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .job-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        
+        .job-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .skill-tag {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .job-posted {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        .btn-apply {
+            background: linear-gradient(135deg, var(--coral), var(--dark-coral));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 40px 0;
+        }
+        
+        .pagination button {
+            padding: 10px 15px;
+            border: 2px solid var(--gray-200);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination button:hover,
+        .pagination button.active {
+            background: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+        
+        .loading-jobs {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+        
+        .no-jobs {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        @media (max-width: 1024px) {
+            .jobs-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .jobs-sidebar {
+                order: -1;
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .jobs-hero {
+                padding: 100px 0 40px;
+            }
+            
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .jobs-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .job-card-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .job-actions {
+                align-self: flex-end;
+            }
+            
+            .job-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html" class="active">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Jobs Hero Section -->
+    <section class="jobs-hero">
+        <div class="container">
+            <h1 data-aos="fade-up">Find Your Dream Job</h1>
+            <p data-aos="fade-up" data-aos-delay="200">
+                Discover thousands of verified job opportunities from top companies across India
+            </p>
+            
+            <div class="jobs-search-container" data-aos="fade-up" data-aos-delay="400">
+                <div class="search-bar" style="display: grid; grid-template-columns: 2fr 1.5fr 1.5fr auto auto; gap: 12px; align-items: center;">
+                    <div class="search-field">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="job-search-keyword" placeholder="Job title, keywords, or company">
+                    </div>
+                    <div class="search-field">
+                        <i class="fas fa-map-marker-alt search-icon"></i>
+                        <select id="job-search-location">
+                            <option value="">All Locations</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="pune">Pune</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="remote">Remote</option>
+                        </select>
+                    </div>
+                    <div class="search-field">
+                        <i class="fas fa-briefcase search-icon"></i>
+                        <select id="job-search-category">
+                            <option value="">All Category</option>
+                            <option value="it">IT & Software</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="finance">Finance</option>
+                            <option value="design">Design</option>
+                            <option value="hr">HR & Admin</option>
+                            <option value="sales">Sales</option>
+                            <option value="engineering">Engineering</option>
+                        </select>
+                    </div>
+                    <button id="voice-search-btn" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); border: none; padding: 14px 18px; border-radius: 10px; cursor: pointer; color: white; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);" title="🎤 Voice Search - Click & Speak" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(139, 92, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(139, 92, 246, 0.3)'">
+                        <i class="fas fa-microphone" id="voice-icon"></i>
+                    </button>
+                    <button class="search-btn" id="jobs-search-btn">
+                        <i class="fas fa-search"></i>
+                        <span>Search Jobs</span>
+                    </button>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <div id="voice-status" style="background: rgba(139, 92, 246, 0.95); color: white; font-size: 15px; font-weight: 500; min-height: 24px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 24px; border-radius: 25px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); backdrop-filter: blur(10px);">
+                        <i class="fas fa-microphone" style="font-size: 16px;"></i>
+                        <span>🎤 Try Voice Search! Click purple microphone & say: "Find React developer jobs in Mumbai"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs Content -->
+    <section class="jobs-section">
+        <div class="container">
+            <!-- Advanced Filters -->
+            <div class="jobs-filters" data-aos="fade-up">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <select id="experience-level">
+                            <option value="">Experience Level</option>
+                            <option value="entry">Entry Level (0-2 years)</option>
+                            <option value="mid">Mid Level (3-5 years)</option>
+                            <option value="senior">Senior Level (6-10 years)</option>
+                            <option value="lead">Lead/Manager (10+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="job-type">
+                            <option value="">Job Type</option>
+                            <option value="full-time">Full-time</option>
+                            <option value="part-time">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="internship">Internship</option>
+                            <option value="freelance">Freelance</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="company-size">
+                            <option value="">Company Size</option>
+                            <option value="startup">Startup (1-50)</option>
+                            <option value="small">Small (51-200)</option>
+                            <option value="medium">Medium (201-1000)</option>
+                            <option value="large">Large (1000+)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <input type="date" id="date-posted" placeholder="Date Posted">
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button class="btn-secondary" onclick="clearFilters()">
+                        <i class="fas fa-times"></i> Clear Filters
+                    </button>
+                    <button class="btn-primary" onclick="applyFilters()">
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
+                </div>
+            </div>
+            
+            <div class="jobs-content">
+                <!-- Sidebar Filters -->
+                <div class="jobs-sidebar" data-aos="fade-right">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Salary Range</h3>
+                        <div class="salary-range">
+                            <div class="salary-inputs">
+                                <input type="number" id="min-salary" placeholder="Min (₹LPA)">
+                                <input type="number" id="max-salary" placeholder="Max (₹LPA)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Top Skills</h3>
+                        <div class="checkbox-list">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="skill-react">
+                                <label for="skill-react">React.js</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="skill-node">
+                                <label for="skill-node">Node.js</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="skill-python">
+                                <label for="skill-python">Python</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="skill-java">
+                                <label for="skill-java">Java</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="skill-javascript">
+                                <label for="skill-javascript">JavaScript</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Work Mode</h3>
+                        <div class="checkbox-list">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mode-remote">
+                                <label for="mode-remote">Remote</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mode-hybrid">
+                                <label for="mode-hybrid">Hybrid</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mode-office">
+                                <label for="mode-office">Office</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Jobs Area -->
+                <div class="jobs-main" data-aos="fade-left">
+                    <div class="jobs-header">
+                        <div class="results-count" id="results-count">
+                            Loading jobs...
+                        </div>
+                        <div class="sort-dropdown">
+                            <label for="sort-jobs">Sort by:</label>
+                            <select id="sort-jobs" onchange="sortJobs()">
+                                <option value="date">Date Posted</option>
+                                <option value="relevance">Relevance</option>
+                                <option value="salary">Salary</option>
+                                <option value="company">Company</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="jobs-list" id="jobs-list">
+                        <div class="loading-jobs">
+                            <div class="loader"></div>
+                            <p>Loading amazing job opportunities for you...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pagination" id="pagination" style="display: none;">
+                        <button onclick="previousPage()">&laquo; Previous</button>
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button onclick="nextPage()">Next &raquo;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Jobs Page Specific JavaScript
+        let currentJobs = [];
+        let filteredJobs = [];
+        let currentPage = 1;
+        const jobsPerPage = 10;
+        
+        // API Base URL
+        const API_BASE_URL = 'https://skillconnect-backend-jcn0.onrender.com/api';
+        
+        // Initialize jobs page
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    offset: 100,
+                    once: true
+                });
+            }
+            
+            // Check if we need to filter by company (from companies page)
+            const filterByCompany = localStorage.getItem('filterByCompany');
+            if (filterByCompany) {
+                // Set the company filter and remove from localStorage
+                document.getElementById('job-search-keyword').value = filterByCompany;
+                localStorage.removeItem('filterByCompany');
+                
+                // Show notification
+                showNotification(`Showing jobs from ${filterByCompany}`, 'info');
+            }
+            
+            // Load jobs from backend
+            loadJobsFromAPI();
+            
+            // Search button event
+            document.getElementById('jobs-search-btn').addEventListener('click', searchJobs);
+            
+            // Filter change events
+            document.getElementById('experience-level').addEventListener('change', applyFilters);
+            document.getElementById('job-type').addEventListener('change', applyFilters);
+            document.getElementById('company-size').addEventListener('change', applyFilters);
+            document.getElementById('date-posted').addEventListener('change', applyFilters);
+            document.getElementById('sort-jobs').addEventListener('change', sortJobs);
+            
+            // Salary range inputs
+            document.getElementById('min-salary').addEventListener('input', applyFilters);
+            document.getElementById('max-salary').addEventListener('input', applyFilters);
+            
+            // Skills and work mode checkboxes
+            document.querySelectorAll('.checkbox-list input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', applyFilters);
+            });
+        });
+        
+        // Load jobs from Django API
+        async function loadJobsFromAPI() {
+            try {
+                // Check if we need to filter by company
+                const filterByCompany = document.getElementById('job-search-keyword').value;
+                let url = `${API_BASE_URL}/jobs/`;
+                
+                // Add company filter to API call if needed
+                if (filterByCompany) {
+                    url += `?search=${encodeURIComponent(filterByCompany)}`;
+                }
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch jobs');
+                }
+                
+                const jobs = await response.json();
+                currentJobs = jobs.results || jobs; // Handle paginated response
+                filteredJobs = [...currentJobs];
+                
+                displayJobs();
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                // Fallback to sample data if API fails
+                loadSampleJobs();
+            }
+        }
+        
+        // Simple logo function - direct backend se use karo
+        function getCompanyLogo(job) {
+            // Direct backend se logo use karo, fallback sirf empty case ke liye
+            return job.company_logo || '🏢';
+        }
+        
+        // Fallback sample data
+        function loadSampleJobs() {
+            const sampleJobs = [
+                {
+                    id: 1,
+                    title: 'Senior React Developer',
+                    company: 'TechCorp Solutions',
+                    location: 'Mumbai, Maharashtra',
+                    job_type: 'Full-time',
+                    category: 'it',
+                    experience_level: 'mid',
+                    salary_display: '₹8-15 LPA',
+                    posted_ago: '2 hours ago',
+                    company_logo: '🏢',
+                    skills: ['React', 'Node.js', 'JavaScript', 'TypeScript'],
+                    description: 'We are looking for a skilled React Developer to join our frontend team. You will be responsible for developing user interface components and implementing them.',
+                    work_mode: 'Hybrid',
+                    company_size: 'Medium'
+                },
+                {
+                    id: 2,
+                    title: 'UI/UX Designer',
+                    company: 'Design Studio Pro',
+                    location: 'Bangalore, Karnataka',
+                    job_type: 'Full-time',
+                    category: 'design',
+                    experience_level: 'mid',
+                    salary_display: '₹6-12 LPA',
+                    posted_ago: '4 hours ago',
+                    company_logo: '🎨',
+                    skills: ['Figma', 'Adobe XD', 'Photoshop', 'Sketch'],
+                    description: 'Join our creative team to design amazing user experiences. You will work closely with product managers and developers.',
+                    work_mode: 'Office',
+                    company_size: 'Small'
+                },
+                {
+                    id: 3,
+                    title: 'Data Scientist',
+                    company: 'DataTech Analytics',
+                    location: 'Pune, Maharashtra',
+                    job_type: 'Full-time',
+                    category: 'it',
+                    experience_level: 'senior',
+                    salary_display: '₹10-18 LPA',
+                    posted_ago: '6 hours ago',
+                    company_logo: '📊',
+                    skills: ['Python', 'Machine Learning', 'SQL', 'Tableau'],
+                    description: 'Exciting opportunity to work with big data and machine learning models. Help us drive business insights through data.',
+                    work_mode: 'Remote',
+                    company_size: 'Large'
+                },
+                {
+                    id: 4,
+                    title: 'Product Manager',
+                    company: 'Innovation Labs',
+                    location: 'Delhi, NCR',
+                    job_type: 'Full-time',
+                    category: 'other',
+                    experience_level: 'senior',
+                    salary_display: '₹15-25 LPA',
+                    posted_ago: '8 hours ago',
+                    company_logo: '🚀',
+                    skills: ['Strategy', 'Analytics', 'Leadership', 'Agile'],
+                    description: 'Lead product strategy and execution for our flagship products. Work with cross-functional teams to deliver amazing user experiences.',
+                    work_mode: 'Hybrid',
+                    company_size: 'Medium'
+                },
+                {
+                    id: 5,
+                    title: 'DevOps Engineer',
+                    company: 'CloudTech Systems',
+                    location: 'Hyderabad, Telangana',
+                    job_type: 'Full-time',
+                    category: 'engineering',
+                    experience_level: 'mid',
+                    salary_display: '₹9-16 LPA',
+                    posted_ago: '12 hours ago',
+                    company_logo: '☁️',
+                    skills: ['AWS', 'Docker', 'Kubernetes', 'Jenkins'],
+                    description: 'Help us scale our infrastructure and improve deployment processes. Experience with cloud platforms required.',
+                    work_mode: 'Remote',
+                    company_size: 'Startup'
+                },
+                {
+                    id: 6,
+                    title: 'Marketing Manager',
+                    company: 'GrowthHack Marketing',
+                    location: 'Chennai, Tamil Nadu',
+                    job_type: 'Full-time',
+                    category: 'marketing',
+                    experience_level: 'senior',
+                    salary_display: '₹7-14 LPA',
+                    posted_ago: '1 day ago',
+                    company_logo: '📈',
+                    skills: ['Digital Marketing', 'SEO', 'Content Strategy', 'Analytics'],
+                    description: 'Drive our marketing campaigns and help us reach new customers. Experience in B2B marketing preferred.',
+                    work_mode: 'Office',
+                    company_size: 'Medium'
+                }
+            ];
+            
+            currentJobs = [...sampleJobs];
+            filteredJobs = [...sampleJobs];
+            displayJobs();
+        }
+        
+        // Initialize jobs page
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    offset: 100,
+                    once: true
+                });
+            }
+            
+            currentJobs = [...sampleJobs];
+            filteredJobs = [...sampleJobs];
+            
+            // Load jobs after a delay to simulate API call
+            setTimeout(() => {
+                displayJobs();
+            }, 2000);
+            
+            // Search button event
+            document.getElementById('jobs-search-btn').addEventListener('click', searchJobs);
+        });
+        
+        function displayJobs() {
+            const jobsList = document.getElementById('jobs-list');
+            const resultsCount = document.getElementById('results-count');
+            
+            if (filteredJobs.length === 0) {
+                jobsList.innerHTML = `
+                    <div class="no-jobs">
+                        <i class="fas fa-search" style="font-size: 48px; color: var(--gray-400); margin-bottom: 20px;"></i>
+                        <h3>No jobs found</h3>
+                        <p>Try adjusting your search criteria or filters</p>
+                    </div>
+                `;
+                resultsCount.textContent = 'No jobs found';
+                return;
+            }
+            
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * jobsPerPage;
+            const endIndex = startIndex + jobsPerPage;
+            const jobsToShow = filteredJobs.slice(startIndex, endIndex);
+            
+            const jobsHTML = jobsToShow.map(job => `
+                <div class="job-card" data-aos="fade-up">
+                    <div class="job-card-header">
+                        <div class="company-info">
+                            <div class="company-logo">
+                                <span>${getCompanyLogo(job)}</span>
+                            </div>
+                            <div class="job-details">
+                                <h3>${job.title}</h3>
+                                <p class="company-name">${job.company}</p>
+                                <div class="job-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                                    <span><i class="fas fa-briefcase"></i> ${job.job_type || job.type || 'Full-time'}</span>
+                                    <span><i class="fas fa-rupee-sign"></i> ${job.salary_display || job.salary}</span>
+                                    <span><i class="fas fa-laptop"></i> ${job.work_mode || job.workMode || 'Office'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="job-actions">
+                            <button class="btn-bookmark" onclick="toggleBookmark(${job.id})">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="job-description">${job.description}</p>
+                    <div class="job-skills">
+                        ${(job.skills || []).map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-posted"><i class="fas fa-clock"></i> ${job.posted_ago || job.posted || 'Recently'}</span>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-whatsapp" onclick="shareOnWhatsApp(${job.id})" style="background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <i class="fab fa-whatsapp"></i> Share
+                            </button>
+                            <button class="btn-apply" onclick="applyToJob(${job.id})">
+                                Apply Now <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            jobsList.innerHTML = jobsHTML;
+            resultsCount.textContent = `Showing ${startIndex + 1}-${Math.min(endIndex, filteredJobs.length)} of ${filteredJobs.length} jobs`;
+            
+            // Show pagination if needed
+            if (filteredJobs.length > jobsPerPage) {
+                document.getElementById('pagination').style.display = 'flex';
+            } else {
+                document.getElementById('pagination').style.display = 'none';
+            }
+            
+            // Re-initialize AOS for new elements
+            if (typeof AOS !== 'undefined') {
+                AOS.refresh();
+            }
+        }
+        
+        async function searchJobs() {
+            const keyword = document.getElementById('job-search-keyword').value;
+            const location = document.getElementById('job-search-location').value;
+            const category = document.getElementById('job-search-category').value;
+            const experienceLevel = document.getElementById('experience-level').value;
+            const jobType = document.getElementById('job-type').value;
+            const companySize = document.getElementById('company-size').value;
+            
+            try {
+                // Build API URL with query parameters
+                const params = new URLSearchParams();
+                if (keyword) params.append('keyword', keyword);
+                if (location && location !== '') params.append('location', location);
+                if (category && category !== '') params.append('category', category);
+                if (experienceLevel && experienceLevel !== '') params.append('experience', experienceLevel);
+                if (jobType && jobType !== '') params.append('job_type', jobType);
+                if (companySize && companySize !== '') params.append('company_size', companySize);
+                
+                const response = await fetch(`${API_BASE_URL}/jobs/?${params.toString()}`);
+                if (!response.ok) {
+                    throw new Error('Search failed');
+                }
+                
+                const data = await response.json();
+                filteredJobs = data.results || data;
+                
+                // Apply local filters for salary, skills, work mode, date
+                applyLocalFilters();
+                
+                currentPage = 1;
+                displayJobs();
+                
+            } catch (error) {
+                console.error('Error searching jobs:', error);
+                // Fallback to local filtering
+                searchJobsLocally();
+            }
+        }
+        
+        // Fallback local search function
+        function searchJobsLocally() {
+            const keyword = document.getElementById('job-search-keyword').value.toLowerCase();
+            const location = document.getElementById('job-search-location').value.toLowerCase();
+            const category = document.getElementById('job-search-category').value.toLowerCase();
+            const experienceLevel = document.getElementById('experience-level').value;
+            const jobType = document.getElementById('job-type').value;
+            const companySize = document.getElementById('company-size').value;
+            
+            filteredJobs = currentJobs.filter(job => {
+                const matchesKeyword = !keyword || 
+                    job.title.toLowerCase().includes(keyword) || 
+                    job.company.toLowerCase().includes(keyword) ||
+                    (job.skills && job.skills.some(skill => skill.toLowerCase().includes(keyword)));
+                    
+                const matchesLocation = !location || location === '' || job.location.toLowerCase().includes(location);
+                const matchesCategory = !category || category === '' || job.category === category;
+                const matchesExperience = !experienceLevel || experienceLevel === '' || job.experience_level === experienceLevel;
+                const matchesJobType = !jobType || jobType === '' || job.job_type === jobType;
+                const matchesCompanySize = !companySize || companySize === '' || job.company_size.toLowerCase() === companySize.toLowerCase();
+                
+                return matchesKeyword && matchesLocation && matchesCategory && matchesExperience && matchesJobType && matchesCompanySize;
+            });
+            
+            // Apply local filters for salary, skills, work mode
+            applyLocalFilters();
+            
+            currentPage = 1;
+            displayJobs();
+        }
+        
+        // Apply local filters (salary, skills, work mode, date)
+        function applyLocalFilters() {
+            const minSalary = parseInt(document.getElementById('min-salary').value) || 0;
+            const maxSalary = parseInt(document.getElementById('max-salary').value) || Infinity;
+            const datePosted = document.getElementById('date-posted').value;
+            
+            // Get selected skills
+            const selectedSkills = [];
+            document.querySelectorAll('input[name="skill"]:checked').forEach(checkbox => {
+                selectedSkills.push(checkbox.value.toLowerCase());
+            });
+            
+            // Get selected work modes
+            const selectedWorkModes = [];
+            document.querySelectorAll('input[name="work-mode"]:checked').forEach(checkbox => {
+                selectedWorkModes.push(checkbox.value);
+            });
+            
+            filteredJobs = filteredJobs.filter(job => {
+                // Salary filter
+                let jobMinSalary = 0;
+                let jobMaxSalary = 0;
+                
+                if (job.min_salary && job.max_salary) {
+                    jobMinSalary = parseFloat(job.min_salary);
+                    jobMaxSalary = parseFloat(job.max_salary);
+                } else if (job.salary_display) {
+                    // Parse salary from display string like "₹8-15 LPA"
+                    const salaryMatch = job.salary_display.match(/₹?(\d+)-(\d+)/);
+                    if (salaryMatch) {
+                        jobMinSalary = parseInt(salaryMatch[1]);
+                        jobMaxSalary = parseInt(salaryMatch[2]);
+                    }
+                }
+                
+                const matchesSalary = jobMaxSalary >= minSalary && jobMinSalary <= maxSalary;
+                
+                // Skills filter
+                let matchesSkills = true;
+                if (selectedSkills.length > 0) {
+                    const jobSkills = (job.skills || []).map(s => s.toLowerCase());
+                    matchesSkills = selectedSkills.some(skill => 
+                        jobSkills.includes(skill) || 
+                        job.description.toLowerCase().includes(skill)
+                    );
+                }
+                
+                // Work mode filter
+                let matchesWorkMode = true;
+                if (selectedWorkModes.length > 0) {
+                    matchesWorkMode = selectedWorkModes.includes(job.work_mode);
+                }
+                
+                // Date posted filter
+                let matchesDate = true;
+                if (datePosted && datePosted !== '') {
+                    const jobDate = new Date(job.created_at || job.posted);
+                    const now = new Date();
+                    const daysDiff = Math.floor((now - jobDate) / (1000 * 60 * 60 * 24));
+                    
+                    switch(datePosted) {
+                        case 'today':
+                            matchesDate = daysDiff === 0;
+                            break;
+                        case 'week':
+                            matchesDate = daysDiff <= 7;
+                            break;
+                        case 'month':
+                            matchesDate = daysDiff <= 30;
+                            break;
+                    }
+                }
+                
+                return matchesSalary && matchesSkills && matchesWorkMode && matchesDate;
+            });
+        }
+        
+        function applyFilters() {
+            // Trigger search with all filters
+            searchJobs();
+            
+            // Count active filters
+            const activeFilters = countActiveFilters();
+            if (activeFilters > 0) {
+                showNotification(`${activeFilters} filter(s) applied successfully!`, 'success');
+            }
+        }
+        
+        function countActiveFilters() {
+            let count = 0;
+            if (document.getElementById('job-search-keyword').value) count++;
+            if (document.getElementById('job-search-location').value) count++;
+            if (document.getElementById('job-search-category').value) count++;
+            if (document.getElementById('experience-level').value) count++;
+            if (document.getElementById('job-type').value) count++;
+            if (document.getElementById('company-size').value) count++;
+            if (document.getElementById('date-posted').value) count++;
+            if (document.getElementById('min-salary').value) count++;
+            if (document.getElementById('max-salary').value) count++;
+            
+            document.querySelectorAll('.checkbox-list input[type="checkbox"]:checked').forEach(() => count++);
+            
+            return count;
+        }
+        
+        function countActiveFilters() {
+            let count = 0;
+            if (document.getElementById('job-search-keyword').value) count++;
+            if (document.getElementById('job-search-location').value) count++;
+            if (document.getElementById('job-search-category').value) count++;
+            if (document.getElementById('experience-level').value) count++;
+            if (document.getElementById('job-type').value) count++;
+            if (document.getElementById('company-size').value) count++;
+            if (document.getElementById('date-posted').value) count++;
+            if (document.getElementById('min-salary').value) count++;
+            if (document.getElementById('max-salary').value) count++;
+            
+            document.querySelectorAll('.checkbox-list input[type="checkbox"]:checked').forEach(() => count++);
+            
+            return count;
+        }
+        
+        function clearFilters() {
+            // Reset all filter inputs
+            document.getElementById('job-search-keyword').value = '';
+            document.getElementById('job-search-location').value = '';
+            document.getElementById('job-search-category').value = '';
+            document.getElementById('experience-level').value = '';
+            document.getElementById('job-type').value = '';
+            document.getElementById('company-size').value = '';
+            document.getElementById('date-posted').value = '';
+            document.getElementById('min-salary').value = '';
+            document.getElementById('max-salary').value = '';
+            
+            // Reset checkboxes
+            document.querySelectorAll('.checkbox-list input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Reload all jobs from API
+            loadJobsFromAPI();
+            showNotification('Filters cleared!', 'info');
+        }
+        
+        function sortJobs() {
+            const sortBy = document.getElementById('sort-jobs').value;
+            
+            filteredJobs.sort((a, b) => {
+                switch(sortBy) {
+                    case 'date':
+                        return new Date(b.posted) - new Date(a.posted);
+                    case 'salary':
+                        const aSalary = parseInt(a.salary.split('-')[1]);
+                        const bSalary = parseInt(b.salary.split('-')[1]);
+                        return bSalary - aSalary;
+                    case 'company':
+                        return a.company.localeCompare(b.company);
+                    case 'relevance':
+                    default:
+                        return 0;
+                }
+            });
+            
+            displayJobs();
+        }
+        
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayJobs();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function nextPage() {
+            const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayJobs();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function toggleBookmark(jobId) {
+            // Bookmark functionality - can be expanded with backend integration
+            const button = event.target.closest('.btn-bookmark');
+            button.classList.toggle('bookmarked');
+            const icon = button.querySelector('i');
+            if (button.classList.contains('bookmarked')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        }
+        
+        function applyToJob(jobId) {
+            // Block job application if not logged in
+            blockJobApply(jobId);
+        }
+        
+        // 💬 WHATSAPP JOB SHARING - UNIQUE INDIA-SPECIFIC FEATURE! 🇮🇳
+        // This feature makes job sharing easier for Indian users who primarily use WhatsApp
+        function shareOnWhatsApp(jobId) {
+            const job = currentJobs.find(j => j.id === jobId);
+            if (!job) return;
+            
+            // Create professional WhatsApp message
+            const message = `🚀 *Job Opportunity Alert!*\n\n` +
+                `*Position:* ${job.title}\n` +
+                `*Company:* ${job.company}\n` +
+                `*Location:* ${job.location}\n` +
+                `*Salary:* ${job.salary_display || job.salary}\n` +
+                `*Type:* ${job.job_type || job.type || 'Full-time'}\n` +
+                `*Experience:* ${job.experience_level || 'Not specified'}\n\n` +
+                `*Skills Required:* ${(job.skills || []).join(', ')}\n\n` +
+                `*About:* ${job.description.substring(0, 150)}...\n\n` +
+                `Apply now on SkillConnect! 💼\n` +
+                `🔗 Visit: https://skillconnect-backend-jcn0.onrender.com/`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+            
+            console.log('✅ Job shared on WhatsApp:', job.title);
+            
+            // Show success notification
+            voiceStatus.innerHTML = `<i class=\"fas fa-check-circle\" style=\"color: #25D366;\"></i> <span>Job shared on WhatsApp! 💚</span>`;
+            setTimeout(() => {
+                voiceStatus.innerHTML = '<i class=\"fas fa-info-circle\"></i> <span>💬 Try Voice Search! Click microphone & say: \"Find React developer jobs in Mumbai\"</span>';
+            }, 3000);
+        }
+        
+        function showNotification(message, type) {
+            // Simple notification function
+            console.log(`${type.toUpperCase()}: ${message}`);
+            // You can implement a proper toast notification here
+        }
+        
+        // 🎤 VOICE SEARCH FEATURE - UNIQUE TO SKILLCONNECT! 🚀
+        // This feature is NOT available in LinkedIn, Naukri, or Indeed
+        
+        const voiceSearchBtn = document.getElementById('voice-search-btn');
+        const voiceIcon = document.getElementById('voice-icon');
+        const voiceStatus = document.getElementById('voice-status');
+        const keywordInput = document.getElementById('job-search-keyword');
+        
+        // Check browser support
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            voiceSearchBtn.style.display = 'none';
+            voiceStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <span>Voice search not supported in this browser. Please use Chrome.</span>';
+        } else {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-IN'; // Indian English + Hindi support
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            
+            let isListening = false;
+            
+            voiceSearchBtn.addEventListener('click', function() {
+                if (!isListening) {
+                    // Start listening
+                    recognition.start();
+                    isListening = true;
+                    
+                    // Visual feedback
+                    voiceIcon.classList.remove('fa-microphone');
+                    voiceIcon.classList.add('fa-microphone-slash');
+                    voiceSearchBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                    voiceSearchBtn.style.animation = 'pulse 1.5s infinite';
+                    
+                    voiceStatus.innerHTML = '<i class=\"fas fa-microphone\"></i> <span style=\"color: #10b981; font-weight: 600;\">🎤 Listening... Speak now!</span>';
+                    
+                    console.log('🎤 Voice search activated');
+                } else {
+                    // Stop listening
+                    recognition.stop();
+                    resetVoiceButton();
+                }
+            });
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                console.log('🗣️ Voice input:', transcript);
+                
+                // Parse voice input intelligently
+                parseVoiceCommand(transcript);
+                
+                voiceStatus.innerHTML = `<i class=\"fas fa-check-circle\" style=\"color: #10b981;\"></i> <span>Heard: \"${transcript}\"</span>`;
+                
+                setTimeout(() => {
+                    voiceStatus.innerHTML = '<i class=\"fas fa-info-circle\"></i> <span>💬 Try Voice Search! Click microphone & say: \"Find React developer jobs in Mumbai\"</span>';
+                }, 3000);
+                
+                resetVoiceButton();
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Voice recognition error:', event.error);
+                let errorMsg = 'Voice search failed. Please try again.';
+                
+                if (event.error === 'no-speech') {
+                    errorMsg = 'No speech detected. Please speak clearly.';
+                } else if (event.error === 'not-allowed') {
+                    errorMsg = 'Microphone access denied. Please allow microphone permission.';
+                }
+                
+                voiceStatus.innerHTML = `<i class=\"fas fa-exclamation-circle\" style=\"color: #ef4444;\"></i> <span>${errorMsg}</span>`;
+                
+                setTimeout(() => {
+                    voiceStatus.innerHTML = '<i class=\"fas fa-info-circle\"></i> <span>💬 Try Voice Search! Click microphone & say: \"Find React developer jobs in Mumbai\"</span>';
+                }, 3000);
+                
+                resetVoiceButton();
+            };
+            
+            recognition.onend = function() {
+                resetVoiceButton();
+            };
+            
+            function resetVoiceButton() {
+                isListening = false;
+                voiceIcon.classList.remove('fa-microphone-slash');
+                voiceIcon.classList.add('fa-microphone');
+                voiceSearchBtn.style.background = 'linear-gradient(135deg, #f97316, #ea580c)';
+                voiceSearchBtn.style.animation = '';
+            }
+            
+            function parseVoiceCommand(text) {
+                text = text.toLowerCase();
+                
+                // Extract job title/keyword
+                const jobPatterns = [
+                    /find (.+?) jobs?/i,
+                    /search for (.+?) jobs?/i,
+                    /(.+?) jobs? in/i,
+                    /looking for (.+?) jobs?/i,
+                    /(.+?) developer/i,
+                    /(.+?) engineer/i,
+                    /(.+?) manager/i,
+                    /(.+?) designer/i
+                ];
+                
+                let keyword = '';
+                for (let pattern of jobPatterns) {
+                    const match = text.match(pattern);
+                    if (match && match[1]) {
+                        keyword = match[1].trim();
+                        break;
+                    }
+                }
+                
+                // Extract location
+                const locationPatterns = [
+                    /in (.+?)$/i,
+                    /at (.+?)$/i,
+                    /location (.+?)$/i
+                ];
+                
+                let location = '';
+                for (let pattern of locationPatterns) {
+                    const match = text.match(pattern);
+                    if (match && match[1]) {
+                        const loc = match[1].trim().toLowerCase();
+                        
+                        // Map to available locations
+                        if (loc.includes('mumbai')) location = 'mumbai';
+                        else if (loc.includes('pune')) location = 'pune';
+                        else if (loc.includes('bangalore') || loc.includes('bengaluru')) location = 'bangalore';
+                        else if (loc.includes('delhi')) location = 'delhi';
+                        else if (loc.includes('hyderabad')) location = 'hyderabad';
+                        else if (loc.includes('chennai')) location = 'chennai';
+                        else if (loc.includes('remote')) location = 'remote';
+                        
+                        break;
+                    }
+                }
+                
+                // Set values
+                if (keyword) {
+                    keywordInput.value = keyword;
+                }
+                
+                if (location) {
+                    document.getElementById('job-search-location').value = location;
+                }
+                
+                // Trigger search
+                setTimeout(() => {
+                    searchJobs();
+                }, 500);
+                
+                console.log('✅ Parsed - Keyword:', keyword, 'Location:', location);
+            }
+        }
+        
+        // Add pulse animation for voice button
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: translateY(-50%) scale(1); }
+                50% { transform: translateY(-50%) scale(1.1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv/
+ENV/
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Local files
+.env
+*.sqlite3
+db.sqlite3
+
+# Media (use Cloudinary in production)
+media/
+
+# Static (generated during build)
+staticfiles/
+
+# Docs
+*.md
+!README.md
+
+# Render config (not needed for DO)
+render.yaml
+
+# Test files
+tests/
+*.test.py
+htmlcov/
+.coverage
+
+# Local backups
+backups/

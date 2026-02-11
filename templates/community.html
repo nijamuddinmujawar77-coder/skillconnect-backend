@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Community - Connect & Network | SkillConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .community-platform {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0 50px;
+        }
+        
+        .community-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .community-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .community-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        
+        .community-header p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .community-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-teal);
+            border-color: white;
+        }
+        
+        .community-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            min-height: 600px;
+        }
+        
+        .posts-section {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+        
+        .posts-feed {
+            max-height: 700px;
+            overflow-y: auto;
+        }
+        
+        .post-composer {
+            background: var(--gray-50);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .composer-input {
+            width: 100%;
+            min-height: 80px;
+            border: none;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        
+        .composer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .composer-options {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .option-btn {
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .option-btn:hover {
+            background: var(--gray-200);
+            color: var(--primary-teal);
+        }
+        
+        .post-btn {
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .post-btn:hover {
+            background: var(--dark-teal);
+        }
+        
+        .community-post {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .community-post:hover {
+            border-color: var(--primary-teal);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-teal), var(--coral));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .post-user-info {
+            flex: 1;
+        }
+        
+        .post-username {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 2px;
+        }
+        
+        .post-meta {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        
+        .post-content {
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .post-tag {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary-teal);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-100);
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover,
+        .action-btn.active {
+            color: var(--primary-teal);
+        }
+        
+        .community-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar-card {
+            background: var(--gray-50);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 15px;
+        }
+        
+        .trending-topics {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .trending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+        
+        .trending-topic {
+            font-weight: 500;
+            color: var(--gray-800);
+            font-size: 14px;
+        }
+        
+        .trending-count {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        
+        .suggested-users {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .suggested-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .suggested-user .user-avatar {
+            width: 35px;
+            height: 35px;
+            font-size: 14px;
+        }
+        
+        .suggested-info {
+            flex: 1;
+        }
+        
+        .suggested-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .suggested-role {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        
+        .follow-btn {
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .follow-btn:hover {
+            background: var(--dark-teal);
+        }
+        
+        .events-section {
+            display: none;
+        }
+        
+        .events-section.active {
+            display: block;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .event-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-teal);
+        }
+        
+        .event-date {
+            background: var(--coral);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .event-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+        
+        .event-desc {
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .event-attendees {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 15px;
+        }
+        
+        .join-event-btn {
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .community-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .posts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .community-sidebar {
+                order: -1;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                SkillConnect
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Find Jobs</a></li>
+                <li><a href="companies.html">Companies</a></li>
+                <li><a href="profile.html" id="profile-link">Profile</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Community Platform -->
+    <section class="community-platform">
+        <div class="community-container">
+            <div class="community-header" data-aos="fade-up">
+                <h1>Career Community</h1>
+                <p>Connect with professionals, share insights, and grow your network in our vibrant career community.</p>
+            </div>
+            
+            <div class="community-tabs" data-aos="fade-up" data-aos-delay="200">
+                <button class="tab-btn active" onclick="switchTab('posts')">
+                    <i class="fas fa-comments"></i> Discussions
+                </button>
+                <button class="tab-btn" onclick="switchTab('events')">
+                    <i class="fas fa-calendar"></i> Events
+                </button>
+                <button class="tab-btn" onclick="switchTab('networking')">
+                    <i class="fas fa-users"></i> Networking
+                </button>
+            </div>
+            
+            <div class="community-content" data-aos="fade-up" data-aos-delay="400">
+                <!-- Posts/Discussions Tab -->
+                <div id="postsTab" class="posts-section">
+                    <div class="posts-main">
+                        <!-- Post Composer -->
+                        <div class="post-composer">
+                            <textarea class="composer-input" id="postContent" placeholder="Share your thoughts, ask questions, or start a discussion..."></textarea>
+                            <div class="composer-actions">
+                                <div class="composer-options">
+                                    <button class="option-btn" title="Add Image">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                    <button class="option-btn" title="Add Poll">
+                                        <i class="fas fa-poll"></i>
+                                    </button>
+                                    <button class="option-btn" title="Add Location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </button>
+                                </div>
+                                <button class="post-btn" onclick="createPost()">Post</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Posts Feed -->
+                        <div class="posts-feed" id="postsFeed">
+                            <!-- Sample Posts -->
+                            <div class="community-post">
+                                <div class="post-header">
+                                    <div class="user-avatar">AS</div>
+                                    <div class="post-user-info">
+                                        <div class="post-username">Amit Sharma</div>
+                                        <div class="post-meta">Software Developer • 2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    Just completed a challenging React project! The feeling of solving complex problems and seeing everything come together is incredible. Any tips for optimizing performance in large React apps?
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">React</span>
+                                    <span class="post-tag">Performance</span>
+                                    <span class="post-tag">WebDev</span>
+                                </div>
+                                <div class="post-actions">
+                                    <button class="action-btn" onclick="toggleLike(this)">
+                                        <i class="far fa-heart"></i> <span>24</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComment(this)">
+                                        <i class="far fa-comment"></i> <span>8</span>
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share"></i> Share
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="community-post">
+                                <div class="post-header">
+                                    <div class="user-avatar">PK</div>
+                                    <div class="post-user-info">
+                                        <div class="post-username">Priya Kumari</div>
+                                        <div class="post-meta">UX Designer • 5 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    Looking for feedback on my portfolio redesign! What are the key elements that make a UX portfolio stand out to recruiters? Would love to hear from hiring managers and fellow designers.
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">UX Design</span>
+                                    <span class="post-tag">Portfolio</span>
+                                    <span class="post-tag">Career</span>
+                                </div>
+                                <div class="post-actions">
+                                    <button class="action-btn" onclick="toggleLike(this)">
+                                        <i class="far fa-heart"></i> <span>18</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComment(this)">
+                                        <i class="far fa-comment"></i> <span>12</span>
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share"></i> Share
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="community-post">
+                                <div class="post-header">
+                                    <div class="user-avatar">RG</div>
+                                    <div class="post-user-info">
+                                        <div class="post-username">Rahul Gupta</div>
+                                        <div class="post-meta">Product Manager • 1 day ago</div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    Exciting news! Our team just launched a new feature that improves user engagement by 40%. The key was really understanding user pain points through extensive research. Data-driven decisions always win! 📊
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">Product Management</span>
+                                    <span class="post-tag">Analytics</span>
+                                    <span class="post-tag">Success Story</span>
+                                </div>
+                                <div class="post-actions">
+                                    <button class="action-btn" onclick="toggleLike(this)">
+                                        <i class="far fa-heart"></i> <span>32</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComment(this)">
+                                        <i class="far fa-comment"></i> <span>15</span>
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share"></i> Share
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="community-sidebar">
+                        <div class="sidebar-card">
+                            <div class="sidebar-title">Trending Topics</div>
+                            <div class="trending-topics">
+                                <div class="trending-item">
+                                    <span class="trending-topic">#ReactJS</span>
+                                    <span class="trending-count">1.2k posts</span>
+                                </div>
+                                <div class="trending-item">
+                                    <span class="trending-topic">#CareerTips</span>
+                                    <span class="trending-count">985 posts</span>
+                                </div>
+                                <div class="trending-item">
+                                    <span class="trending-topic">#InterviewPrep</span>
+                                    <span class="trending-count">756 posts</span>
+                                </div>
+                                <div class="trending-item">
+                                    <span class="trending-topic">#RemoteWork</span>
+                                    <span class="trending-count">634 posts</span>
+                                </div>
+                                <div class="trending-item">
+                                    <span class="trending-topic">#WebDevelopment</span>
+                                    <span class="trending-count">521 posts</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-card">
+                            <div class="sidebar-title">Suggested Connections</div>
+                            <div class="suggested-users">
+                                <div class="suggested-user">
+                                    <div class="user-avatar">NK</div>
+                                    <div class="suggested-info">
+                                        <div class="suggested-name">Neha Kumar</div>
+                                        <div class="suggested-role">Data Scientist</div>
+                                    </div>
+                                    <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+                                </div>
+                                <div class="suggested-user">
+                                    <div class="user-avatar">VS</div>
+                                    <div class="suggested-info">
+                                        <div class="suggested-name">Vikash Singh</div>
+                                        <div class="suggested-role">DevOps Engineer</div>
+                                    </div>
+                                    <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+                                </div>
+                                <div class="suggested-user">
+                                    <div class="user-avatar">MT</div>
+                                    <div class="suggested-info">
+                                        <div class="suggested-name">Meera Tiwari</div>
+                                        <div class="suggested-role">Marketing Manager</div>
+                                    </div>
+                                    <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Events Tab -->
+                <div id="eventsTab" class="events-section">
+                    <div class="events-grid">
+                        <div class="event-card">
+                            <div class="event-date">Oct 15, 2025</div>
+                            <div class="event-title">Tech Career Fair 2025</div>
+                            <div class="event-desc">Connect with top tech companies and explore exciting career opportunities in software development, AI, and data science.</div>
+                            <div class="event-attendees">250+ attendees registered</div>
+                            <button class="join-event-btn" onclick="joinEvent('tech-fair')">Join Event</button>
+                        </div>
+                        
+                        <div class="event-card">
+                            <div class="event-date">Oct 22, 2025</div>
+                            <div class="event-title">Women in Tech Webinar</div>
+                            <div class="event-desc">Inspiring stories and practical advice from successful women leaders in technology industry.</div>
+                            <div class="event-attendees">180+ attendees registered</div>
+                            <button class="join-event-btn" onclick="joinEvent('women-tech')">Join Event</button>
+                        </div>
+                        
+                        <div class="event-card">
+                            <div class="event-date">Nov 5, 2025</div>
+                            <div class="event-title">Startup Pitch Night</div>
+                            <div class="event-desc">Watch innovative startups pitch their ideas to investors and learn about the entrepreneurship ecosystem.</div>
+                            <div class="event-attendees">120+ attendees registered</div>
+                            <button class="join-event-btn" onclick="joinEvent('startup-pitch')">Join Event</button>
+                        </div>
+                        
+                        <div class="event-card">
+                            <div class="event-date">Nov 12, 2025</div>
+                            <div class="event-title">Remote Work Best Practices</div>
+                            <div class="event-desc">Learn effective strategies for remote work, productivity tips, and building strong virtual teams.</div>
+                            <div class="event-attendees">95+ attendees registered</div>
+                            <button class="join-event-btn" onclick="joinEvent('remote-work')">Join Event</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Networking Tab -->
+                <div id="networkingTab" class="events-section">
+                    <div class="events-grid">
+                        <div class="event-card">
+                            <i class="fas fa-users" style="font-size: 40px; color: var(--primary-teal); margin-bottom: 15px;"></i>
+                            <div class="event-title">Professional Groups</div>
+                            <div class="event-desc">Join industry-specific groups to connect with like-minded professionals and share knowledge.</div>
+                            <button class="join-event-btn" onclick="exploreGroups()">Explore Groups</button>
+                        </div>
+                        
+                        <div class="event-card">
+                            <i class="fas fa-handshake" style="font-size: 40px; color: var(--coral); margin-bottom: 15px;"></i>
+                            <div class="event-title">Mentorship Program</div>
+                            <div class="event-desc">Connect with experienced professionals as mentors or share your knowledge as a mentor.</div>
+                            <button class="join-event-btn" onclick="joinMentorship()">Find Mentors</button>
+                        </div>
+                        
+                        <div class="event-card">
+                            <i class="fas fa-coffee" style="font-size: 40px; color: #F59E0B; margin-bottom: 15px;"></i>
+                            <div class="event-title">Coffee Chats</div>
+                            <div class="event-desc">Schedule informal conversations with professionals in your field of interest.</div>
+                            <button class="join-event-btn" onclick="scheduleCoffeeChat()">Schedule Chat</button>
+                        </div>
+                        
+                        <div class="event-card">
+                            <i class="fas fa-project-diagram" style="font-size: 40px; color: #8B5CF6; margin-bottom: 15px;"></i>
+                            <div class="event-title">Collaboration Hub</div>
+                            <div class="event-desc">Find team members for side projects, hackathons, and collaborative learning opportunities.</div>
+                            <button class="join-event-btn" onclick="findCollaborators()">Find Partners</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        let postCount = 0;
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            document.getElementById('postsTab').style.display = tabName === 'posts' ? 'grid' : 'none';
+            document.getElementById('eventsTab').classList.toggle('active', tabName === 'events');
+            document.getElementById('networkingTab').classList.toggle('active', tabName === 'networking');
+        }
+
+        function createPost() {
+            const content = document.getElementById('postContent').value.trim();
+            if (!content) {
+                showNotification('Please write something to post!', 'error');
+                return;
+            }
+
+            const postsFeed = document.getElementById('postsFeed');
+            const newPost = document.createElement('div');
+            newPost.className = 'community-post';
+            newPost.style.animation = 'fadeIn 0.3s ease';
+            
+            postCount++;
+            newPost.innerHTML = `
+                <div class="post-header">
+                    <div class="user-avatar">YU</div>
+                    <div class="post-user-info">
+                        <div class="post-username">Your Name</div>
+                        <div class="post-meta">Just now</div>
+                    </div>
+                </div>
+                <div class="post-content">${content}</div>
+                <div class="post-tags">
+                    <span class="post-tag">Discussion</span>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <i class="far fa-heart"></i> <span>0</span>
+                    </button>
+                    <button class="action-btn" onclick="toggleComment(this)">
+                        <i class="far fa-comment"></i> <span>0</span>
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-share"></i> Share
+                    </button>
+                </div>
+            `;
+            
+            postsFeed.insertBefore(newPost, postsFeed.firstChild);
+            document.getElementById('postContent').value = '';
+            showNotification('Post created successfully!', 'success');
+        }
+
+        function toggleLike(button) {
+            const icon = button.querySelector('i');
+            const count = button.querySelector('span');
+            const currentCount = parseInt(count.textContent);
+            
+            if (icon.classList.contains('far')) {
+                icon.className = 'fas fa-heart';
+                count.textContent = currentCount + 1;
+                button.style.color = '#EF4444';
+            } else {
+                icon.className = 'far fa-heart';
+                count.textContent = currentCount - 1;
+                button.style.color = '';
+            }
+        }
+
+        function toggleComment(button) {
+            showNotification('Comment feature coming soon!', 'info');
+        }
+
+        function toggleFollow(button) {
+            if (button.textContent === 'Follow') {
+                button.textContent = 'Following';
+                button.style.background = 'var(--gray-500)';
+                showNotification('Now following user!', 'success');
+            } else {
+                button.textContent = 'Follow';
+                button.style.background = 'var(--primary-teal)';
+                showNotification('Unfollowed user', 'info');
+            }
+        }
+
+        function joinEvent(eventId) {
+            const eventNames = {
+                'tech-fair': 'Tech Career Fair 2025',
+                'women-tech': 'Women in Tech Webinar',
+                'startup-pitch': 'Startup Pitch Night',
+                'remote-work': 'Remote Work Best Practices'
+            };
+            
+            showNotification(`Joined ${eventNames[eventId]}! Check your email for details.`, 'success');
+        }
+
+        function exploreGroups() {
+            showNotification('Exploring professional groups...', 'info');
+            setTimeout(() => {
+                showNotification('Found 25+ groups matching your interests!', 'success');
+            }, 2000);
+        }
+
+        function joinMentorship() {
+            showNotification('Connecting you with potential mentors...', 'info');
+            setTimeout(() => {
+                showNotification('3 mentors available in your field!', 'success');
+            }, 2000);
+        }
+
+        function scheduleCoffeeChat() {
+            showNotification('Setting up coffee chat opportunities...', 'info');
+            setTimeout(() => {
+                showNotification('5 professionals available for coffee chats!', 'success');
+            }, 2000);
+        }
+
+        function findCollaborators() {
+            showNotification('Searching for collaboration opportunities...', 'info');
+            setTimeout(() => {
+                showNotification('Found 8 active projects looking for collaborators!', 'success');
+            }, 2000);
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
