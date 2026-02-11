@@ -1,53 +1,98 @@
-name: skillconnect-backend-do
-region: blr1
+# DigitalOcean App Platform Configuration
+# Deploy: doctl apps create --spec app.yaml
+
+name: skillconnect-backend
+region: nyc
+
+# PostgreSQL Database
+databases:
+  - name: skillconnect-db
+    engine: PG
+    version: "15"
+    production: false
+    cluster_name: skillconnect-cluster
+
+# Web Service
 services:
   - name: web
+    # GitHub Integration
     github:
-      repo: your-github-username/skillconnect-backend
+      repo: nijamuddinmujawar77-coder/skillconnect-backend
       branch: main
-    envs:
-      - key: SECRET_KEY
-        scope: RUN_TIME
-      - key: DEBUG
-        scope: RUN_TIME
-      - key: DATABASE_URL
-        scope: RUN_TIME
-      - key: ALLOWED_HOSTS
-        scope: RUN_TIME
-      - key: EMAIL_HOST_USER
-        scope: RUN_TIME
-      - key: EMAIL_HOST_PASSWORD
-        scope: RUN_TIME
-      - key: RESEND_API_KEY
-        scope: RUN_TIME
-      - key: CLOUDINARY_CLOUD_NAME
-        scope: RUN_TIME
-      - key: CLOUDINARY_API_KEY
-        scope: RUN_TIME
-      - key: CLOUDINARY_API_SECRET
-        scope: RUN_TIME
-      - key: OPENAI_API_KEY
-        scope: RUN_TIME
-      - key: CORS_ALLOW_ALL_ORIGINS
-        scope: RUN_TIME
+      deploy_on_push: true
+    
+    # Build Configuration
+    build_command: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      python manage.py collectstatic --no-input
+    
+    # Run Configuration
+    run_command: gunicorn core.wsgi:application --bind 0.0.0.0:8000 --timeout 120 --workers 2 --threads 2
+    
+    # Instance Configuration
     instance_count: 1
     instance_size_slug: basic-xxs
-    run_command: gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
-    build_command: pip install -r requirements.txt
-    release_command: |
-      python manage.py migrate --noinput
-      python manage.py collectstatic --noinput
-    source_dir: .
+    
+    # HTTP Configuration
+    http_port: 8000
+    
+    routes:
+      - path: /
+    
+    # Health Check
     health_check:
-      protocol: HTTP
-      path: /api/jobs/
-      port: 8080
-      initial_delay_seconds: 10
+      http_path: /
+      initial_delay_seconds: 30
+      period_seconds: 10
       timeout_seconds: 5
-      healthy_threshold: 1
-      unhealthy_threshold: 3
-static_sites: []
+      success_threshold: 1
+      failure_threshold: 3
+    
+    # Environment Variables
+    envs:
+      - key: DEBUG
+        value: "False"
+      
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      
+      - key: SECRET_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: "your-secret-key-here-generate-strong-one"
+      
+      - key: GROQ_API_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: "your-groq-api-key"
+      
+      - key: DATABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: "${skillconnect-db.DATABASE_URL}"
+      
+      - key: ALLOWED_HOSTS
+        value: ".ondigitalocean.app,.digitalocean.app,skillconnect.dev,www.skillconnect.dev,api.skillconnect.dev"
+      
+      - key: DJANGO_SETTINGS_MODULE
+        value: "core.settings"
+      
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://skillconnect.dev,https://www.skillconnect.dev"
 
-# Notes:
-# - Replace `github.repo` with your GitHub repo when creating the App via DO UI.
-# - Environment variables should be set in the DO App settings (do NOT hardcode secrets).
+# Pre-Deploy Jobs (Migrations)
+jobs:
+  - name: migrate
+    kind: PRE_DEPLOY
+    
+    run_command: |
+      python manage.py migrate --no-input
+      python create_admin.py || true
+      python add_jobs.py || true
+    
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        type: SECRET
+        value: "${skillconnect-db.DATABASE_URL}"
