@@ -33,8 +33,6 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.onrender.com',
-    '.ondigitalocean.app',  # DigitalOcean App Platform
-    '.digitalocean.app',
     'skillconnect.dev',
     'www.skillconnect.dev',
     'api.skillconnect.dev',
@@ -46,8 +44,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://skillconnect.dev',
     'https://www.skillconnect.dev',
     'https://*.onrender.com',
-    'https://*.ondigitalocean.app',  # DigitalOcean App Platform
-    'https://*.digitalocean.app',
     'https://admin.skillconnect.dev',
 ]
 
@@ -177,12 +173,7 @@ USE_TZ = True
 # ✅ Static files
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Use simpler storage for DigitalOcean deployment
-if os.environ.get('DIGITALOCEAN_APP_DOMAIN'):
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-else:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ✅ Media files - Use Cloudinary in production
 MEDIA_URL = 'media/'
