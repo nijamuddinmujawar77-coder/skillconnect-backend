@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',         # ✅ CORS support
-    'cloudinary',          # ✅ Cloud image storage
-    'cloudinary_storage',  # ✅ Django cloudinary storage
     
     # Local apps
     'accounts', 
@@ -69,6 +67,13 @@ INSTALLED_APPS = [
 ]
 
 # Optional apps - add only if installed
+try:
+    import cloudinary
+    import cloudinary_storage
+    INSTALLED_APPS.extend(['cloudinary', 'cloudinary_storage'])  # ✅ Cloud image storage
+except ImportError:
+    pass
+
 try:
     import drf_yasg
     INSTALLED_APPS.append('drf_yasg')  # ✅ API Documentation
