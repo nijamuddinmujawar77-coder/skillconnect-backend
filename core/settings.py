@@ -32,8 +32,7 @@ DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '.onrender.com',         # Render (old)
-    '.ondigitalocean.app',   # DigitalOcean App Platform
+    '.onrender.com',
     'skillconnect.dev',
     'www.skillconnect.dev',
     'api.skillconnect.dev',
@@ -44,8 +43,7 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://skillconnect.dev',
     'https://www.skillconnect.dev',
-    'https://*.onrender.com',           # Render (old)
-    'https://*.ondigitalocean.app',     # DigitalOcean App Platform
+    'https://*.onrender.com',
     'https://admin.skillconnect.dev',
 ]
 
