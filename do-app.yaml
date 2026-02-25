@@ -1,0 +1,49 @@
+name: skillconnect-backend
+region: blr  # Bangalore (India) - closest to India users
+
+services:
+  - name: skillconnect-api
+    type: web
+    environment: PYTHON
+    github:
+      repo: your-github-username/skillconnect-backend  # <-- apna repo daalo
+      branch: main
+      deploy_on_push: true
+    build_command: "./build.sh"
+    run_command: "gunicorn core.wsgi:application --timeout 120 --workers 2 --threads 2"
+    instance_size_slug: basic-xxs   # $5/month (cheapest)
+    instance_count: 1
+    http_port: 8000
+    envs:
+      - key: DEBUG
+        value: "False"
+        scope: RUN_AND_BUILD_TIME
+      - key: SECRET_KEY
+        value: ""          # <-- apna secret key daalo
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
+      - key: GROQ_API_KEY
+        value: ""          # <-- apna key daalo
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
+      - key: CLOUDINARY_CLOUD_NAME
+        value: "dhr28ygvm"
+        scope: RUN_AND_BUILD_TIME
+      - key: CLOUDINARY_API_KEY
+        value: ""          # <-- apna key daalo
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
+      - key: CLOUDINARY_API_SECRET
+        value: ""          # <-- apna secret daalo
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
+      - key: DATABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        value: ${db.DATABASE_URL}   # auto-linked from DB below
+
+databases:
+  - name: db
+    engine: PG              # PostgreSQL
+    version: "15"
+    size: db-s-dev-database  # Free dev DB (not for production)
+    # For production use: db-s-1vcpu-1gb ($15/month)
