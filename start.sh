@@ -13,4 +13,6 @@ echo "💼 Adding sample jobs (if not exists)..."
 python add_jobs.py || echo "Jobs already exist"
 
 echo "🚀 Starting Gunicorn server..."
-exec gunicorn core.wsgi:application --timeout 120 --workers 2 --threads 2 --bind 0.0.0.0:8000
+# Use PORT env var from DigitalOcean (defaults to 8080)
+PORT=${PORT:-8080}
+exec gunicorn core.wsgi:application --timeout 120 --workers 2 --threads 2 --bind 0.0.0.0:$PORT
