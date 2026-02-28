@@ -1,0 +1,48 @@
+name: skillconnect
+region: blr  # Bangalore - closest to India
+
+services:
+  - name: skillconnect-backend
+    type: web
+    environment: PYTHON
+    github:
+      repo: nijamuddinmujawar77-coder/skillconnect-backend
+      branch: main
+      deploy_on_push: true
+    build_command: "./build.sh"
+    run_command: "gunicorn core.wsgi:application --timeout 120 --workers 2 --threads 2"
+    instance_size_slug: basic-xxs   # $5/month - cheapest
+    instance_count: 1
+    http_port: 8000
+    envs:
+      - key: DEBUG
+        value: "False"
+        scope: RUN_AND_BUILD_TIME
+      - key: SECRET_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: ""          # Dashboard me daalo
+      - key: GROQ_API_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: ""          # Dashboard me daalo
+      - key: CLOUDINARY_CLOUD_NAME
+        scope: RUN_AND_BUILD_TIME
+        value: "dhr28ygvm"
+      - key: CLOUDINARY_API_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: ""          # Dashboard me daalo
+      - key: CLOUDINARY_API_SECRET
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: ""          # Dashboard me daalo
+      - key: DATABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        value: ${db.DATABASE_URL}  # Auto-linked from database below
+
+databases:
+  - name: db
+    engine: PG        # PostgreSQL
+    version: "15"
+    size: db-s-dev-database  # Dev DB - free with credits

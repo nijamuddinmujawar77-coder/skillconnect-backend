@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Render Build Script
+# Build Script (Render / DigitalOcean App Platform)
 
 set -o errexit
 
