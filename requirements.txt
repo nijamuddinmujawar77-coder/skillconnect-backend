@@ -5,7 +5,7 @@ djangorestframework_simplejwt==5.5.1
 
 # Database
 dj-database-url==2.1.0
-mysqlclient==2.2.7
+# mysqlclient==2.2.7  # Local only - MySQL for XAMPP (not needed on cloud)
 psycopg2-binary==2.9.11
 
 # Production Server
