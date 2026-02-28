@@ -128,7 +128,7 @@ import dj_database_url
 
 DATABASE_URL = os.environ.get('DATABASE_URL', '')
 
-# Check if DATABASE_URL is valid (not empty, not a placeholder like ${db.DATABASE_URL})
+# Check if DATABASE_URL is valid (not empty, not a placeholder)
 if DATABASE_URL and not DATABASE_URL.startswith('${'):
     # 🌐 Cloud/Production (PostgreSQL via DATABASE_URL)
     DATABASES = {
@@ -139,7 +139,7 @@ if DATABASE_URL and not DATABASE_URL.startswith('${'):
         )
     }
 else:
-    # 🏠 Local Development (XAMPP MySQL) or Build Time (SQLite)
+    # 🏠 Local Development (XAMPP MySQL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
