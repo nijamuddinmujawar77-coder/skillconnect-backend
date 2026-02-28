@@ -5,12 +5,15 @@ set -o errexit
 
 pip install -r requirements.txt
 
-# Set dummy DATABASE_URL if not set (for collectstatic that doesn't need real DB)
-if [ -z "$DATABASE_URL" ]; then
-    export DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
-fi
+# Preserve original DATABASE_URL
+ORIGINAL_DB_URL=$DATABASE_URL
 
+# Use SQLite for collectstatic (doesn't need server connection)
+export DATABASE_URL="sqlite:///tmp/build.db"
 python manage.py collectstatic --no-input --clear
+
+# Restore real DATABASE_URL for migrate
+export DATABASE_URL=$ORIGINAL_DB_URL
 python manage.py migrate
 python create_admin.py
 python add_jobs.py
