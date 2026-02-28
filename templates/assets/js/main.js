@@ -523,7 +523,7 @@ function previousTestimonial() {
   document.querySelectorAll('.dot')[currentTestimonial]?.classList.add('active');
 }
 
-function currentTestimonial(index) {
+function goToTestimonial(index) {
   if (testimonials.length === 0 || index >= testimonials.length) return;
   
   testimonials[currentTestimonial]?.classList.remove('active');

@@ -501,7 +501,7 @@
     </section>
 
     <script>
-        const API_BASE_URL = 'https://skillconnect-backend-jcn0.onrender.com/api';
+        const API_BASE_URL = 'https://stingray-app-ndaqu.ondigitalocean.app/api';
         let currentJobId = null;
 
         // Initialize
@@ -661,8 +661,17 @@
             try {
                 console.log('Posting to:', `${API_BASE_URL}/jobs/${currentJobId}/apply/`);
                 
+                // Get auth token to link application to user account
+                const token = localStorage.getItem('access_token');
+                const headers = {};
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                    console.log('Sending with auth token');
+                }
+                
                 const response = await fetch(`${API_BASE_URL}/jobs/${currentJobId}/apply/`, {
                     method: 'POST',
+                    headers: headers,
                     body: formData
                 });
 
@@ -685,7 +694,7 @@
 
             } catch (error) {
                 console.error('Network error:', error);
-                showError('Network error. Make sure Django server is running on https://skillconnect-backend-jcn0.onrender.com');
+                showError('Network error. Make sure Django server is running on https://stingray-app-ndaqu.ondigitalocean.app');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';

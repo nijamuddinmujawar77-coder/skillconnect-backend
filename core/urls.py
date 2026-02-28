@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 # Optional imports with fallbacks
 try:
@@ -103,6 +104,9 @@ def setup_jobs(request):
     return JsonResponse({'status': 'success', 'message': f'{count} new jobs added. Total: {Job.objects.count()}'})
 
 urlpatterns = [
+    # 🏠 Root redirect to admin panel (for admin.skillconnect.dev)
+    path('', RedirectView.as_view(url='/admin/', permanent=False)),
+    
     # 🔧 Admin interface
     path('admin/', admin.site.urls),
     

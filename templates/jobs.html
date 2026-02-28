@@ -560,23 +560,23 @@
                         <h3 class="sidebar-title">Top Skills</h3>
                         <div class="checkbox-list">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="skill-react">
+                                <input type="checkbox" id="skill-react" name="skill" value="React.js">
                                 <label for="skill-react">React.js</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="skill-node">
+                                <input type="checkbox" id="skill-node" name="skill" value="Node.js">
                                 <label for="skill-node">Node.js</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="skill-python">
+                                <input type="checkbox" id="skill-python" name="skill" value="Python">
                                 <label for="skill-python">Python</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="skill-java">
+                                <input type="checkbox" id="skill-java" name="skill" value="Java">
                                 <label for="skill-java">Java</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="skill-javascript">
+                                <input type="checkbox" id="skill-javascript" name="skill" value="JavaScript">
                                 <label for="skill-javascript">JavaScript</label>
                             </div>
                         </div>
@@ -586,15 +586,15 @@
                         <h3 class="sidebar-title">Work Mode</h3>
                         <div class="checkbox-list">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="mode-remote">
+                                <input type="checkbox" id="mode-remote" name="work-mode" value="remote">
                                 <label for="mode-remote">Remote</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="mode-hybrid">
+                                <input type="checkbox" id="mode-hybrid" name="work-mode" value="hybrid">
                                 <label for="mode-hybrid">Hybrid</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="mode-office">
+                                <input type="checkbox" id="mode-office" name="work-mode" value="office">
                                 <label for="mode-office">Office</label>
                             </div>
                         </div>
@@ -626,11 +626,7 @@
                     </div>
                     
                     <div class="pagination" id="pagination" style="display: none;">
-                        <button onclick="previousPage()">&laquo; Previous</button>
-                        <button class="active">1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button onclick="nextPage()">Next &raquo;</button>
+                        <!-- Pagination will be rendered dynamically -->
                     </div>
                 </div>
             </div>
@@ -653,7 +649,7 @@
         const jobsPerPage = 10;
         
         // API Base URL
-        const API_BASE_URL = 'https://skillconnect-backend-jcn0.onrender.com/api';
+        const API_BASE_URL = 'https://stingray-app-ndaqu.ondigitalocean.app/api';
         
         // Initialize jobs page
         document.addEventListener('DOMContentLoaded', function() {
@@ -931,6 +927,7 @@
             // Show pagination if needed
             if (filteredJobs.length > jobsPerPage) {
                 document.getElementById('pagination').style.display = 'flex';
+                renderPagination();
             } else {
                 document.getElementById('pagination').style.display = 'none';
             }
@@ -1013,8 +1010,11 @@
         
         // Apply local filters (salary, skills, work mode, date)
         function applyLocalFilters() {
-            const minSalary = parseInt(document.getElementById('min-salary').value) || 0;
-            const maxSalary = parseInt(document.getElementById('max-salary').value) || Infinity;
+            // Convert LPA to actual amount (user enters 4 for 4 LPA, but backend stores 400000)
+            const minSalaryLPA = parseInt(document.getElementById('min-salary').value) || 0;
+            const maxSalaryLPA = parseInt(document.getElementById('max-salary').value) || Infinity;
+            const minSalary = minSalaryLPA * 100000; // Convert to actual amount
+            const maxSalary = maxSalaryLPA === Infinity ? Infinity : maxSalaryLPA * 100000;
             const datePosted = document.getElementById('date-posted').value;
             
             // Get selected skills
@@ -1030,23 +1030,25 @@
             });
             
             filteredJobs = filteredJobs.filter(job => {
-                // Salary filter
+                // Salary filter - backend stores actual amounts like 400000 for 4 LPA
                 let jobMinSalary = 0;
-                let jobMaxSalary = 0;
+                let jobMaxSalary = Infinity;
                 
                 if (job.min_salary && job.max_salary) {
                     jobMinSalary = parseFloat(job.min_salary);
                     jobMaxSalary = parseFloat(job.max_salary);
                 } else if (job.salary_display) {
-                    // Parse salary from display string like "₹8-15 LPA"
+                    // Parse salary from display string like "₹8-12 LPA" and convert to actual
                     const salaryMatch = job.salary_display.match(/₹?(\d+)-(\d+)/);
                     if (salaryMatch) {
-                        jobMinSalary = parseInt(salaryMatch[1]);
-                        jobMaxSalary = parseInt(salaryMatch[2]);
+                        jobMinSalary = parseInt(salaryMatch[1]) * 100000;
+                        jobMaxSalary = parseInt(salaryMatch[2]) * 100000;
                     }
                 }
                 
-                const matchesSalary = jobMaxSalary >= minSalary && jobMinSalary <= maxSalary;
+                // Check if job salary range overlaps with user's desired range
+                const matchesSalary = (minSalary === 0 && maxSalary === Infinity) || 
+                                      (jobMaxSalary >= minSalary && jobMinSalary <= maxSalary);
                 
                 // Skills filter
                 let matchesSkills = true;
@@ -1177,23 +1179,52 @@
             displayJobs();
         }
         
-        function previousPage() {
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+            const paginationDiv = document.getElementById('pagination');
+            
+            let paginationHTML = `<button onclick="previousPage()" ${currentPage === 1 ? 'disabled' : ''}>&laquo; Previous</button>`;
+            
+            // Show page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `<button onclick="goToPage(${i})" class="${currentPage === i ? 'active' : ''}">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<span style="padding: 0 10px;">...</span>`;
+                }
+            }
+            
+            paginationHTML += `<button onclick="nextPage()" ${currentPage === totalPages ? 'disabled' : ''}>Next &raquo;</button>`;
+            
+            paginationDiv.innerHTML = paginationHTML;
+        }
+        
+        // Make goToPage global for onclick to work
+        window.goToPage = function(page) {
+            currentPage = page;
+            displayJobs();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        
+        // Make previousPage global
+        window.previousPage = function() {
             if (currentPage > 1) {
                 currentPage--;
                 displayJobs();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-        }
+        };
         
-        function nextPage() {
+        // Make nextPage global
+        window.nextPage = function() {
             const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
             if (currentPage < totalPages) {
                 currentPage++;
                 displayJobs();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-        }
-        
+        };
+
         function toggleBookmark(jobId) {
             // Bookmark functionality - can be expanded with backend integration
             const button = event.target.closest('.btn-bookmark');
@@ -1230,7 +1261,7 @@
                 `*Skills Required:* ${(job.skills || []).join(', ')}\n\n` +
                 `*About:* ${job.description.substring(0, 150)}...\n\n` +
                 `Apply now on SkillConnect! 💼\n` +
-                `🔗 Visit: https://skillconnect-backend-jcn0.onrender.com/`;
+                `🔗 Visit: https://stingray-app-ndaqu.ondigitalocean.app/`;
             
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
             
