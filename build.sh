@@ -5,10 +5,10 @@ set -o errexit
 
 pip install -r requirements.txt
 
-# Collectstatic with SQLite (inline env var - set BEFORE Python reads settings)
+# Collectstatic with SQLite (doesn't need real DB)
 DATABASE_URL="sqlite:///tmp/temp.db" python manage.py collectstatic --no-input --clear
 
-# Migrate uses real DATABASE_URL from environment or MySQL default
+# Migrations need real DB - settings.py will handle fallback
 python manage.py migrate
 python create_admin.py
 python add_jobs.py

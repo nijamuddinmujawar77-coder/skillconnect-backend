@@ -126,10 +126,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # ✅ Database Configuration (Auto-detect: Local MySQL or Cloud PostgreSQL)
 import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL', '')
 
-if DATABASE_URL:
-    # 🌐 Cloud/Production (Render PostgreSQL)
+# Check if DATABASE_URL is valid (not empty, not a placeholder like ${db.DATABASE_URL})
+if DATABASE_URL and not DATABASE_URL.startswith('${'):
+    # 🌐 Cloud/Production (PostgreSQL via DATABASE_URL)
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -138,7 +139,7 @@ if DATABASE_URL:
         )
     }
 else:
-    # 🏠 Local Development (XAMPP MySQL)
+    # 🏠 Local Development (XAMPP MySQL) or Build Time (SQLite)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
