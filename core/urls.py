@@ -7,6 +7,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
+# ✅ Custom Admin Panel Branding
+admin.site.site_header = '🚀 SkillConnect Admin Panel'
+admin.site.site_title = 'SkillConnect Admin'
+admin.site.index_title = 'Welcome to SkillConnect Administration'
+
 # Optional imports with fallbacks
 try:
     from rest_framework import permissions
