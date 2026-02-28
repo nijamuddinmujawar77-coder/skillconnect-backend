@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     
     # Local apps
     'accounts', 
-    'newsletter',          # ✅ Your app
+    'newsletter.apps.NewsletterConfig',  # ✅ Newsletter app with proper config
     'jobs',               # ✅ Jobs app
 ]
 
