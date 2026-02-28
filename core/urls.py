@@ -57,6 +57,23 @@ from django.http import JsonResponse
 from accounts.models import CustomUser
 from jobs.models import Job
 
+def api_home(request):
+    """Root endpoint - Welcome message"""
+    return JsonResponse({
+        'status': 'success',
+        'message': '🚀 Welcome to SkillConnect API',
+        'version': 'v1.0',
+        'endpoints': {
+            'api_docs': '/api/docs/',
+            'admin': '/admin/',
+            'accounts': '/api/accounts/',
+            'jobs': '/api/jobs/',
+            'newsletter': '/api/newsletter/',
+            'ai_services': '/api/ai/',
+        },
+        'live': True
+    })
+
 def setup_admin(request):
     """Temporary endpoint to create superuser - DELETE AFTER USE"""
     email = 'nijamuddinmujawar77@gmail.com'
@@ -103,6 +120,9 @@ def setup_jobs(request):
     return JsonResponse({'status': 'success', 'message': f'{count} new jobs added. Total: {Job.objects.count()}'})
 
 urlpatterns = [
+    # 🏠 Root endpoint - Welcome page
+    path('', api_home, name='api-home'),
+    
     # 🔧 Admin interface
     path('admin/', admin.site.urls),
     
