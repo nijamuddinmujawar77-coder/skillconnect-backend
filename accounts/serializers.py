@@ -3,6 +3,7 @@ from .models import CustomUser, WorkExperience, Education, Skill
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
+import re
 
 
 
@@ -16,6 +17,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password', 'confirm_password', 'agreed_to_terms'
         ]
         extra_kwargs = {'password': {'write_only': True}}
+
+    def validate_phone_number(self, value):
+        phone = re.sub(r'\D', '', value)  # Remove non-digits
+        if len(phone) != 10:
+            raise serializers.ValidationError("Phone number must be exactly 10 digits")
+        return phone
 
     def validate(self, data):
         if data['password'] != data['confirm_password']:
