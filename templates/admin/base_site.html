@@ -6,7 +6,7 @@
 {% block branding %}
 <div id="site-name">
     <a href="{% url 'admin:index' %}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 10px;">
             <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
             <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
         </svg>
@@ -18,377 +18,302 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    /* ===== SkillConnect Admin Theme ===== */
-    
-    /* Font */
-    body, #container, #content, h1, h2, h3, p, a, td, th, label, input, select, textarea {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    }
+    /* ===== SkillConnect Admin - Clean Professional Theme ===== */
 
-    /* Top Header Bar */
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; }
+
+    /* ── Header ── */
     #header {
-        background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+        background: #0d9488 !important;
         color: #fff !important;
-        padding: 12px 20px !important;
-        box-shadow: 0 2px 10px rgba(13, 148, 136, 0.3) !important;
+        padding: 14px 24px !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08) !important;
     }
-
-    #header a:link, #header a:visited, #header a:hover {
-        color: #fff !important;
-    }
-
+    #header a:link, #header a:visited, #header a:hover { color: #fff !important; }
     #site-name a {
-        font-size: 22px !important;
+        font-size: 20px !important;
         font-weight: 700 !important;
-        letter-spacing: -0.5px !important;
         color: #fff !important;
         text-decoration: none !important;
-        display: flex !important;
+        display: inline-flex !important;
         align-items: center !important;
     }
-
-    #branding h1 {
-        color: #fff !important;
-    }
+    #branding h1 { color: #fff !important; }
 
     /* User Tools */
-    #user-tools {
-        color: rgba(255, 255, 255, 0.85) !important;
-        font-size: 13px !important;
-    }
+    #user-tools { font-size: 13px !important; color: rgba(255,255,255,0.9) !important; }
+    #user-tools a { color: #fff !important; font-weight: 500 !important; text-decoration: underline !important; text-underline-offset: 3px !important; }
+    #user-tools a:hover { text-decoration-thickness: 2px !important; }
 
-    #user-tools a {
-        color: #fff !important;
-        font-weight: 500 !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
-    }
+    /* ── Body ── */
+    body { background: #f8fafa !important; }
+    #container { background: #f8fafa !important; }
 
-    #user-tools a:hover {
-        border-bottom-color: #fff !important;
-    }
+    /* ── Content ── */
+    #content { padding: 28px 24px !important; }
+    #content h1 { color: #111827 !important; font-weight: 700 !important; font-size: 22px !important; margin-bottom: 20px !important; }
 
-    /* Body / Background */
-    body {
-        background: #f0fdfa !important;
-    }
-
-    #container {
-        background: #f0fdfa !important;
-    }
-
-    /* Content Area */
-    #content {
-        padding: 24px !important;
-    }
-
-    #content h1 {
-        color: #134e4a !important;
-        font-weight: 700 !important;
-        font-size: 24px !important;
-    }
-
-    /* Breadcrumbs */
+    /* ── Breadcrumbs ── */
     div.breadcrumbs {
         background: #0f766e !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-        padding: 10px 20px !important;
-        font-size: 13px !important;
+        color: rgba(255,255,255,0.75) !important;
+        padding: 10px 24px !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
     }
+    div.breadcrumbs a { color: #fff !important; }
 
-    div.breadcrumbs a {
-        color: #fff !important;
+    /* ── Module (Card) ── */
+    .module {
+        background: #fff !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 10px !important;
+        overflow: hidden !important;
+        margin-bottom: 24px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
     }
 
     /* Module Headers */
     .module h2, .module caption, .inline-group h2 {
-        background: linear-gradient(135deg, #0d9488, #f97316) !important;
+        background: #0d9488 !important;
         color: #fff !important;
         font-weight: 600 !important;
-        padding: 10px 16px !important;
-        border-radius: 6px 6px 0 0 !important;
-        font-size: 14px !important;
-        letter-spacing: 0.3px !important;
+        font-size: 13px !important;
+        padding: 12px 18px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.8px !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        line-height: 1.4 !important;
     }
 
-    /* Modules */
-    .module {
-        border: 1px solid #e5e7eb !important;
-        border-radius: 8px !important;
-        overflow: hidden !important;
-        margin-bottom: 20px !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-        background: #fff !important;
-    }
-
-    /* Table rows */
-    #changelist table thead th {
-        background: #f0fdfa !important;
-        color: #134e4a !important;
+    /* Dashboard model rows */
+    .module table { width: 100% !important; }
+    .module table th {
+        background: #f9fafb !important;
+        color: #374151 !important;
         font-weight: 600 !important;
-        border-bottom: 2px solid #0d9488 !important;
-        padding: 12px !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        padding: 10px 18px !important;
+        border-bottom: 1px solid #e5e7eb !important;
     }
-
-    #changelist table tbody tr:nth-child(odd) {
-        background: #fff !important;
+    .module table td {
+        padding: 11px 18px !important;
+        border-bottom: 1px solid #f3f4f6 !important;
+        font-size: 14px !important;
+        color: #374151 !important;
     }
+    .module table tr:last-child td { border-bottom: none !important; }
+    .module table tr:hover td { background: #f0fdfa !important; }
 
-    #changelist table tbody tr:nth-child(even) {
-        background: #f0fdfa !important;
+    /* ── Change List Table ── */
+    #changelist table thead th {
+        background: #f9fafb !important;
+        color: #374151 !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        border-bottom: 2px solid #e5e7eb !important;
+        padding: 12px 14px !important;
     }
+    #changelist table tbody tr:nth-child(odd) { background: #fff !important; }
+    #changelist table tbody tr:nth-child(even) { background: #f9fafb !important; }
+    #changelist table tbody tr:hover td { background: #f0fdfa !important; }
+    #changelist table tbody td { padding: 11px 14px !important; font-size: 13px !important; }
 
-    #changelist table tbody tr:hover {
-        background: #ccfbf1 !important;
-    }
+    /* ── Links ── */
+    a:link, a:visited { color: #0d9488 !important; text-decoration: none !important; }
+    a:hover { color: #0f766e !important; text-decoration: underline !important; }
 
-    /* Links */
-    a:link, a:visited {
-        color: #0d9488 !important;
-    }
-
-    a:hover {
-        color: #f97316 !important;
-    }
-
-    /* Buttons */
-    .submit-row input[type="submit"],
-    input[type="submit"],
-    .button, a.button {
-        background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+    /* ── Buttons ── */
+    .submit-row input[type="submit"], input[type="submit"], .button, a.button {
+        background: #0d9488 !important;
         color: #fff !important;
         border: none !important;
-        padding: 10px 24px !important;
-        border-radius: 6px !important;
+        padding: 10px 22px !important;
+        border-radius: 8px !important;
         font-weight: 600 !important;
         font-size: 13px !important;
         cursor: pointer !important;
-        transition: all 0.2s !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.5px !important;
+        transition: all 0.15s ease !important;
+        letter-spacing: 0.3px !important;
+    }
+    .submit-row input[type="submit"]:hover, input[type="submit"]:hover, .button:hover, a.button:hover {
+        background: #0f766e !important;
+        box-shadow: 0 2px 8px rgba(13,148,136,0.25) !important;
     }
 
-    .submit-row input[type="submit"]:hover,
-    input[type="submit"]:hover,
-    .button:hover, a.button:hover {
-        background: linear-gradient(135deg, #0f766e, #134e4a) !important;
-        box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3) !important;
-    }
-
-    /* Default button (Save) */
+    /* Save button (primary) */
     .submit-row input.default {
-        background: linear-gradient(135deg, #f97316, #ea580c) !important;
-        color: #fff !important;
+        background: #f97316 !important;
     }
-
     .submit-row input.default:hover {
-        background: linear-gradient(135deg, #ea580c, #c2410c) !important;
-        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3) !important;
+        background: #ea580c !important;
+        box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
     }
 
-    /* Delete button */
+    /* Delete */
     .submit-row a.deletelink {
         background: #ef4444 !important;
         color: #fff !important;
-        border-radius: 6px !important;
-        padding: 10px 20px !important;
+        border-radius: 8px !important;
+        padding: 10px 18px !important;
     }
+    .submit-row a.deletelink:hover { background: #dc2626 !important; }
 
-    .submit-row a.deletelink:hover {
-        background: #dc2626 !important;
-    }
-
-    /* Add button */
-    .addlink, .add-row a {
-        color: #0d9488 !important;
-        font-weight: 600 !important;
-    }
-
-    /* Object tools */
+    /* Add / Object tools */
+    .addlink, .add-row a { color: #0d9488 !important; font-weight: 600 !important; }
     .object-tools a:link, .object-tools a:visited {
         background: #0d9488 !important;
         border-radius: 6px !important;
         color: #fff !important;
-        padding: 8px 16px !important;
+        padding: 7px 14px !important;
         font-size: 12px !important;
     }
+    .object-tools a:hover { background: #0f766e !important; text-decoration: none !important; }
 
-    .object-tools a:hover {
-        background: #0f766e !important;
-    }
-
-    /* Login Page */
-    body.login {
-        background: linear-gradient(135deg, #0d9488 0%, #134e4a 50%, #f97316 100%) !important;
-    }
-
-    body.login #container {
+    /* ── Recent Actions Sidebar ── */
+    #content-related {
         background: transparent !important;
     }
+    #content-related .module h2 {
+        background: #0d9488 !important;
+    }
 
+    /* ── Login Page ── */
+    body.login {
+        background: #0d9488 !important;
+        background-image: 
+            radial-gradient(ellipse at 20% 50%, rgba(249,115,22,0.15) 0%, transparent 60%),
+            radial-gradient(ellipse at 80% 20%, rgba(13,148,136,0.3) 0%, transparent 50%) !important;
+        min-height: 100vh !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    body.login #container {
+        background: transparent !important;
+        width: 100% !important;
+        max-width: 420px !important;
+    }
     body.login #header {
         background: transparent !important;
         box-shadow: none !important;
-        padding: 30px 0 !important;
         text-align: center !important;
+        padding: 0 0 24px 0 !important;
     }
-
     body.login #header #site-name a {
-        font-size: 32px !important;
+        font-size: 28px !important;
         justify-content: center !important;
     }
-
-    body.login #content {
+    body.login #content-main {
         background: #fff !important;
-        border-radius: 16px !important;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
-        padding: 40px !important;
-        max-width: 400px !important;
-        margin: 0 auto !important;
+        border-radius: 14px !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+        padding: 36px 32px !important;
     }
-
+    body.login #content {
+        background: transparent !important;
+        padding: 0 !important;
+    }
     body.login #content h1 {
         color: #0d9488 !important;
         text-align: center !important;
-        margin-bottom: 24px !important;
-        font-size: 20px !important;
+        margin-bottom: 20px !important;
+        font-size: 18px !important;
     }
-
-    body.login .form-row {
-        padding: 8px 0 !important;
-    }
-
-    body.login label {
-        color: #374151 !important;
-        font-weight: 600 !important;
-        font-size: 13px !important;
-    }
-
-    body.login input[type="text"],
-    body.login input[type="password"] {
+    body.login .form-row { padding: 6px 0 !important; }
+    body.login label { color: #374151 !important; font-weight: 600 !important; font-size: 13px !important; margin-bottom: 4px !important; display: block !important; }
+    body.login input[type="text"], body.login input[type="password"] {
         width: 100% !important;
-        padding: 12px 16px !important;
-        border: 2px solid #e5e7eb !important;
+        padding: 11px 14px !important;
+        border: 1.5px solid #d1d5db !important;
         border-radius: 8px !important;
         font-size: 14px !important;
-        transition: border-color 0.2s !important;
         box-sizing: border-box !important;
         background: #f9fafb !important;
+        transition: all 0.15s !important;
     }
-
-    body.login input[type="text"]:focus,
-    body.login input[type="password"]:focus {
+    body.login input[type="text"]:focus, body.login input[type="password"]:focus {
         border-color: #0d9488 !important;
         outline: none !important;
-        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
+        box-shadow: 0 0 0 3px rgba(13,148,136,0.12) !important;
         background: #fff !important;
     }
-
     body.login input[type="submit"] {
         width: 100% !important;
-        padding: 14px !important;
-        font-size: 16px !important;
+        padding: 13px !important;
+        font-size: 15px !important;
         border-radius: 8px !important;
-        background: linear-gradient(135deg, #f97316, #ea580c) !important;
-        margin-top: 10px !important;
+        background: #f97316 !important;
+        margin-top: 8px !important;
     }
-
     body.login input[type="submit"]:hover {
-        background: linear-gradient(135deg, #ea580c, #c2410c) !important;
-        box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4) !important;
+        background: #ea580c !important;
+        box-shadow: 0 4px 14px rgba(249,115,22,0.3) !important;
     }
 
-    /* Sidebar / Filter */
+    /* ── Sidebar Filter ── */
     #changelist-filter {
         background: #fff !important;
         border: 1px solid #e5e7eb !important;
+        border-radius: 10px !important;
+    }
+    #changelist-filter h2 { background: #0d9488 !important; color: #fff !important; }
+    #changelist-filter h3 { color: #111827 !important; font-weight: 600 !important; font-size: 13px !important; }
+    #changelist-filter li { font-size: 13px !important; }
+    #changelist-filter li.selected a { color: #f97316 !important; font-weight: 600 !important; }
+
+    /* ── Messages ── */
+    .messagelist li {
         border-radius: 8px !important;
+        padding: 12px 18px !important;
+        margin-bottom: 8px !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
     }
+    .messagelist li.success { background: #ecfdf5 !important; color: #065f46 !important; border-left: 4px solid #10b981 !important; }
+    .messagelist li.error { background: #fef2f2 !important; color: #991b1b !important; border-left: 4px solid #ef4444 !important; }
+    .messagelist li.warning { background: #fffbeb !important; color: #92400e !important; border-left: 4px solid #f59e0b !important; }
 
-    #changelist-filter h2 {
-        background: linear-gradient(135deg, #0d9488, #f97316) !important;
-        color: #fff !important;
-        border-radius: 8px 8px 0 0 !important;
-    }
-
-    #changelist-filter h3 {
-        color: #134e4a !important;
-        font-weight: 600 !important;
-    }
-
-    /* Messages */
-    .messagelist li.success {
-        background: #d1fae5 !important;
-        color: #065f46 !important;
-        border-left: 4px solid #10b981 !important;
-        border-radius: 6px !important;
-    }
-
-    .messagelist li.error {
-        background: #fee2e2 !important;
-        color: #991b1b !important;
-        border-left: 4px solid #ef4444 !important;
-        border-radius: 6px !important;
-    }
-
-    .messagelist li.warning {
-        background: #fef3c7 !important;
-        color: #92400e !important;
-        border-left: 4px solid #f59e0b !important;
-        border-radius: 6px !important;
-    }
-
-    /* Dashboard / Recent Actions */
-    #content-related h2 {
-        background: linear-gradient(135deg, #0d9488, #0f766e) !important;
-        color: #fff !important;
-        border-radius: 6px 6px 0 0 !important;
-    }
-
-    /* Form inputs */
+    /* ── Form Inputs ── */
     input[type="text"], input[type="password"], input[type="email"],
     input[type="url"], input[type="number"], textarea, select {
-        border: 2px solid #e5e7eb !important;
+        border: 1.5px solid #d1d5db !important;
         border-radius: 6px !important;
         padding: 8px 12px !important;
-        transition: border-color 0.2s !important;
+        font-size: 13px !important;
+        transition: all 0.15s !important;
     }
-
     input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
     input[type="url"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
         border-color: #0d9488 !important;
         outline: none !important;
-        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1) !important;
+        box-shadow: 0 0 0 3px rgba(13,148,136,0.08) !important;
     }
 
-    /* Calendar & Date */
-    .calendar caption, .calendarbox .calendarnav-previous, .calendarbox .calendarnav-next {
-        background: #0d9488 !important;
-        color: #fff !important;
-    }
+    /* ── Pagination ── */
+    .paginator { color: #374151 !important; border-top: 1px solid #e5e7eb !important; padding: 12px 18px !important; font-size: 13px !important; }
 
-    /* Pagination */
-    .paginator {
-        color: #374151 !important;
-        border-top: 2px solid #0d9488 !important;
-        padding: 12px !important;
-    }
+    /* ── Calendar ── */
+    .calendar caption, .calendarbox .calendarnav-previous, .calendarbox .calendarnav-next { background: #0d9488 !important; color: #fff !important; }
 
-    /* Footer - SkillConnect branding */
-    #footer {
-        background: #f0fdfa !important;
-        border-top: 1px solid #e5e7eb !important;
-        color: #6b7280 !important;
-        text-align: center !important;
-        padding: 16px !important;
-        font-size: 12px !important;
+    /* ── Responsive tweaks ── */
+    @media (max-width: 767px) {
+        #header { padding: 10px 14px !important; }
+        #site-name a { font-size: 17px !important; }
+        #content { padding: 16px 12px !important; }
     }
 </style>
 {% endblock %}
 
 {% block footer %}
-<div id="footer" style="text-align: center; padding: 16px; color: #6b7280; font-size: 12px; border-top: 1px solid #e5e7eb; margin-top: 20px;">
-    SkillConnect Admin Panel &copy; 2026 | Built with Django
+<div style="text-align: center; padding: 18px 16px; color: #9ca3af; font-size: 12px; border-top: 1px solid #e5e7eb; margin-top: 30px; font-weight: 400;">
+    SkillConnect Admin &copy; 2026 &nbsp;&middot;&nbsp; Powered by Django
 </div>
 {% endblock %}
