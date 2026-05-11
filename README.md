@@ -351,22 +351,7 @@ The platform is fully responsive and optimized for:
 
 ## 📝 Documentation
 
-Complete project documentation available in:
-- `FINAL_PROJECT_DOCUMENTATION.md` - Full project report
-- `PRESENTATION_DEMO_SCRIPT.md` - Live demo guide
-- `PROJECT_DIAGRAMS.md` - Technical diagrams (ERD, DFD, etc.)
-- `screenshots/` - Visual documentation
-
----
-
-## 🎓 Academic Information
-
-**Student:** Nijamuddin Mujawar  
-**Roll No:** 4723  
-**Course:** BCA  
-**College:** D.A.V. Velankar College Of Commerce, Solapur  
-**Academic Year:** 2025-26  
-**Project Duration:** 6 weeks (August - September 2025)
+Project documentation is maintained in this `README.md`.
 
 ---
 
@@ -381,7 +366,7 @@ Complete project documentation available in:
 
 ## 📄 License
 
-This project is developed for academic purposes as part of BCA final year curriculum.
+This project is open for learning and portfolio demonstration.
 
 ---
 
